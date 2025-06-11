@@ -1,8 +1,43 @@
 import { Box, Container, Typography, Grid, Button } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import ProductCard from './ProductCard';
+import { useState, useEffect } from 'react';
 
 const Products = () => {
+  const [imagesPreloaded, setImagesPreloaded] = useState(false);
+
+  useEffect(() => {
+    const preloadImages = async () => {
+      const imageUrls = [
+        '/images/Amala.png',
+        '/images/boli.png',
+        '/images/efo riro.png',
+        '/images/Egusi.png',
+        '/images/jollof_rice.png',
+        '/images/Ofada.png'
+      ];
+
+      const imagePromises = imageUrls.map(url => {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.src = url;
+          img.onload = resolve;
+          img.onerror = reject;
+        });
+      });
+
+      try {
+        await Promise.all(imagePromises);
+        setImagesPreloaded(true);
+      } catch (error) {
+        console.error('Error preloading images:', error);
+        setImagesPreloaded(true); // Still set to true to show content even if preload fails
+      }
+    };
+
+    preloadImages();
+  }, []);
+
   const products = [
     {
       image: '/images/Amala.png',
