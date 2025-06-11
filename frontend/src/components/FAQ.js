@@ -1,10 +1,11 @@
-import { Box, Container, Typography, Grid, Card, CardContent, IconButton, Collapse } from '@mui/material';
+import { Box, Container, Typography, Grid, Card, CardContent, IconButton, Collapse, Button } from '@mui/material';
 import { useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 
 const FAQ = () => {
   const [expandedId, setExpandedId] = useState(null);
+  const [showAll, setShowAll] = useState(false);
 
   const handleExpandClick = (index) => {
     setExpandedId(expandedId === index ? null : index);
@@ -45,54 +46,87 @@ const FAQ = () => {
     }
   ];
 
+  const visibleFaqs = showAll ? faqs : faqs.slice(0, 4);
+
   return (
-    <Box sx={{ py: 6, bgcolor: 'background.default' }}>
+    <Box sx={{ 
+      py: { xs: 4, sm: 6, md: 8 },
+      px: { xs: 2, sm: 0 }
+    }}>
       <Container maxWidth="lg">
         <Typography 
           variant="h2" 
           align="center" 
           gutterBottom
-          sx={{ 
-            color: 'text.primary',
-            fontWeight: 'bold',
-            mb: 4
+          sx={{
+            fontSize: {
+              xs: '1.75rem',
+              sm: '2.25rem',
+              md: '2.5rem'
+            },
+            fontWeight: 700,
+            mb: { xs: 1, sm: 2 }
           }}
         >
           Frequently Asked Questions
         </Typography>
-        <Grid container spacing={2} sx={{ mt: 2 }}>
-          {faqs.map((faq, index) => (
-            <Grid item xs={12} sm={6} key={index}>
+        <Typography 
+          variant="body1" 
+          color="text.secondary" 
+          align="center" 
+          sx={{ 
+            mb: { xs: 3, sm: 4, md: 6 }, 
+            maxWidth: 754, 
+            mx: 'auto',
+            fontSize: {
+              xs: '0.875rem',
+              sm: '1rem',
+              md: '1.125rem'
+            }
+          }}
+        >
+          Find answers to common questions about our services, menu, and ordering process.
+        </Typography>
+        <Grid container spacing={2}>
+          {visibleFaqs.map((faq, index) => (
+            <Grid item xs={12} key={index}>
               <Card 
                 sx={{ 
-                  height: '100%',
-                  transition: 'all 0.3s ease',
-                  bgcolor: 'background.paper',
+                  borderRadius: 2,
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
                   '&:hover': {
-                    transform: 'translateY(-4px)',
-                    boxShadow: '0 4px 20px rgba(244, 106, 6, 0.1)',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
                   }
                 }}
               >
-                <CardContent sx={{ p: 2 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>
+                <CardContent sx={{ p: 0 }}>
+                  <Box 
+                    sx={{ 
+                      display: 'flex', 
+                      justifyContent: 'space-between', 
+                      alignItems: 'center',
+                      p: 2,
+                      cursor: 'pointer'
+                    }}
+                    onClick={() => handleExpandClick(index)}
+                  >
                     <Typography 
                       variant="h6" 
                       sx={{ 
-                        color: 'primary.main',
-                        flex: 1,
                         fontWeight: 600,
-                        fontSize: '1.1rem',
-                        lineHeight: 1.4
+                        fontSize: {
+                          xs: '1rem',
+                          sm: '1.125rem',
+                          md: '1.25rem'
+                        }
                       }}
                     >
                       {faq.question}
                     </Typography>
                     <IconButton 
-                      onClick={() => handleExpandClick(index)}
+                      size="small"
                       sx={{ 
                         color: 'primary.main',
-                        p: 0.5,
                         '&:hover': {
                           backgroundColor: 'rgba(244, 106, 6, 0.1)'
                         }
@@ -101,25 +135,53 @@ const FAQ = () => {
                       {expandedId === index ? <RemoveIcon /> : <AddIcon />}
                     </IconButton>
                   </Box>
-                  <Collapse in={expandedId === index} timeout="auto" unmountOnExit>
-                    <Typography 
-                      variant="body2" 
-                      color="text.secondary" 
-                      sx={{ 
-                        mt: 1.5,
-                        whiteSpace: 'pre-line',
-                        fontSize: '0.95rem',
-                        lineHeight: 1.6
-                      }}
-                    >
-                      {faq.answer}
-                    </Typography>
+                  <Collapse in={expandedId === index}>
+                    <Box sx={{ px: 2, pb: 2 }}>
+                      <Typography 
+                        variant="body1" 
+                        color="text.secondary"
+                        sx={{ 
+                          whiteSpace: 'pre-line',
+                          fontSize: {
+                            xs: '0.875rem',
+                            sm: '1rem',
+                            md: '1.125rem'
+                          }
+                        }}
+                      >
+                        {faq.answer}
+                      </Typography>
+                    </Box>
                   </Collapse>
                 </CardContent>
               </Card>
             </Grid>
           ))}
         </Grid>
+        {!showAll && (
+          <Box sx={{ 
+            display: 'flex', 
+            justifyContent: 'center', 
+            mt: 3
+          }}>
+            <Button
+              variant="contained"
+              onClick={() => setShowAll(true)}
+              sx={{ 
+                borderRadius: 2,
+                px: 4,
+                py: 1.5,
+                backgroundColor: '#F46A06',
+                color: '#fff',
+                '&:hover': {
+                  backgroundColor: '#FF8B3D'
+                }
+              }}
+            >
+              Show More FAQs
+            </Button>
+          </Box>
+        )}
       </Container>
     </Box>
   );

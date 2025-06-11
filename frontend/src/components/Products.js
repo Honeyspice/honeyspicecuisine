@@ -76,7 +76,19 @@ const Products = () => {
           justifyContent="center"
         >
           {products.map((product, index) => (
-            <Grid item key={index} xs={12} sm={6} md={4}>
+            <Grid 
+              item 
+              key={index} 
+              xs={12}
+              sm={6} 
+              md={4}
+              sx={{
+                display: {
+                  xs: index < 3 ? 'block' : 'none',
+                  sm: 'block'
+                }
+              }}
+            >
               <ProductCard {...product} />
             </Grid>
           ))}
