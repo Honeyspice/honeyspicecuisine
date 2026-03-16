@@ -1,43 +1,8 @@
-import { Box, Container, Typography, Grid, Button, Skeleton } from '@mui/material';
+import { Box, Container, Typography, Grid, Button } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import ProductCard from './ProductCard';
-import { useState, useEffect } from 'react';
 
 const Products = () => {
-  const [imagesPreloaded, setImagesPreloaded] = useState(false);
-
-  useEffect(() => {
-    const preloadImages = async () => {
-      const imageUrls = [
-        '/images/Amala.png',
-        '/images/boli.png',
-        '/images/efo riro.png',
-        '/images/Egusi.png',
-        '/images/jollof_rice.png',
-        '/images/Ofada.png'
-      ];
-
-      const imagePromises = imageUrls.map(url => {
-        return new Promise((resolve, reject) => {
-          const img = new Image();
-          img.src = url;
-          img.onload = resolve;
-          img.onerror = reject;
-        });
-      });
-
-      try {
-        await Promise.all(imagePromises);
-        setImagesPreloaded(true);
-      } catch (error) {
-        console.error('Error preloading images:', error);
-        setImagesPreloaded(true); // Still set to true to show content even if preload fails
-      }
-    };
-
-    preloadImages();
-  }, []);
-
   const products = [
     {
       image: '/images/Amala.png',
@@ -110,52 +75,11 @@ const Products = () => {
           spacing={{ xs: 2, sm: 3, md: 4 }} 
           justifyContent="center"
         >
-          {!imagesPreloaded ? (
-            // Show skeletons while images are loading
-            Array.from(new Array(6)).map((_, index) => (
-              <Grid 
-                item 
-                key={index} 
-                xs={12}
-                sm={6} 
-                md={4}
-                sx={{
-                  display: {
-                    xs: index < 3 ? 'block' : 'none',
-                    sm: 'block'
-                  }
-                }}
-              >
-                <Skeleton 
-                  variant="rectangular" 
-                  height={260} 
-                  sx={{ 
-                    borderRadius: '10px',
-                    height: { xs: 200, sm: 240, md: 260 }
-                  }} 
-                />
-              </Grid>
-            ))
-          ) : (
-            // Show actual product cards once images are loaded
-            products.map((product, index) => (
-              <Grid 
-                item 
-                key={index} 
-                xs={12}
-                sm={6} 
-                md={4}
-                sx={{
-                  display: {
-                    xs: index < 3 ? 'block' : 'none',
-                    sm: 'block'
-                  }
-                }}
-              >
-                <ProductCard {...product} />
-              </Grid>
-            ))
-          )}
+          {products.map((product, index) => (
+            <Grid item key={index} xs={12} sm={6} md={4}>
+              <ProductCard {...product} />
+            </Grid>
+          ))}
         </Grid>
         <Box sx={{ 
           display: 'flex', 

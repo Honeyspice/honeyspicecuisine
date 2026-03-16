@@ -1,13 +1,10 @@
-import { Typography, Card, CardMedia, CardContent, Skeleton } from '@mui/material';
-import { useState } from 'react';
+import { Typography, Card, CardMedia, CardContent } from '@mui/material';
 
 const ProductCard = ({ 
   image, 
   title,
   description
 }) => {
-  const [imageLoaded, setImageLoaded] = useState(false);
-
   return (
     <Card sx={{ 
       maxWidth: 360, 
@@ -17,28 +14,15 @@ const ProductCard = ({
         transform: 'translateY(-4px)'
       }
     }}>
-      {!imageLoaded && (
-        <Skeleton 
-          variant="rectangular" 
-          height={260} 
-          sx={{ 
-            borderRadius: '10px',
-            height: { xs: 200, sm: 240, md: 260 }
-          }} 
-        />
-      )}
       <CardMedia
         component="img"
         height="260"
         image={image}
         alt={title}
-        onLoad={() => setImageLoaded(true)}
-        loading="lazy"
         sx={{ 
           borderRadius: '10px',
           height: { xs: 200, sm: 240, md: 260 },
-          objectFit: 'cover',
-          display: imageLoaded ? 'block' : 'none'
+          objectFit: 'cover'
         }}
       />
       <CardContent sx={{ 

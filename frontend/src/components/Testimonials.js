@@ -1,8 +1,7 @@
-import { Box, Container, Typography, IconButton, Fade, Slide, Button } from '@mui/material';
+import { Box, Container, Typography, Avatar, IconButton, Fade, Slide } from '@mui/material';
 import { useState, useEffect, useCallback } from 'react';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import StarIcon from '@mui/icons-material/Star';
 
 const Testimonials = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -13,17 +12,17 @@ const Testimonials = () => {
     {
       text: "The best Nigerian food I've had in the UK! The Jollof Rice is absolutely amazing, and the customer service is top-notch.",
       author: "Sarah Johnson",
-      rating: 5
+      avatar: "/images/testimonials/avatar1.jpg"
     },
     {
-      text: "I've been searching for authentic Nigerian cuisine in the UK, and Honeyspice Cuisine delivers exactly that! Their Amala and Ewedu soup taste just like home. The attention to detail in their preparation is remarkable.",
+      text: "Authentic taste that reminds me of home. Their Egusi Soup is just like my mother's recipe. Highly recommended!",
       author: "Babajide Tolulope",
-      rating: 5
+      avatar: "/images/testimonials/avatar2.jpg"
     },
     {
       text: "Great food and excellent service. The portions are generous and the flavors are incredible. Will definitely order again!",
       author: "Enos Smart",
-      rating: 5
+      avatar: "/images/testimonials/avatar3.jpg"
     }
   ];
 
@@ -33,7 +32,7 @@ const Testimonials = () => {
     setTimeout(() => {
       setActiveIndex((prev) => (prev + 1) % testimonials.length);
       setIsVisible(true);
-    }, 800);
+    }, 500);
   }, [testimonials.length]);
 
   const handlePrev = useCallback(() => {
@@ -42,11 +41,11 @@ const Testimonials = () => {
     setTimeout(() => {
       setActiveIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
       setIsVisible(true);
-    }, 800);
+    }, 500);
   }, [testimonials.length]);
 
   useEffect(() => {
-    const timer = setInterval(handleNext, 8000);
+    const timer = setInterval(handleNext, 5000);
     return () => clearInterval(timer);
   }, [handleNext]);
 
@@ -77,7 +76,6 @@ const Testimonials = () => {
             bgcolor: 'white',
             borderRadius: '10px',
             p: { xs: 2, sm: 3, md: 4 },
-            pb: { xs: 6, sm: 7, md: 8 },
             maxWidth: 1140,
             mx: 'auto',
             position: 'relative',
@@ -86,27 +84,24 @@ const Testimonials = () => {
             minHeight: { xs: 300, sm: 350, md: 400 }
           }}
         >
-          <Fade in={isVisible} timeout={800}>
+          <Fade in={isVisible} timeout={500}>
             <Box>
-              <Slide direction={direction} in={isVisible} timeout={800}>
+              <Slide direction={direction} in={isVisible} timeout={500}>
                 <Box>
-                  <Box sx={{ 
-                    display: 'flex', 
-                    justifyContent: 'center', 
-                    alignItems: 'center',
-                    mb: { xs: 2, sm: 2.5, md: 3 }
-                  }}>
-                    {[...Array(testimonials[activeIndex].rating)].map((_, index) => (
-                      <StarIcon 
-                        key={index}
-                        sx={{ 
-                          color: '#00b67a',
-                          fontSize: { xs: '1.5rem', sm: '1.75rem', md: '2rem' },
-                          mx: 0.5
-                        }} 
-                      />
-                    ))}
-                  </Box>
+                  <Avatar
+                    src={testimonials[activeIndex].avatar}
+                    alt={testimonials[activeIndex].author}
+                    sx={{
+                      width: { xs: 60, sm: 70, md: 80 },
+                      height: { xs: 60, sm: 70, md: 80 },
+                      mx: 'auto',
+                      mb: { xs: 2, sm: 2.5, md: 3 },
+                      transition: 'transform 0.5s ease',
+                      '&:hover': {
+                        transform: 'scale(1.1)'
+                      }
+                    }}
+                  />
                   <Typography 
                     variant="body1" 
                     sx={{ 
@@ -178,39 +173,6 @@ const Testimonials = () => {
             >
               <ArrowForwardIosIcon sx={{ fontSize: { xs: '1rem', sm: '1.25rem' } }} />
             </IconButton>
-          </Box>
-          <Box sx={{ 
-            position: 'absolute',
-            bottom: { xs: 0, sm: 0, md: 0 },
-            left: 0,
-            right: 0,
-            display: 'flex',
-            justifyContent: 'center',
-            pb: { xs: 1, sm: 1.5, md: 2 }
-          }}>
-            <Button
-              variant="contained"
-              color="secondary"
-              size="large"
-              href="https://uk.trustpilot.com/review/honeyspicecuisine.co.uk"
-              target="_blank"
-              rel="noopener noreferrer"
-              sx={{
-                px: 4,
-                py: 1.5,
-                borderRadius: '30px',
-                fontSize: '1.1rem',
-                textTransform: 'none',
-                boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-                transition: 'none',
-                '&:hover': {
-                  transform: 'none',
-                  boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
-                }
-              }}
-            >
-              Submit Your Review
-            </Button>
           </Box>
         </Box>
       </Container>
