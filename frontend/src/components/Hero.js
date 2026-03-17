@@ -8,18 +8,6 @@ import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import foodImg from '../assets/background/background.png';
 
 const Hero = () => {
-  const prefersReducedMotion = React.useMemo(() => {
-    try {
-      return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    } catch {
-      return false;
-    }
-  }, []);
-
-  const [parallaxY, setParallaxY] = React.useState(0);
-
-  // Parallax disabled: keep image static for a calmer hero.
-
   return (
     <Box
       sx={(theme) => ({
