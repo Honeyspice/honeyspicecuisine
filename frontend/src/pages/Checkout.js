@@ -59,7 +59,14 @@ const Checkout = () => {
 
   if (items.length === 0) {
     return (
-      <Box sx={{ minHeight: '100vh', bgcolor: 'background.paper', py: { xs: 5, md: 7 } }}>
+      <Box
+        sx={{
+          minHeight: '100vh',
+          bgcolor: 'background.paper',
+          pt: { xs: 13, sm: 14, md: 15 },
+          pb: { xs: 5, md: 7 },
+        }}
+      >
         <Container maxWidth="md">
           <Card sx={{ p: { xs: 3, md: 4 } }}>
             <Typography variant="h6" gutterBottom>
@@ -82,7 +89,7 @@ const Checkout = () => {
       sx={{
         minHeight: '100vh',
         bgcolor: 'background.paper',
-        pt: { xs: 12, sm: 13, md: 14 },
+        pt: { xs: 13, sm: 14, md: 15 },
         pb: { xs: 5, md: 7 },
       }}
     >

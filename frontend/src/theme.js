@@ -39,12 +39,13 @@ let theme = createTheme({
       contrastText: '#000000',
     },
     background: {
-      default: '#F8F9FA', // Light Gray
+      // Back to a light, high-contrast base so text stays very readable
+      default: '#F8F9FA',
       paper: '#FFFFFF',
     },
     text: {
-      primary: '#2C3E50', // Dark Gray
-      secondary: '#7F8C8D', // Muted Gray
+      primary: '#1F2933', // Very dark gray for maximum legibility
+      secondary: '#5A6A6C', // Slightly stronger muted gray for readability
     },
     error: {
       main: '#E74C3C',
@@ -95,13 +96,13 @@ let theme = createTheme({
       lineHeight: 1.4,
     },
     body1: {
-      fontSize: '1rem',
-      lineHeight: 1.6,
+      fontSize: '1.02rem',
+      lineHeight: 1.65,
       fontWeight: 400,
     },
     body2: {
-      fontSize: '0.9375rem',
-      lineHeight: 1.5,
+      fontSize: '0.95rem',
+      lineHeight: 1.55,
       fontWeight: 400,
     },
     button: {
@@ -129,6 +130,7 @@ let theme = createTheme({
     MuiCssBaseline: {
       styleOverrides: {
         body: {
+          backgroundColor: '#F8F9FA',
           backgroundImage: `radial-gradient(1200px 600px at 10% 0%, ${alpha(
             '#F46A06',
             0.08

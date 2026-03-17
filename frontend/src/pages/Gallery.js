@@ -45,10 +45,15 @@ const Gallery = () => {
               xs: '0.875rem',
               sm: '1rem',
               md: '1.125rem'
-            }
+            },
+            lineHeight: {
+              xs: 1.7,
+              sm: 1.7,
+              md: 1.6,
+            },
           }}
         >
-          Explore our delicious Nigerian dishes. Click on any image to view it in detail (feature coming soon).
+          Explore some of our favourite Nigerian dishes and get a feel for what HoneySpice serves.
         </Typography>
         <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
           {foodImages.map((item, index) => (

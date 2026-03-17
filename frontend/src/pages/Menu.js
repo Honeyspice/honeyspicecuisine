@@ -12,6 +12,7 @@ import {
   Button,
   Chip,
 } from '@mui/material';
+import Seo from '../components/Seo';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { useCart } from '../context/CartContext';
@@ -87,7 +88,12 @@ const Menu = () => {
   ];
 
   return (
-    <Box 
+    <>
+      <Seo
+        title="Menu | HoneySpice Cuisine Stirling"
+        description="Browse the HoneySpice Cuisine menu: Nigerian Jollof Rice, Efo Riro, Ofada, soups, swallows and more served in Stirling, UK."
+      />
+      <Box 
       sx={{ 
         minHeight: '100vh',
         bgcolor: 'background.paper',
@@ -301,6 +307,7 @@ const Menu = () => {
         </Box>
       </Container>
     </Box>
+    </>
   );
 };
 

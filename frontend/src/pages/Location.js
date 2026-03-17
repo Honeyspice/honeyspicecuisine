@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Container, Typography, Button, Card, Stack } from '@mui/material';
+import Seo from '../components/Seo';
 import DirectionsIcon from '@mui/icons-material/Directions';
 
 const Location = () => {
@@ -10,15 +11,32 @@ const Location = () => {
   };
 
   return (
-    <Box
-      sx={{
-        minHeight: '100vh',
-        bgcolor: 'background.paper',
-        py: { xs: 4, sm: 6, md: 8 },
-        px: { xs: 2, sm: 0 },
-      }}
-    >
-      <Container maxWidth="lg">
+    <>
+      <Seo
+        title="Find Us | HoneySpice Cuisine Stirling"
+        description="Find HoneySpice Cuisine in Stirling, UK at 34 Woodside Road, FK8 1PS. View our location and get directions."
+      />
+      <Box
+        sx={{
+          minHeight: '100vh',
+          bgcolor: 'background.paper',
+          py: { xs: 4, sm: 6, md: 8 },
+          px: { xs: 2, sm: 0 },
+        }}
+      >
+        <Container maxWidth="lg">
+        <Typography
+          variant="overline"
+          sx={{
+            textTransform: 'uppercase',
+            letterSpacing: '0.12em',
+            color: 'text.secondary',
+            fontWeight: 600,
+            mb: 0.5,
+          }}
+        >
+          Our restaurant
+        </Typography>
         <Typography
           variant="h2"
           component="h1"
@@ -104,6 +122,7 @@ const Location = () => {
         </Card>
       </Container>
     </Box>
+    </>
   );
 };
 

@@ -8,6 +8,7 @@ import {
   Button,
   TextField,
 } from '@mui/material';
+import Seo from '../components/Seo';
 
 const Contact = () => {
   const [showMessage, setShowMessage] = useState(false);
@@ -19,7 +20,12 @@ const Contact = () => {
   };
 
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: 'background.paper', position: 'relative' }}>
+    <>
+      <Seo
+        title="Contact | HoneySpice Cuisine"
+        description="Contact HoneySpice Cuisine in Stirling, UK for Nigerian food orders, catering, and general enquiries."
+      />
+      <Box sx={{ minHeight: '100vh', bgcolor: 'background.paper', position: 'relative' }}>
       {/* Header Section with Gradient Mesh */}
       <Box
         sx={{
@@ -216,6 +222,7 @@ const Contact = () => {
         </Card>
       </Container>
     </Box>
+    </>
   );
 };
 
