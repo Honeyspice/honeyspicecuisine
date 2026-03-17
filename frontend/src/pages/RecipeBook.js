@@ -46,8 +46,9 @@ const RecipeBook = () => {
                 lineHeight: 1.7,
               }}
             >
-              We’re collecting our best home-style Nigerian recipes into a beautiful, easy-to-follow recipe book.
-              From Jollof to Efo Riro, you’ll be able to recreate HoneySpice favourites at home.
+              We’re collecting our best home-style Nigerian recipes from our kitchen in Stirling, UK, into a beautiful,
+              easy-to-follow recipe book. From Jollof to Efo Riro, you’ll be able to recreate HoneySpice favourites at
+              home.
             </Typography>
             <Button
               variant="contained"

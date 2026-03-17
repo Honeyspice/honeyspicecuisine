@@ -24,6 +24,7 @@ import CheckoutCancel from './pages/CheckoutCancel';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import { CartProvider } from './context/CartContext';
+import CookieBanner from './components/CookieBanner';
 
 // ScrollToTop component
 function ScrollToTop() {
@@ -69,6 +70,7 @@ function App() {
             </Box>
             <Footer />
           </Box>
+          <CookieBanner />
         </Router>
       </CartProvider>
     </ThemeProvider>

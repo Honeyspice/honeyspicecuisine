@@ -61,7 +61,7 @@ const Hero = () => {
                 }
               }}
             >
-              Bold flavours, authentic recipes — ready for delivery and catering across the UK.
+              Bold flavours, authentic recipes — ready for delivery and catering in Stirling, UK.
             </Typography>
 
             <Stack
@@ -74,16 +74,18 @@ const Hero = () => {
               <Chip icon={<StarRoundedIcon />} label="Loved by customers" variant="outlined" />
             </Stack>
 
-            <Box sx={{ 
-              display: 'flex', 
-              gap: 2,
-              flexDirection: { xs: 'column', sm: 'row' }
-            }}>
+            <Box
+              sx={{
+                display: 'flex',
+                gap: 2,
+                flexDirection: { xs: 'column', sm: 'row' },
+              }}
+            >
               <Button 
                 arrow 
                 component={RouterLink} 
                 to="/order"
-                fullWidth={false}
+                fullWidth={{ xs: true, sm: false }}
               >
                 Order Now
               </Button>
@@ -92,7 +94,7 @@ const Hero = () => {
                 arrow 
                 component={RouterLink} 
                 to="/menu"
-                fullWidth={false}
+                fullWidth={{ xs: true, sm: false }}
               >
                 View Menu
               </Button>

@@ -97,7 +97,13 @@ const Cart = () => {
             </Grid>
 
             <Grid item xs={12} md={4}>
-              <Card sx={{ p: { xs: 2.5, md: 3 }, position: 'sticky', top: 320 }}>
+              <Card
+                sx={{
+                  p: { xs: 2.5, md: 3 },
+                  position: { xs: 'static', md: 'sticky' },
+                  top: { md: 320 },
+                }}
+              >
                 <Typography variant="h6" sx={{ mb: 2 }}>
                   Summary
                 </Typography>

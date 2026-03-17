@@ -163,8 +163,9 @@ const Menu = () => {
                           sx={{
                             width: '100%',
                             display: 'flex',
-                            alignItems: 'flex-start',
-                            gap: 2,
+                            flexDirection: { xs: 'column', sm: 'row' },
+                            alignItems: { xs: 'stretch', sm: 'flex-start' },
+                            gap: { xs: 1.5, sm: 2 },
                           }}
                         >
                           <ListItemText
@@ -227,9 +228,9 @@ const Menu = () => {
                                 color={isAdded ? 'success' : 'primary'}
                                 sx={{
                                   flexShrink: 0,
-                                  minWidth: 108,
+                                  minWidth: { xs: '100%', sm: 108 },
                                   height: 36,
-                                  mt: 0.25,
+                                  mt: { xs: 1, sm: 0.25 },
                                   borderRadius: 999,
                                   fontWeight: 800,
                                   letterSpacing: '0.01em',
