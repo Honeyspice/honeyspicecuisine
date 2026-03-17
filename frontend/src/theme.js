@@ -1,10 +1,6 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme, responsiveFontSizes, alpha } from '@mui/material/styles';
 
-// Mixed color calculation:
-// Orange (#EA6D27) + Honey Gold (#FCA900) + Dark Gold (#9C7D0C)
-// Resulting in a rich amber color: #C37A1A
-
-const theme = createTheme({
+let theme = createTheme({
   palette: {
     primary: {
       main: '#F46A06', // Orange
@@ -17,6 +13,18 @@ const theme = createTheme({
       light: '#0BC219',
       dark: '#07820D',
       contrastText: '#FFFFFF',
+    },
+    grey: {
+      50: '#FAFAFA',
+      100: '#F5F5F5',
+      200: '#EEEEEE',
+      300: '#E0E0E0',
+      400: '#BDBDBD',
+      500: '#9E9E9E',
+      600: '#757575',
+      700: '#616161',
+      800: '#424242',
+      900: '#1A1A1A',
     },
     info: {
       main: '#FCA900', // Honey Gold
@@ -50,125 +58,86 @@ const theme = createTheme({
     h1: {
       fontFamily: '"Quicksand", "Roboto", "Helvetica", "Arial", sans-serif',
       fontWeight: 700,
-      fontSize: {
-        xs: '2.75rem',   // ~44px on mobile
-        sm: '3.25rem',   // ~52px on tablet
-        md: '3.75rem',   // ~60px on desktop
-        lg: '4.25rem',   // ~68px on large screens
-      },
-      letterSpacing: '0.05em',
-      color: '#2C3E50',
+      fontSize: '3rem',
+      lineHeight: 1.1,
+      letterSpacing: '-0.02em',
     },
     h2: {
       fontFamily: '"Quicksand", "Roboto", "Helvetica", "Arial", sans-serif',
       fontWeight: 600,
-      fontSize: {
-        xs: '2.25rem',   // ~36px on mobile
-        sm: '2.75rem',   // ~44px on tablet
-        md: '3.25rem',   // ~52px on desktop
-        lg: '3.75rem',   // ~60px on large screens
-      },
-      letterSpacing: '0.05em',
-      color: '#2C3E50',
+      fontSize: '2.25rem',
+      lineHeight: 1.2,
+      letterSpacing: '-0.015em',
     },
     h3: {
       fontFamily: '"Quicksand", "Roboto", "Helvetica", "Arial", sans-serif',
       fontWeight: 600,
-      fontSize: {
-        xs: '1.75rem',   // ~28px on mobile
-        sm: '2.25rem',   // ~36px on tablet
-        md: '2.75rem',   // ~44px on desktop
-        lg: '3.25rem',   // ~52px on large screens
-      },
-      letterSpacing: '0.05em',
-      color: '#2C3E50',
+      fontSize: '1.875rem',
+      lineHeight: 1.25,
+      letterSpacing: '-0.01em',
     },
     h4: {
       fontFamily: '"Quicksand", "Roboto", "Helvetica", "Arial", sans-serif',
       fontWeight: 600,
-      fontSize: {
-        xs: '1.5rem',    // ~24px on mobile
-        sm: '1.75rem',   // ~28px on tablet
-        md: '2.25rem',   // ~36px on desktop
-        lg: '2.75rem',   // ~44px on large screens
-      },
-      letterSpacing: '0.05em',
-      color: '#2C3E50',
+      fontSize: '1.5rem',
+      lineHeight: 1.3,
     },
     h5: {
       fontFamily: '"Quicksand", "Roboto", "Helvetica", "Arial", sans-serif',
       fontWeight: 600,
-      fontSize: {
-        xs: '1.25rem',   // ~20px on mobile
-        sm: '1.5rem',    // ~24px on tablet
-        md: '1.75rem',   // ~28px on desktop
-        lg: '2.25rem',   // ~36px on large screens
-      },
-      letterSpacing: '0.05em',
-      color: '#2C3E50',
+      fontSize: '1.25rem',
+      lineHeight: 1.35,
     },
     h6: {
       fontFamily: '"Quicksand", "Roboto", "Helvetica", "Arial", sans-serif',
       fontWeight: 600,
-      fontSize: {
-        xs: '1.125rem',  // ~18px on mobile
-        sm: '1.25rem',   // ~20px on tablet
-        md: '1.5rem',    // ~24px on desktop
-        lg: '1.75rem',   // ~28px on large screens
-      },
-      letterSpacing: '0.05em',
-      color: '#2C3E50',
+      fontSize: '1.125rem',
+      lineHeight: 1.4,
     },
     body1: {
-      fontSize: {
-        xs: '1.125rem',  // ~18px on mobile
-        sm: '1.25rem',   // ~20px on tablet and up
-      },
+      fontSize: '1rem',
       lineHeight: 1.6,
-      color: '#2C3E50',
       fontWeight: 400,
     },
     body2: {
-      fontSize: {
-        xs: '1rem',      // ~16px on mobile
-        sm: '1.125rem',  // ~18px on tablet and up
-      },
+      fontSize: '0.9375rem',
       lineHeight: 1.5,
-      color: '#7F8C8D',
       fontWeight: 400,
     },
     button: {
       fontFamily: '"Quicksand", "Roboto", "Helvetica", "Arial", sans-serif',
       textTransform: 'none',
       fontWeight: 700,
-      letterSpacing: '0.05em',
-      fontSize: {
-        xs: '1.125rem',  // ~18px on mobile
-        sm: '1.25rem',   // ~20px on tablet
-        md: '1.375rem',  // ~22px on desktop
-      },
+      letterSpacing: '0.02em',
+      fontSize: '0.95rem',
     },
     subtitle1: {
       fontFamily: '"Quicksand", "Roboto", "Helvetica", "Arial", sans-serif',
       fontWeight: 600,
-      fontSize: {
-        xs: '1.125rem',  // ~18px on mobile
-        sm: '1.25rem',   // ~20px on tablet and up
-      },
+      fontSize: '1rem',
     },
     subtitle2: {
       fontFamily: '"Quicksand", "Roboto", "Helvetica", "Arial", sans-serif',
       fontWeight: 600,
-      fontSize: {
-        xs: '1rem',      // ~16px on mobile
-        sm: '1.125rem',  // ~18px on tablet and up
-      },
+      fontSize: '0.95rem',
     },
   },
   shape: {
     borderRadius: 12,
   },
   components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          backgroundImage: `radial-gradient(1200px 600px at 10% 0%, ${alpha(
+            '#F46A06',
+            0.08
+          )} 0%, rgba(0,0,0,0) 60%),
+            radial-gradient(900px 500px at 90% 10%, ${alpha('#FCA900', 0.08)} 0%, rgba(0,0,0,0) 55%)`,
+          backgroundAttachment: 'fixed',
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: {
@@ -205,10 +174,10 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: '16px',
-          boxShadow: '0 4px 30px rgba(0,0,0,0.1)',
-          border: '1px solid rgba(244, 106, 6, 0.1)',
+          boxShadow: '0 10px 30px rgba(16, 24, 40, 0.08)',
+          border: `1px solid ${alpha('#2C3E50', 0.08)}`,
           '&:hover': {
-            boxShadow: '0 8px 40px rgba(244, 106, 6, 0.15)',
+            boxShadow: '0 16px 50px rgba(16, 24, 40, 0.12)',
           },
         },
       },
@@ -219,14 +188,14 @@ const theme = createTheme({
           '& .MuiOutlinedInput-root': {
             borderRadius: '12px',
             '&:hover .MuiOutlinedInput-notchedOutline': {
-              borderColor: '#000000',
+              borderColor: '#2C3E50',
             },
             '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-              borderColor: '#000000',
+              borderColor: '#F46A06',
             },
           },
           '& .MuiInputLabel-root.Mui-focused': {
-            color: '#000000',
+            color: '#F46A06',
           },
         },
       },
@@ -239,10 +208,10 @@ const theme = createTheme({
             borderColor: 'rgba(0, 0, 0, 0.23)',
           },
           '&:hover .MuiOutlinedInput-notchedOutline': {
-            borderColor: '#000000',
+            borderColor: '#2C3E50',
           },
           '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-            borderColor: '#000000',
+            borderColor: '#F46A06',
           },
         },
       },
@@ -289,18 +258,12 @@ const theme = createTheme({
         root: {
           borderRadius: '16px',
         },
-        elevation0: {
-          '&.MuiAppBar-root, &[class*="header"], &[class*="footer"]': {
-            backgroundColor: '#F46A06',
-            color: '#FFFFFF',
-          },
-        },
       },
     },
     MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundColor: '#F46A06',
+          backgroundColor: '#1A1A1A',
           border: 'none',
           boxShadow: 'none',
           borderRadius: 0,
@@ -316,7 +279,7 @@ const theme = createTheme({
     MuiDivider: {
       styleOverrides: {
         root: {
-          borderColor: 'rgba(244, 106, 6, 0.2)',
+          borderColor: alpha('#2C3E50', 0.12),
         },
       },
     },
@@ -333,15 +296,14 @@ const theme = createTheme({
     MuiContainer: {
       styleOverrides: {
         root: {
-          '&[class*="footer"]': {
-            backgroundColor: '#F46A06',
-            color: '#FFFFFF',
-            padding: '2rem 0',
-          },
+          paddingLeft: 24,
+          paddingRight: 24,
         },
       },
     },
   },
 });
+
+theme = responsiveFontSizes(theme, { factor: 2.2 });
 
 export default theme; 

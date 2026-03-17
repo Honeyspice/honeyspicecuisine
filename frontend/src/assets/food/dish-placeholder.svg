@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="800" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="g1" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(260 120) rotate(22) scale(680 420)">
+      <stop stop-color="#F46A06" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#F46A06" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="g2" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(940 200) rotate(-14) scale(620 380)">
+      <stop stop-color="#FCA900" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#FCA900" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="800" rx="56" fill="#FFFFFF"/>
+  <rect width="1200" height="800" rx="56" fill="url(#g1)"/>
+  <rect width="1200" height="800" rx="56" fill="url(#g2)"/>
+
+  <circle cx="600" cy="410" r="250" fill="#FFFFFF" fill-opacity="0.88" stroke="#E8EAED" stroke-width="2"/>
+  <circle cx="600" cy="410" r="170" fill="#FFF7EF" stroke="#F3E5D8" stroke-width="2"/>
+
+  <path d="M520 400c54-72 154-82 216-24 47 44 56 119 20 172-40 60-125 95-205 69-83-26-112-134-31-217z" fill="#F46A06" fill-opacity="0.78"/>
+  <path d="M560 460c24-30 68-42 101-27 29 13 42 50 30 82-15 39-59 66-104 55-46-11-58-67-27-110z" fill="#09A210" fill-opacity="0.60"/>
+  <path d="M700 330c16-18 46-22 66-8 17 12 23 33 14 52-10 23-34 37-59 32-26-5-37-43-21-76z" fill="#FCA900" fill-opacity="0.75"/>
+
+  <text x="600" y="710" text-anchor="middle" font-family="Quicksand, Arial, sans-serif" font-size="44" font-weight="800" fill="#2C3E50" fill-opacity="0.75">
+    HoneySpice Cuisine
+  </text>
+</svg>
+

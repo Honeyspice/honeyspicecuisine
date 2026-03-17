@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Container, Typography, Grid, Button, List, ListItem, ListItemIcon, ListItemText, Paper } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import foodImg from '../assets/background/background.png';
 
 const WhyUs = () => {
   return (
@@ -12,7 +13,7 @@ const WhyUs = () => {
             <Paper elevation={3} sx={{ borderRadius: 4, overflow: 'hidden' }}>
               <Box
                 component="img"
-                src="/images/jollof_rice.png"
+                src={foodImg}
                 alt="Jollof Rice"
                 sx={{ width: '100%', height: { xs: 240, md: 340 }, objectFit: 'cover' }}
               />
@@ -77,7 +78,7 @@ const WhyUs = () => {
             <Paper elevation={3} sx={{ borderRadius: 4, overflow: 'hidden' }}>
               <Box
                 component="img"
-                src="/images/Egusi.png"
+                src={foodImg}
                 alt="Egusi Soup"
                 sx={{ width: '100%', height: { xs: 240, md: 340 }, objectFit: 'cover' }}
               />

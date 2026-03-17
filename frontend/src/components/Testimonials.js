@@ -2,6 +2,7 @@ import { Box, Container, Typography, Avatar, IconButton, Fade, Slide } from '@mu
 import { useState, useEffect, useCallback } from 'react';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import StarRoundedIcon from '@mui/icons-material/StarRounded';
 
 const Testimonials = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -12,17 +13,14 @@ const Testimonials = () => {
     {
       text: "The best Nigerian food I've had in the UK! The Jollof Rice is absolutely amazing, and the customer service is top-notch.",
       author: "Sarah Johnson",
-      avatar: "/images/testimonials/avatar1.jpg"
     },
     {
       text: "Authentic taste that reminds me of home. Their Egusi Soup is just like my mother's recipe. Highly recommended!",
       author: "Babajide Tolulope",
-      avatar: "/images/testimonials/avatar2.jpg"
     },
     {
       text: "Great food and excellent service. The portions are generous and the flavors are incredible. Will definitely order again!",
       author: "Enos Smart",
-      avatar: "/images/testimonials/avatar3.jpg"
     }
   ];
 
@@ -51,7 +49,7 @@ const Testimonials = () => {
 
   return (
     <Box sx={{ 
-      bgcolor: 'primary.main', 
+      bgcolor: 'primary.main',
       py: { xs: 4, sm: 6, md: 8 }
     }}>
       <Container maxWidth="lg">
@@ -69,8 +67,13 @@ const Testimonials = () => {
             fontWeight: 700
           }}
         >
-          Customers Reviews
+          Customer reviews
         </Typography>
+        <Box sx={{ display: 'flex', justifyContent: 'center', gap: 0.5, mb: { xs: 2, sm: 3 } }}>
+          {Array.from({ length: 5 }).map((_, i) => (
+            <StarRoundedIcon key={i} sx={{ color: 'warning.main' }} />
+          ))}
+        </Box>
         <Box
           sx={{
             bgcolor: 'white',
@@ -89,19 +92,29 @@ const Testimonials = () => {
               <Slide direction={direction} in={isVisible} timeout={500}>
                 <Box>
                   <Avatar
-                    src={testimonials[activeIndex].avatar}
                     alt={testimonials[activeIndex].author}
                     sx={{
                       width: { xs: 60, sm: 70, md: 80 },
                       height: { xs: 60, sm: 70, md: 80 },
                       mx: 'auto',
                       mb: { xs: 2, sm: 2.5, md: 3 },
+                      bgcolor: 'grey.100',
+                      color: 'primary.main',
+                      fontWeight: 800,
+                      fontSize: { xs: '1rem', sm: '1.15rem', md: '1.25rem' },
                       transition: 'transform 0.5s ease',
                       '&:hover': {
                         transform: 'scale(1.1)'
                       }
                     }}
-                  />
+                  >
+                    {String(testimonials[activeIndex].author || '?')
+                      .split(' ')
+                      .filter(Boolean)
+                      .slice(0, 2)
+                      .map((p) => p[0]?.toUpperCase())
+                      .join('')}
+                  </Avatar>
                   <Typography 
                     variant="body1" 
                     sx={{ 

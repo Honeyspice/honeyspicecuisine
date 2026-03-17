@@ -23,13 +23,16 @@ const features = [
 
 const Features = () => {
   return (
-    <Box sx={{ 
-      py: { xs: 6, sm: 8, md: 10 }, 
-      bgcolor: 'background.paper',
-      borderRadius: { xs: '10px', sm: '20px' },
-      boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
-      my: { xs: 3, sm: 4, md: 6 }
-    }}>
+    <Box
+      sx={(theme) => ({
+        py: { xs: 6, sm: 8, md: 10 },
+        bgcolor: 'background.paper',
+        borderRadius: { xs: 3, sm: 4 },
+        boxShadow: '0 18px 60px rgba(16, 24, 40, 0.08)',
+        border: `1px solid ${theme.palette.divider}`,
+        my: { xs: 3, sm: 4, md: 6 },
+      })}
+    >
       <Container maxWidth="lg">
         <Typography 
           variant="h2" 
@@ -44,7 +47,7 @@ const Features = () => {
             mb: { xs: 2, sm: 3 }
           }}
         >
-          Why Choose Us
+          Why HoneySpice
         </Typography>
         <Typography 
           variant="body1" 
@@ -62,7 +65,7 @@ const Features = () => {
             }
           }}
         >
-          We bring you the authentic taste of Nigeria with our commitment to quality, tradition, and excellent service.
+          A modern ordering experience, with the flavours and care you’d expect from home cooking.
         </Typography>
         <Grid container spacing={{ xs: 3, sm: 4, md: 6 }} justifyContent="center">
           {features.map((feature, index) => (

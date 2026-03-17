@@ -8,7 +8,7 @@ import { Link as RouterLink } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <Box sx={{ bgcolor: '#1A1A1A', py: 6 }}>
+    <Box sx={{ bgcolor: 'grey.900', py: { xs: 5, md: 7 } }}>
       <Container maxWidth="lg">
         <Box sx={{ textAlign: 'center' }}>
           <Box sx={{ mb: 2 }}>
@@ -16,31 +16,31 @@ const Footer = () => {
               href="https://facebook.com/Honeyspicecuisine" 
               target="_blank" 
               rel="noopener noreferrer" 
-              sx={{ mx: 1, color: 'white' }}
+              sx={{ mx: 1, color: 'common.white' }}
             >
-              <FacebookIcon sx={{ color: 'white' }} />
+              <FacebookIcon sx={{ color: 'common.white' }} />
             </Link>
             <Link 
               href="https://twitter.com/Honeyspicecuisine" 
               target="_blank" 
               rel="noopener noreferrer" 
-              sx={{ mx: 1, color: 'white' }}
+              sx={{ mx: 1, color: 'common.white' }}
             >
-              <TwitterIcon sx={{ color: 'white' }} />
+              <TwitterIcon sx={{ color: 'common.white' }} />
             </Link>
             <Link 
               href="https://instagram.com/Honeyspicecuisine" 
               target="_blank" 
               rel="noopener noreferrer" 
-              sx={{ mx: 1, color: 'white' }}
+              sx={{ mx: 1, color: 'common.white' }}
             >
-              <InstagramIcon sx={{ color: 'white' }} />
+              <InstagramIcon sx={{ color: 'common.white' }} />
             </Link>
             <Link 
               href="mailto:support@honeyspicecuisine.co.uk" 
-              sx={{ mx: 1, color: 'white' }}
+              sx={{ mx: 1, color: 'common.white' }}
             >
-              <EmailIcon sx={{ color: 'white' }} />
+              <EmailIcon sx={{ color: 'common.white' }} />
             </Link>
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mb: 2 }}>
@@ -51,10 +51,10 @@ const Footer = () => {
                 fontWeight: 600, 
                 fontSize: '1rem', 
                 px: 2, 
-                color: 'white',
+                color: 'common.white',
                 textDecoration: 'none',
                 '&:hover': {
-                  color: 'white',
+                  color: 'common.white',
                   opacity: 0.8,
                   textDecoration: 'none'
                 }
@@ -69,10 +69,10 @@ const Footer = () => {
                 fontWeight: 600, 
                 fontSize: '1rem', 
                 px: 2, 
-                color: 'white',
+                color: 'common.white',
                 textDecoration: 'none',
                 '&:hover': {
-                  color: 'white',
+                  color: 'common.white',
                   opacity: 0.8,
                   textDecoration: 'none'
                 }
@@ -81,7 +81,7 @@ const Footer = () => {
               Contact
             </Link>
           </Box>
-          <Typography variant="body2" color="white">
+          <Typography variant="body2" color="common.white" sx={{ opacity: 0.9 }}>
             © 2025 HoneySpice Cuisine. All rights reserved.
           </Typography>
         </Box>

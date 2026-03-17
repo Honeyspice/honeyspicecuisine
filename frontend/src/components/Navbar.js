@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import {
   AppBar,
@@ -16,12 +16,22 @@ import {
   useTheme,
   useMediaQuery,
 } from '@mui/material';
-import { styled as muiStyled } from '@mui/material/styles';
+import { keyframes, styled as muiStyled } from '@mui/material/styles';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import MenuIcon from '@mui/icons-material/Menu';
+import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
+import Badge from '@mui/material/Badge';
+import { useCart } from '../context/CartContext';
+
+const cartPulse = keyframes`
+  0% { transform: scale(1); }
+  35% { transform: scale(1.15); }
+  70% { transform: scale(0.98); }
+  100% { transform: scale(1); }
+`;
 
 const StyledAppBar = muiStyled(AppBar)(({ theme, scrolled }) => ({
-  backgroundColor: '#1A1A1A',
+  backgroundColor: theme.palette.grey[900],
   boxShadow: 'none',
   border: 'none',
   borderRadius: 0,
@@ -100,14 +110,7 @@ const AdditionalButton = muiStyled(Button)(({ theme }) => ({
 }));
 
 // Mobile Navbar Component
-const MobileNavbar = ({ handleDrawerToggle, handleWhatsAppClick }) => {
-  const menuItems = [
-    { text: 'Home', path: '/' },
-    { text: 'Menu', path: '/menu' },
-    { text: 'View Gallery', path: '/gallery' },
-    { text: 'Recipe Book', path: '/recipe-manual' },
-  ];
-
+const MobileNavbar = ({ handleDrawerToggle, handleWhatsAppClick, cartBadgeSx, itemCount }) => {
   return (
     <>
       <Toolbar disableGutters sx={{ py: 1.5 }}>
@@ -129,6 +132,16 @@ const MobileNavbar = ({ handleDrawerToggle, handleWhatsAppClick }) => {
         </Logo>
         <Box sx={{ flexGrow: 1 }} />
         <IconButton
+          component={RouterLink}
+          to="/cart"
+          aria-label="Open basket"
+          sx={{ color: 'common.white', mr: 1 }}
+        >
+          <Badge badgeContent={itemCount} color="warning" sx={cartBadgeSx}>
+            <ShoppingBagOutlinedIcon />
+          </Badge>
+        </IconButton>
+        <IconButton
           color="inherit"
           aria-label="open drawer"
           edge="start"
@@ -138,63 +151,6 @@ const MobileNavbar = ({ handleDrawerToggle, handleWhatsAppClick }) => {
           <MenuIcon />
         </IconButton>
       </Toolbar>
-      <Drawer
-        anchor="right"
-        open={false}
-        onClose={handleDrawerToggle}
-        sx={{
-          '& .MuiDrawer-paper': {
-            width: 280,
-            bgcolor: '#1A1A1A',
-            color: 'white',
-          },
-        }}
-      >
-        <List>
-          {menuItems.map((item) => (
-            <ListItem 
-              key={item.text} 
-              component={RouterLink} 
-              to={item.path}
-              onClick={handleDrawerToggle}
-              sx={{
-                color: 'white',
-                '&:hover': {
-                  bgcolor: 'rgba(255, 255, 255, 0.1)',
-                },
-              }}
-            >
-              <ListItemText primary={item.text} />
-            </ListItem>
-          ))}
-          <ListItem 
-            component={RouterLink} 
-            to="/reservation"
-            onClick={handleDrawerToggle}
-            sx={{
-              color: 'white',
-              '&:hover': {
-                bgcolor: 'rgba(255, 255, 255, 0.1)',
-              },
-            }}
-          >
-            <ListItemText primary="Make Reservations" />
-          </ListItem>
-          <ListItem 
-            component={RouterLink} 
-            to="/order"
-            onClick={handleDrawerToggle}
-            sx={{
-              color: 'white',
-              '&:hover': {
-                bgcolor: 'rgba(255, 255, 255, 0.1)',
-              },
-            }}
-          >
-            <ListItemText primary="Order Now" />
-          </ListItem>
-        </List>
-      </Drawer>
     </>
   );
 };
@@ -360,7 +316,10 @@ const DesktopNavbar = ({ handleWhatsAppClick }) => {
 
 const Navbar = () => {
   const location = useLocation();
-  const isMenuPage = location.pathname === '/menu';
+  const isMenuPage =
+    location.pathname === '/menu' ||
+    location.pathname === '/gallery' ||
+    location.pathname === '/location';
   const trigger = useScrollTrigger({
     disableHysteresis: true,
     threshold: 100,
@@ -368,6 +327,30 @@ const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const { itemCount } = useCart();
+  const prevCountRef = useRef(itemCount);
+  const [pulse, setPulse] = useState(false);
+
+  useEffect(() => {
+    const prev = prevCountRef.current;
+    prevCountRef.current = itemCount;
+    if (itemCount > prev) {
+      setPulse(true);
+      const t = window.setTimeout(() => setPulse(false), 450);
+      return () => window.clearTimeout(t);
+    }
+    return undefined;
+  }, [itemCount]);
+
+  const cartBadgeSx = useMemo(
+    () => ({
+      '& .MuiBadge-badge': {
+        transformOrigin: '50% 50%',
+        animation: pulse ? `${cartPulse} 450ms ease` : 'none',
+      },
+    }),
+    [pulse]
+  );
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -495,11 +478,33 @@ const Navbar = () => {
           <MobileNavbar 
             handleDrawerToggle={handleDrawerToggle}
             handleWhatsAppClick={handleWhatsAppClick}
+            cartBadgeSx={cartBadgeSx}
+            itemCount={itemCount}
           />
         ) : (
           <DesktopNavbar handleWhatsAppClick={handleWhatsAppClick} />
         )}
       </Container>
+      <Box
+        sx={{
+          position: 'absolute',
+          right: { xs: 16, sm: 24 },
+          top: { xs: 14, sm: 18 },
+          display: { xs: 'none', md: 'flex' },
+          alignItems: 'center',
+        }}
+      >
+        <IconButton
+          component={RouterLink}
+          to="/cart"
+          aria-label="Open basket"
+          sx={{ color: 'common.white' }}
+        >
+          <Badge badgeContent={itemCount} color="warning" sx={cartBadgeSx}>
+            <ShoppingBagOutlinedIcon />
+          </Badge>
+        </IconButton>
+      </Box>
       <Drawer
         variant="temporary"
         anchor="right"

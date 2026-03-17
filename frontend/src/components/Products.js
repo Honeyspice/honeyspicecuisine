@@ -1,32 +1,34 @@
+import React from 'react';
 import { Box, Container, Typography, Grid, Button } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import ProductCard from './ProductCard';
+import foodImg from '../assets/background/background.png';
 
 const Products = () => {
   const products = [
     {
-      image: '/images/Amala.png',
-      title: 'Amala with Ewedu'
+      image: foodImg,
+      title: 'Amala with Ewedu',
     },
     {
-      image: '/images/boli.png',
-      title: 'Boli with Fish'
+      image: foodImg,
+      title: 'Boli with Fish',
     },
     {
-      image: '/images/efo riro.png',
-      title: 'Efo Riro with Pounded Yam'
+      image: foodImg,
+      title: 'Efo Riro with Pounded Yam',
     },
     {
-      image: '/images/Egusi.png',
-      title: 'Egusi Soup with Fufu'
+      image: foodImg,
+      title: 'Egusi Soup with Fufu',
     },
     {
-      image: '/images/jollof_rice.png',
-      title: 'Jollof Rice with Chicken'
+      image: foodImg,
+      title: 'Jollof Rice with Chicken',
     },
     {
-      image: '/images/Ofada.png',
-      title: 'Ofada Sauce Ayamase Stew'
+      image: foodImg,
+      title: 'Ofada Sauce Ayamase Stew',
     }
   ];
 
@@ -50,7 +52,7 @@ const Products = () => {
             mb: { xs: 1, sm: 2 }
           }}
         >
-          Explore Our Foods
+          Best sellers
         </Typography>
         <Typography 
           variant="body1" 
@@ -67,8 +69,7 @@ const Products = () => {
             }
           }}
         >
-          Experience the rich flavors of authentic Nigerian cuisine. From traditional dishes to modern interpretations, 
-          we bring you the best of Nigerian food culture.
+          Fan favourites our customers keep coming back for.
         </Typography>
         <Grid 
           container 
@@ -77,7 +78,7 @@ const Products = () => {
         >
           {products.map((product, index) => (
             <Grid item key={index} xs={12} sm={6} md={4}>
-              <ProductCard {...product} />
+              <ProductCard image={product.image} title={product.title} />
             </Grid>
           ))}
         </Grid>
@@ -90,7 +91,7 @@ const Products = () => {
             variant="contained"
             size="large"
             component={RouterLink}
-            to="/gallery"
+            to="/menu"
             sx={{ 
               borderRadius: 2, 
               fontWeight: 600, 
@@ -104,7 +105,7 @@ const Products = () => {
               }
             }}
           >
-            View Gallery
+            View full menu
           </Button>
         </Box>
       </Container>

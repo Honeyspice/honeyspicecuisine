@@ -3,7 +3,7 @@ import { Box, Container, Typography, Grid, Card, CardMedia, CardContent } from '
 const foodImages = [
   { image: '/images/Amala.png', title: 'Amala with Ewedu' },
   { image: '/images/boli.png', title: 'Boli with Fish' },
-  { image: '/images/efo riro.png', title: 'Efo Riro with Pounded Yam' },
+  { image: '/images/efo_riro.png', title: 'Efo Riro with Pounded Yam' },
   { image: '/images/Egusi.png', title: 'Egusi Soup with Fufu' },
   { image: '/images/jollof_rice.png', title: 'Jollof Rice with Chicken' },
   { image: '/images/Ofada.png', title: 'Ofada Sauce Ayamase Stew' },
@@ -12,25 +12,25 @@ const foodImages = [
 const Gallery = () => {
   return (
     <Box sx={{ 
-      bgcolor: 'background.default', 
+      bgcolor: 'background.paper', 
       minHeight: '100vh', 
-      pt: { xs: 6, sm: 8, md: 10 },
+      pt: { xs: 4, sm: 6, md: 8 },
       pb: { xs: 3, sm: 4, md: 6 },
       px: { xs: 2, sm: 0 }
     }}>
       <Container maxWidth="lg">
         <Typography 
           variant="h2" 
-          align="center" 
-          gutterBottom
+          component="h1"
           sx={{
+            color: 'primary.main',
             fontSize: {
               xs: '1.75rem',
               sm: '2.25rem',
               md: '2.5rem'
             },
-            fontWeight: 700,
-            mb: { xs: 1, sm: 2 }
+            fontWeight: 'bold',
+            mb: { xs: 1.5, sm: 2, md: 2.5 }
           }}
         >
           Food Gallery
@@ -38,12 +38,9 @@ const Gallery = () => {
         <Typography 
           variant="body1" 
           color="text.secondary" 
-          align="center" 
           sx={{ 
-            mb: { xs: 3, sm: 4, md: 6 }, 
-            maxWidth: 754, 
-            mx: 'auto',
-            px: { xs: 2, sm: 0 },
+            mb: { xs: 3, sm: 4, md: 6 },
+            maxWidth: 760,
             fontSize: {
               xs: '0.875rem',
               sm: '1rem',
@@ -71,6 +68,10 @@ const Gallery = () => {
                   component="img"
                   image={item.image}
                   alt={item.title}
+                  onError={(e) => {
+                    // eslint-disable-next-line no-param-reassign
+                    e.currentTarget.src = '/images/efo_riro.png';
+                  }}
                   sx={{
                     height: { xs: 180, sm: 220, md: 260 },
                     objectFit: 'cover',

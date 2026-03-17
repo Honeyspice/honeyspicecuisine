@@ -1,7 +1,34 @@
 import React from 'react';
-import { Container, Typography, Box, Grid, Paper, List, ListItem, ListItemText, Divider } from '@mui/material';
+import {
+  Container,
+  Typography,
+  Box,
+  Grid,
+  Paper,
+  List,
+  ListItem,
+  ListItemText,
+  Divider,
+  Button,
+  Chip,
+} from '@mui/material';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import { useCart } from '../context/CartContext';
 
 const Menu = () => {
+  const { addItem } = useCart();
+  const [lastAdded, setLastAdded] = React.useState(null);
+
+  const handleAdd = React.useCallback(
+    (categoryTitle, item) => {
+      const id = `${categoryTitle}:${item.name}`;
+      addItem({ id, name: item.name, price: item.price });
+      setLastAdded(id);
+      window.setTimeout(() => setLastAdded((cur) => (cur === id ? null : cur)), 1000);
+    },
+    [addItem]
+  );
   const menuCategories = [
     {
       title: 'Rice Dishes',
@@ -89,18 +116,20 @@ const Menu = () => {
           {menuCategories.map((category) => (
             <Grid item xs={12} md={6} lg={4} key={category.title}>
               <Paper 
-                elevation={3}
-                sx={{ 
+                elevation={0}
+                sx={(theme) => ({ 
                   p: { xs: 2, sm: 3 },
                   height: '100%',
-                  border: '1px solid',
-                  borderColor: 'divider',
-                  transition: 'transform 0.2s ease-in-out',
+                  border: `1px solid ${theme.palette.divider}`,
+                  borderRadius: { xs: 3, sm: 4 },
+                  backgroundColor: 'background.paper',
+                  boxShadow: '0 14px 40px rgba(16, 24, 40, 0.06)',
+                  transition: 'transform 200ms ease, box-shadow 200ms ease',
                   '&:hover': {
-                    transform: 'translateY(-4px)',
-                    boxShadow: '0 6px 20px rgba(0,0,0,0.1)'
+                    transform: 'translateY(-3px)',
+                    boxShadow: '0 18px 55px rgba(16, 24, 40, 0.08)',
                   }
-                }}
+                })}
               >
                 <Typography 
                   variant="h5" 
@@ -121,60 +150,111 @@ const Menu = () => {
                 <List>
                   {category.items.map((item, index) => (
                     <React.Fragment key={item.name}>
-                      <ListItem sx={{ px: 0 }}>
-                        <ListItemText
-                          primary={
-                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                              <Typography 
-                                variant="subtitle1" 
-                                sx={{ 
-                                  fontWeight: 500, 
-                                  fontSize: { 
-                                    xs: '0.95rem', 
-                                    sm: '1.1rem', 
-                                    md: '1.25rem' 
-                                  } 
+                      <ListItem
+                        sx={{ px: 0, py: 1.25 }}
+                      >
+                        <Box
+                          sx={{
+                            width: '100%',
+                            display: 'flex',
+                            alignItems: 'flex-start',
+                            gap: 2,
+                          }}
+                        >
+                          <ListItemText
+                            sx={{ m: 0, flexGrow: 1, minWidth: 0 }}
+                            primary={
+                              <Box>
+                                <Typography
+                                  variant="subtitle1"
+                                  sx={{
+                                    fontWeight: 700,
+                                    fontSize: { xs: '0.95rem', sm: '1.1rem', md: '1.25rem' },
+                                  }}
+                                >
+                                  {item.name}
+                                </Typography>
+                              </Box>
+                            }
+                            secondary={
+                              <Box sx={{ mt: 0.5 }}>
+                                <Typography
+                                  variant="body2"
+                                  color="text.secondary"
+                                  sx={{
+                                    fontSize: {
+                                      xs: '0.875rem',
+                                      sm: '0.9375rem',
+                                      md: '1rem',
+                                    },
+                                    lineHeight: 1.45,
+                                  }}
+                                >
+                                  {item.description}
+                                </Typography>
+                                <Box sx={{ mt: 1 }}>
+                                  <Chip
+                                    size="small"
+                                    label={`£${item.price.toFixed(2)}`}
+                                    sx={(theme) => ({
+                                      fontWeight: 800,
+                                      letterSpacing: '0.01em',
+                                      backgroundColor: 'rgba(244, 106, 6, 0.10)',
+                                      color: theme.palette.primary.dark,
+                                      border: `1px solid rgba(244, 106, 6, 0.22)`,
+                                    })}
+                                  />
+                                </Box>
+                              </Box>
+                            }
+                          />
+
+                          {(() => {
+                            const itemId = `${category.title}:${item.name}`;
+                            const isAdded = lastAdded === itemId;
+                            return (
+                              <Button
+                                variant={isAdded ? 'contained' : 'outlined'}
+                                size="small"
+                                onClick={() => handleAdd(category.title, item)}
+                                disabled={isAdded}
+                                color={isAdded ? 'success' : 'primary'}
+                                sx={{
+                                  flexShrink: 0,
+                                  minWidth: 108,
+                                  height: 36,
+                                  mt: 0.25,
+                                  borderRadius: 999,
+                                  fontWeight: 800,
+                                  letterSpacing: '0.01em',
+                                  textTransform: 'none',
+                                  transform: isAdded ? 'scale(1.03)' : 'scale(1)',
+                                  transition:
+                                    'transform 180ms ease, background-color 180ms ease, color 180ms ease, border-color 180ms ease',
+                                  backgroundColor: isAdded ? 'success.main' : undefined,
+                                  boxShadow: isAdded ? '0 10px 30px rgba(9, 162, 16, 0.32)' : 'none',
+                                  '&:hover': {
+                                    backgroundColor: isAdded ? 'success.dark' : 'rgba(244, 106, 6, 0.06)',
+                                    boxShadow: isAdded ? '0 12px 36px rgba(9, 162, 16, 0.36)' : 'none',
+                                    transform: isAdded ? 'scale(1.03)' : 'scale(1.02)',
+                                  },
                                 }}
+                                startIcon={
+                                  isAdded ? (
+                                    <CheckCircleIcon fontSize="small" />
+                                  ) : (
+                                    <AddShoppingCartIcon fontSize="small" />
+                                  )
+                                }
                               >
-                                {item.name}
-                              </Typography>
-                              <Typography 
-                                variant="subtitle1" 
-                                sx={{ 
-                                  fontWeight: 600,
-                                  color: 'primary.main',
-                                  ml: 2,
-                                  fontSize: { 
-                                    xs: '0.95rem', 
-                                    sm: '1.1rem', 
-                                    md: '1.25rem' 
-                                  }
-                                }}
-                              >
-                                £{item.price.toFixed(2)}
-                              </Typography>
-                            </Box>
-                          }
-                          secondary={
-                            <Typography 
-                              variant="body2" 
-                              color="text.secondary" 
-                              sx={{ 
-                                fontSize: { 
-                                  xs: '0.875rem', 
-                                  sm: '0.9375rem', 
-                                  md: '1rem' 
-                                },
-                                mt: 0.5
-                              }}
-                            >
-                              {item.description}
-                            </Typography>
-                          }
-                        />
+                                {isAdded ? 'Added' : 'Add'}
+                              </Button>
+                            );
+                          })()}
+                        </Box>
                       </ListItem>
                       {index < category.items.length - 1 && (
-                        <Divider sx={{ my: { xs: 0.5, sm: 1 } }} />
+                        <Divider sx={{ my: { xs: 1, sm: 1.25 } }} />
                       )}
                     </React.Fragment>
                   ))}

@@ -1,10 +1,14 @@
-import { Typography, Card, CardMedia, CardContent } from '@mui/material';
+import React from 'react';
+import { Typography, Card, CardMedia, CardContent, Box } from '@mui/material';
+import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 
 const ProductCard = ({ 
   image, 
   title,
   description
 }) => {
+  const [imageOk, setImageOk] = React.useState(true);
+
   return (
     <Card sx={{ 
       maxWidth: 360, 
@@ -14,17 +18,36 @@ const ProductCard = ({
         transform: 'translateY(-4px)'
       }
     }}>
-      <CardMedia
-        component="img"
-        height="260"
-        image={image}
-        alt={title}
-        sx={{ 
-          borderRadius: '10px',
-          height: { xs: 200, sm: 240, md: 260 },
-          objectFit: 'cover'
-        }}
-      />
+      {image && imageOk ? (
+        <CardMedia
+          component="img"
+          height="260"
+          image={image}
+          alt={title}
+          onError={() => setImageOk(false)}
+          sx={{ 
+            borderRadius: '10px',
+            height: { xs: 200, sm: 240, md: 260 },
+            objectFit: 'cover'
+          }}
+        />
+      ) : (
+        <Box
+          sx={(theme) => ({
+            borderRadius: '10px',
+            height: { xs: 200, sm: 240, md: 260 },
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            border: `1px solid ${theme.palette.divider}`,
+            background:
+              'radial-gradient(500px 220px at 20% 10%, rgba(244, 106, 6, 0.18) 0%, rgba(0,0,0,0) 60%), radial-gradient(420px 200px at 80% 10%, rgba(252, 169, 0, 0.16) 0%, rgba(0,0,0,0) 55%), #fff',
+            color: 'text.secondary',
+          })}
+        >
+          <RestaurantMenuIcon sx={{ fontSize: 44 }} />
+        </Box>
+      )}
       <CardContent sx={{ 
         p: { xs: 1, sm: 2 }, 
         mt: { xs: 1, sm: 2 }
