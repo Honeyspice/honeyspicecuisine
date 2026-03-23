@@ -12,6 +12,9 @@ require('dotenv').config();
 
 const app = express();
 
+// Render / nginx / load balancers set X-Forwarded-* — required for express-rate-limit and real client IPs
+app.set('trust proxy', 1);
+
 // Security middleware
 app.use(helmet({
   contentSecurityPolicy: false // Disable CSP for development
@@ -101,8 +104,24 @@ app.use(morgan('dev'));
 
 // Database connection with better error handling
 const connectDB = async () => {
+  const fallbackLocal = 'mongodb://localhost:27017/honeyspicecuisine';
+  const mongoUri = process.env.MONGODB_URI || fallbackLocal;
+
+  if (process.env.NODE_ENV === 'production') {
+    const looksLocal =
+      !process.env.MONGODB_URI ||
+      /localhost|127\.0\.0\.1|::1/.test(mongoUri);
+    if (looksLocal) {
+      console.error(
+        'MONGODB_URI must be set in production to a hosted MongoDB URL (e.g. MongoDB Atlas). ' +
+          'localhost will not work on Render.'
+      );
+      process.exit(1);
+    }
+  }
+
   try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/honeyspicecuisine', {
+    const conn = await mongoose.connect(mongoUri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
@@ -127,6 +146,9 @@ app.get('/', (req, res) => {
     message: 'Honeyspice API is running',
     api: '/api',
   });
+});
+app.head('/', (req, res) => {
+  res.status(200).end();
 });
 
 // API Routes
