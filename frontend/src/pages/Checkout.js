@@ -21,20 +21,21 @@ const Checkout = () => {
   const { items, subtotal } = useCart();
   const { deliveryFee, serviceFee, total } = computeFees(subtotal);
 
-  const [status, setStatus] = React.useState({ type: null, message: null });
+  const [status, setStatus] = React.useState({ type: null, message: null, actionUrl: null });
   const [submitting, setSubmitting] = React.useState(false);
 
   const handlePayByCard = async (e) => {
     e.preventDefault();
     setSubmitting(true);
-    setStatus({ type: null, message: null });
+    setStatus({ type: null, message: null, actionUrl: null });
 
     try {
       const form = e.currentTarget;
       const fd = new FormData(form);
       const email = String(fd.get('email') || '').trim();
 
-      const res = await fetch(apiUrl('/api/payments/create-checkout-session'), {
+      const checkoutSessionUrl = apiUrl('/api/payments/create-checkout-session');
+      const res = await fetch(checkoutSessionUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -50,9 +51,25 @@ const Checkout = () => {
 
       const data = await res.json();
       if (!data.url) throw new Error('Missing Stripe redirect URL');
-      window.location.assign(data.url);
+
+      // Use same-tab navigation for best reliability across browsers/webviews.
+      setTimeout(() => {
+        setSubmitting(false);
+        setStatus({
+          type: 'warning',
+          message: 'Could not redirect automatically. Tap "Continue to Stripe" below.',
+          actionUrl: data.url,
+        });
+      }, 3500);
+
+      window.location.href = data.url;
     } catch (err) {
-      setStatus({ type: 'error', message: err.message || 'Payment setup failed' });
+      console.error('Checkout session request failed:', err);
+      const isNetworkError = String(err?.message || '').toLowerCase().includes('failed to fetch');
+      const message = isNetworkError
+        ? 'Cannot reach payment server. If this is a live site, set REACT_APP_API_BASE_URL to your backend URL and redeploy frontend.'
+        : err.message || 'Payment setup failed';
+      setStatus({ type: 'error', message, actionUrl: null });
       setSubmitting(false);
     }
   };
@@ -104,7 +121,23 @@ const Checkout = () => {
         </Box>
 
         {status.type && (
-          <Alert severity={status.type} sx={{ mb: 3 }}>
+          <Alert
+            severity={status.type}
+            sx={{ mb: 3 }}
+            action={
+              status.actionUrl ? (
+                <Button
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    window.location.href = status.actionUrl;
+                  }}
+                >
+                  Continue to Stripe
+                </Button>
+              ) : null
+            }
+          >
             {status.message}
           </Alert>
         )}
@@ -227,7 +260,7 @@ const Checkout = () => {
               </Box>
 
               <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 1.5 }}>
-                Delivery is free over £30. Service fee is capped at £2.99.
+                Delivery is free over £100. Service fee is capped at £2.99.
               </Typography>
             </Card>
           </Grid>
