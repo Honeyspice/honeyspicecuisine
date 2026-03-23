@@ -121,6 +121,14 @@ const connectDB = async () => {
 
 connectDB();
 
+// Root URL (Render / browser health check) — no HTML, just JSON
+app.get('/', (req, res) => {
+  res.json({
+    message: 'Honeyspice API is running',
+    api: '/api',
+  });
+});
+
 // API Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/menu', require('./routes/menu'));
