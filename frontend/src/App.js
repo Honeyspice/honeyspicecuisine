@@ -25,6 +25,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import { CartProvider } from './context/CartContext';
 import CookieBanner from './components/CookieBanner';
+import FloatingChat from './components/FloatingChat';
 
 // ScrollToTop component
 function ScrollToTop() {
@@ -71,6 +72,7 @@ function App() {
             <Footer />
           </Box>
           <CookieBanner />
+          <FloatingChat />
         </Router>
       </CartProvider>
     </ThemeProvider>

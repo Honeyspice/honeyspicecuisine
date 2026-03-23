@@ -144,9 +144,9 @@ const Cart = () => {
                   Checkout
                 </Button>
 
-                <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 1.5 }}>
-                  Delivery is free over £30. Service fee helps cover platform and support costs.
-                </Typography>
+              <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 1.5 }}>
+                Delivery is free over £100. Service fee helps cover platform and support costs.
+              </Typography>
               </Card>
             </Grid>
           </Grid>

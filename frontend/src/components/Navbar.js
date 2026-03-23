@@ -110,7 +110,7 @@ const AdditionalButton = muiStyled(Button)(({ theme }) => ({
 }));
 
 // Mobile Navbar Component
-const MobileNavbar = ({ handleDrawerToggle, handleWhatsAppClick, cartBadgeSx, itemCount }) => {
+const MobileNavbar = ({ handleDrawerToggle, cartBadgeSx, itemCount }) => {
   return (
     <>
       <Toolbar disableGutters sx={{ py: 1.5 }}>
@@ -156,7 +156,7 @@ const MobileNavbar = ({ handleDrawerToggle, handleWhatsAppClick, cartBadgeSx, it
 };
 
 // Desktop Navbar Component
-const DesktopNavbar = ({ handleWhatsAppClick }) => {
+const DesktopNavbar = () => {
   const menuItems = [
     { text: 'Home', path: '/' },
     { text: 'Menu', path: '/menu' },
@@ -263,7 +263,7 @@ const DesktopNavbar = ({ handleWhatsAppClick }) => {
         >
           Offers
         </AdditionalButton>
-        <AdditionalButton 
+        <AdditionalButton
           disabled
           sx={{
             fontSize: '14px',
@@ -284,30 +284,10 @@ const DesktopNavbar = ({ handleWhatsAppClick }) => {
             cursor: 'pointer',
             '&:hover': {
               color: 'white',
-            }
+            },
           }}
         >
           Locate Us
-        </Typography>
-        <Typography
-          onClick={handleWhatsAppClick}
-          sx={{
-            color: 'rgba(255, 255, 255, 0.9)',
-            textDecoration: 'none',
-            fontSize: '14px',
-            fontWeight: 500,
-            padding: '6px 12px',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 1,
-            '&:hover': {
-              color: 'white',
-            }
-          }}
-        >
-          <WhatsAppIcon sx={{ fontSize: 18 }} />
-          Chat
         </Typography>
       </Box>
     </Box>
@@ -397,8 +377,8 @@ const Navbar = () => {
         >
           <ListItemText primary="Make Reservations" />
         </ListItem>
-        <ListItem 
-          component={RouterLink} 
+        <ListItem
+          component={RouterLink}
           to="/order"
           sx={{
             color: 'text.primary',
@@ -409,8 +389,8 @@ const Navbar = () => {
         >
           <ListItemText primary="Order Now" />
         </ListItem>
-        <ListItem 
-          component={RouterLink} 
+        <ListItem
+          component={RouterLink}
           to="/location"
           sx={{
             color: 'text.primary',

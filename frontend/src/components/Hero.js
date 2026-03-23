@@ -69,7 +69,11 @@ const Hero = () => {
               spacing={1}
               sx={{ mb: { xs: 2.5, md: 3 } }}
             >
-              <Chip icon={<LocalShippingOutlinedIcon />} label="Free delivery over £30" variant="outlined" />
+              <Chip
+                icon={<LocalShippingOutlinedIcon />}
+                label="Free delivery on orders over £100"
+                variant="outlined"
+              />
               <Chip icon={<CreditCardOutlinedIcon />} label="Secure card checkout" variant="outlined" />
               <Chip icon={<StarRoundedIcon />} label="Loved by customers" variant="outlined" />
             </Stack>

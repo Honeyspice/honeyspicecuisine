@@ -67,6 +67,20 @@ const CookieBanner = () => {
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', gap: 1, flexShrink: 0 }}>
+          <Button
+            size="small"
+            variant="outlined"
+            onClick={() => {
+              try {
+                window.localStorage.setItem(STORAGE_KEY, 'rejected');
+              } catch {
+                // ignore
+              }
+              setOpen(false);
+            }}
+          >
+            Reject
+          </Button>
           <Button variant="contained" size="small" onClick={handleAccept}>
             Accept
           </Button>
