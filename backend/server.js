@@ -21,17 +21,45 @@ app.use(helmet({
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // Limit each IP to 100 requests per windowMs
-  message: 'Too many requests from this IP, please try again later'
+  message: 'Too many requests from this IP, please try again later',
+  standardHeaders: true,
+  legacyHeaders: false,
+  skip: (req) => req.path.startsWith('/api/payments'),
 });
 
 // Apply rate limiting to all routes
 app.use(limiter);
 
 // CORS configuration
-app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
-  credentials: true
-}));
+const allowedOrigins = new Set([
+  'http://localhost:3000',
+  'http://127.0.0.1:3000',
+]);
+
+if (process.env.FRONTEND_URL) {
+  allowedOrigins.add(process.env.FRONTEND_URL.trim());
+}
+
+if (process.env.VERCEL_URL) {
+  allowedOrigins.add(`https://${process.env.VERCEL_URL.trim()}`);
+}
+
+app.use(
+  cors({
+    origin(origin, callback) {
+      // Allow non-browser requests (curl, server-to-server).
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.has(origin)) return callback(null, true);
+
+      // Allow Vercel preview domains for this project.
+      if (origin.endsWith('.vercel.app')) return callback(null, true);
+
+      return callback(new Error(`CORS blocked for origin: ${origin}`));
+    },
+    credentials: true,
+  })
+);
 
 // Cookie parser
 app.use(cookieParser());
@@ -48,6 +76,8 @@ const csrfProtection = csrf({
 // Apply CSRF protection to all routes except GET requests
 app.use((req, res, next) => {
   if (req.method === 'GET') {
+    next();
+  } else if (req.path.startsWith('/api/payments')) {
     next();
   } else {
     csrfProtection(req, res, next);
@@ -79,7 +109,13 @@ const connectDB = async () => {
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
     console.error('MongoDB connection error:', error);
-    process.exit(1);
+    // Don’t crash the whole API in development if Mongo is down.
+    // This allows non-DB endpoints (e.g. Stripe session creation) to keep working.
+    if (process.env.NODE_ENV === 'production') {
+      process.exit(1);
+    } else {
+      console.warn('Continuing without MongoDB (development mode).');
+    }
   }
 };
 
@@ -89,6 +125,7 @@ connectDB();
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/menu', require('./routes/menu'));
 app.use('/api/orders', require('./routes/orders'));
+app.use('/api/payments', require('./routes/payments'));
 
 // API root route handler
 app.get('/api', (req, res) => {

@@ -15,8 +15,6 @@ import {
   Radio,
   RadioGroup,
   FormLabel,
-  Alert,
-  Snackbar,
   CircularProgress,
   Paper,
   IconButton,
@@ -48,7 +46,6 @@ const GradientButton = styled(Button)(({ theme }) => ({
 
 const Reservation = () => {
   const [reservationType, setReservationType] = useState('bulk');
-  const [showMessage, setShowMessage] = useState(false);
   const [selectedFoods, setSelectedFoods] = useState([]);
   const [eventType, setEventType] = useState('');
   const [open, setOpen] = useState(false);
@@ -112,15 +109,47 @@ const Reservation = () => {
     'Other'
   ];
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+    
+    // Build WhatsApp message from form data
+    const lines = [
+      `New ${reservationType === 'bulk' ? 'Bulk Order' : 'Catering Reservation'}`,
+      '',
+      `Name: ${formData.name}`,
+      `Email: ${formData.email}`,
+      `Phone: ${formData.phone}`,
+      `Date: ${formData.date}`,
+      `Time: ${formData.time}`,
+      `Number of Guests: ${formData.guests}`,
+    ];
+
+    if (reservationType === 'catering') {
+      lines.push(`Event Type: ${eventType || 'Not specified'}`);
+    }
+
+    if (reservationType === 'bulk' && selectedFoods.length > 0) {
+      lines.push(
+        'Selected Foods:',
+        ...selectedFoods.map((item, index) => `${index + 1}. ${item}`)
+      );
+    }
+
+    if (formData.notes.trim()) {
+      lines.push('', `Additional Notes: ${formData.notes.trim()}`);
+    }
+
+    const message = encodeURIComponent(lines.join('\n'));
+
+    // Business WhatsApp number (international format without +)
+    const whatsappNumber = '447721629566';
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
+
     setLoading(true);
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      setShowMessage(true);
+      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
     } catch (error) {
-      console.error('Error submitting form:', error);
+      console.error('Error opening WhatsApp:', error);
     } finally {
       setLoading(false);
     }
@@ -641,22 +670,6 @@ const Reservation = () => {
           </Grid>
         </Grid>
       </Container>
-
-      <Snackbar
-        open={showMessage}
-        autoHideDuration={6000}
-        onClose={() => setShowMessage(false)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-      >
-        <Alert 
-          onClose={() => setShowMessage(false)} 
-          severity="success" 
-          variant="filled"
-          sx={{ width: '100%' }}
-        >
-          Your order has been submitted successfully! We'll contact you shortly.
-        </Alert>
-      </Snackbar>
     </Box>
   );
 };
