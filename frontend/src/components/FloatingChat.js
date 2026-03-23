@@ -37,9 +37,10 @@ const FloatingChat = () => {
         <Box
           sx={{
             position: 'fixed',
-            right: 16,
-            bottom: 96,
+            right: 'max(16px, env(safe-area-inset-right))',
+            bottom: 'calc(96px + env(safe-area-inset-bottom, 0px))',
             zIndex: 1300,
+            maxWidth: 'calc(100vw - 32px)',
           }}
         >
           <Paper
@@ -74,14 +75,16 @@ const FloatingChat = () => {
 
       <Fab
         color="primary"
+        size="large"
         aria-label="Chat on WhatsApp"
         onClick={openWhatsApp}
         sx={{
           position: 'fixed',
-          right: 16,
-          bottom: 24,
+          right: 'max(16px, env(safe-area-inset-right))',
+          bottom: 'calc(24px + env(safe-area-inset-bottom, 0px))',
           zIndex: 1299,
           bgcolor: '#25D366',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.25)',
           '&:hover': { bgcolor: '#1ebe5c' },
         }}
       >

@@ -67,6 +67,8 @@ const Hero = () => {
             <Stack
               direction={{ xs: 'column', sm: 'row' }}
               spacing={1}
+              useFlexGap
+              flexWrap="wrap"
               sx={{ mb: { xs: 2.5, md: 3 } }}
             >
               <Chip

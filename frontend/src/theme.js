@@ -129,7 +129,11 @@ let theme = createTheme({
   components: {
     MuiCssBaseline: {
       styleOverrides: {
-        body: {
+        html: {
+          WebkitTextSizeAdjust: '100%',
+          textSizeAdjust: '100%',
+        },
+        body: ({ theme }) => ({
           backgroundColor: '#F8F9FA',
           backgroundImage: `radial-gradient(1200px 600px at 10% 0%, ${alpha(
             '#F46A06',
@@ -137,19 +141,32 @@ let theme = createTheme({
           )} 0%, rgba(0,0,0,0) 60%),
             radial-gradient(900px 500px at 90% 10%, ${alpha('#FCA900', 0.08)} 0%, rgba(0,0,0,0) 55%)`,
           backgroundAttachment: 'fixed',
-        },
+          minHeight: '100dvh',
+          WebkitTapHighlightColor: 'transparent',
+          [theme.breakpoints.down('md')]: {
+            // `fixed` causes jank on iOS Safari
+            backgroundAttachment: 'scroll',
+          },
+        }),
       },
     },
     MuiButton: {
+      defaultProps: {
+        disableElevation: true,
+      },
       styleOverrides: {
-        root: {
+        root: ({ theme }) => ({
           borderRadius: '12px',
           padding: '10px 24px',
           boxShadow: 'none',
+          minHeight: 44,
           '&:hover': {
             boxShadow: '0 4px 20px rgba(244, 106, 6, 0.3)',
           },
-        },
+          [theme.breakpoints.up('sm')]: {
+            minHeight: 40,
+          },
+        }),
         contained: {
           backgroundColor: '#F46A06',
           '&:hover': {
@@ -182,6 +199,16 @@ let theme = createTheme({
             boxShadow: '0 16px 50px rgba(16, 24, 40, 0.12)',
           },
         },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        input: ({ theme }) => ({
+          // iOS Safari zooms if font-size < 16px
+          [theme.breakpoints.down('sm')]: {
+            fontSize: '1rem',
+          },
+        }),
       },
     },
     MuiTextField: {
@@ -298,8 +325,21 @@ let theme = createTheme({
     MuiContainer: {
       styleOverrides: {
         root: {
-          paddingLeft: 24,
-          paddingRight: 24,
+          paddingLeft: 16,
+          paddingRight: 16,
+          '@media (min-width: 600px)': {
+            paddingLeft: 24,
+            paddingRight: 24,
+          },
+        },
+      },
+    },
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          minWidth: 44,
+          minHeight: 44,
+          padding: 10,
         },
       },
     },

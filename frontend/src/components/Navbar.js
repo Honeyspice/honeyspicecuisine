@@ -12,6 +12,7 @@ import {
   Drawer,
   List,
   ListItem,
+  ListItemButton,
   ListItemText,
   useTheme,
   useMediaQuery,
@@ -32,6 +33,8 @@ const cartPulse = keyframes`
 
 const StyledAppBar = muiStyled(AppBar)(({ theme, scrolled }) => ({
   backgroundColor: theme.palette.grey[900],
+  // Respect iPhone notch / status bar
+  paddingTop: 'env(safe-area-inset-top, 0px)',
   boxShadow: 'none',
   border: 'none',
   borderRadius: 0,
@@ -135,7 +138,8 @@ const MobileNavbar = ({ handleDrawerToggle, cartBadgeSx, itemCount }) => {
           component={RouterLink}
           to="/cart"
           aria-label="Open basket"
-          sx={{ color: 'common.white', mr: 1 }}
+          sx={{ color: 'common.white', mr: 0.5 }}
+          size="medium"
         >
           <Badge badgeContent={itemCount} color="warning" sx={cartBadgeSx}>
             <ShoppingBagOutlinedIcon />
@@ -143,10 +147,11 @@ const MobileNavbar = ({ handleDrawerToggle, cartBadgeSx, itemCount }) => {
         </IconButton>
         <IconButton
           color="inherit"
-          aria-label="open drawer"
-          edge="start"
+          aria-label="Open menu"
+          edge="end"
           onClick={handleDrawerToggle}
-          sx={{ mr: 2 }}
+          sx={{ mr: 0 }}
+          size="medium"
         >
           <MenuIcon />
         </IconButton>
@@ -348,103 +353,86 @@ const Navbar = () => {
   ];
 
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-      <List>
+    <Box sx={{ textAlign: 'left', pt: 1, pb: 'env(safe-area-inset-bottom, 8px)' }}>
+      <List disablePadding>
         {menuItems.map((item) => (
-          <ListItem 
-            key={item.text} 
-            component={RouterLink} 
-            to={item.path}
-            sx={{
-              color: 'text.primary',
-              '&:hover': {
-                backgroundColor: 'rgba(0, 0, 0, 0.04)',
-              },
-            }}
-          >
-            <ListItemText primary={item.text} />
+          <ListItem key={item.text} disablePadding>
+            <ListItemButton
+              component={RouterLink}
+              to={item.path}
+              onClick={handleDrawerToggle}
+              sx={{ minHeight: 52, py: 1.25, px: 2 }}
+            >
+              <ListItemText primary={item.text} primaryTypographyProps={{ fontWeight: 600 }} />
+            </ListItemButton>
           </ListItem>
         ))}
-        <ListItem 
-          component={RouterLink} 
-          to="/reservation"
-          sx={{
-            color: 'text.primary',
-            '&:hover': {
-              backgroundColor: 'rgba(0, 0, 0, 0.04)',
-            },
-          }}
-        >
-          <ListItemText primary="Make Reservations" />
+        <ListItem disablePadding>
+          <ListItemButton
+            component={RouterLink}
+            to="/reservation"
+            onClick={handleDrawerToggle}
+            sx={{ minHeight: 52, py: 1.25, px: 2 }}
+          >
+            <ListItemText primary="Make Reservations" primaryTypographyProps={{ fontWeight: 600 }} />
+          </ListItemButton>
         </ListItem>
-        <ListItem
-          component={RouterLink}
-          to="/order"
-          sx={{
-            color: 'text.primary',
-            '&:hover': {
-              backgroundColor: 'rgba(0, 0, 0, 0.04)',
-            },
-          }}
-        >
-          <ListItemText primary="Order Now" />
+        <ListItem disablePadding>
+          <ListItemButton
+            component={RouterLink}
+            to="/order"
+            onClick={handleDrawerToggle}
+            sx={{ minHeight: 52, py: 1.25, px: 2 }}
+          >
+            <ListItemText primary="Order Now" primaryTypographyProps={{ fontWeight: 600 }} />
+          </ListItemButton>
         </ListItem>
-        <ListItem
-          component={RouterLink}
-          to="/location"
-          sx={{
-            color: 'text.primary',
-            '&:hover': {
-              backgroundColor: 'rgba(0, 0, 0, 0.04)',
-            },
-          }}
-        >
-          <ListItemText primary="Locate Us" />
+        <ListItem disablePadding>
+          <ListItemButton
+            component={RouterLink}
+            to="/cart"
+            onClick={handleDrawerToggle}
+            sx={{ minHeight: 52, py: 1.25, px: 2 }}
+          >
+            <ListItemText primary="Basket" primaryTypographyProps={{ fontWeight: 600 }} />
+          </ListItemButton>
         </ListItem>
-        <ListItem 
-          onClick={handleWhatsAppClick}
-          sx={{
-            color: 'text.primary',
-            cursor: 'pointer',
-            '&:hover': {
-              backgroundColor: 'rgba(0, 0, 0, 0.04)',
-            },
-          }}
-        >
-          <ListItemText 
-            primary={
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <WhatsAppIcon sx={{ fontSize: 20 }} />
-                Chat
-              </Box>
-            } 
-          />
+        <ListItem disablePadding>
+          <ListItemButton
+            component={RouterLink}
+            to="/location"
+            onClick={handleDrawerToggle}
+            sx={{ minHeight: 52, py: 1.25, px: 2 }}
+          >
+            <ListItemText primary="Locate Us" primaryTypographyProps={{ fontWeight: 600 }} />
+          </ListItemButton>
         </ListItem>
-        <ListItem 
-          disabled
-          sx={{
-            color: 'text.secondary',
-            opacity: 0.7,
-          }}
-        >
+        <ListItem disablePadding>
+          <ListItemButton
+            onClick={() => {
+              handleWhatsAppClick();
+              handleDrawerToggle();
+            }}
+            sx={{ minHeight: 52, py: 1.25, px: 2 }}
+          >
+            <ListItemText
+              primary={
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <WhatsAppIcon sx={{ fontSize: 22 }} />
+                  Chat on WhatsApp
+                </Box>
+              }
+              primaryTypographyProps={{ fontWeight: 600 }}
+            />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disabled sx={{ opacity: 0.65, px: 2, py: 1 }}>
           <ListItemText primary="Allergen Information" />
         </ListItem>
-        <ListItem 
-          disabled
-          sx={{
-            color: 'text.secondary',
-            opacity: 0.7,
-          }}
-        >
+        <ListItem disabled sx={{ opacity: 0.65, px: 2, py: 1 }}>
           <ListItemText primary="Offers" />
         </ListItem>
-        <ListItem 
-          disabled
-          sx={{
-            color: 'text.secondary',
-            opacity: 0.7,
-          }}
-        >
+        <ListItem disabled sx={{ opacity: 0.65, px: 2, py: 1 }}>
           <ListItemText primary="Jobs" />
         </ListItem>
       </List>
@@ -495,9 +483,10 @@ const Navbar = () => {
         }}
         sx={{
           display: { xs: 'block', md: 'none' },
-          '& .MuiDrawer-paper': { 
-            boxSizing: 'border-box', 
-            width: 240,
+          '& .MuiDrawer-paper': {
+            boxSizing: 'border-box',
+            width: 'min(100vw - 48px, 320px)',
+            maxWidth: '100vw',
             backgroundColor: 'background.paper',
           },
         }}

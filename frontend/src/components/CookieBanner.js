@@ -39,7 +39,7 @@ const CookieBanner = () => {
         display: 'flex',
         justifyContent: 'center',
         px: 2,
-        pb: 2,
+        pb: 'calc(16px + env(safe-area-inset-bottom, 0px))',
       }}
     >
       <Box
@@ -66,10 +66,20 @@ const CookieBanner = () => {
             HoneySpice so we can improve it.
           </Typography>
         </Box>
-        <Box sx={{ display: 'flex', gap: 1, flexShrink: 0 }}>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 1,
+            flexShrink: 0,
+            flexDirection: { xs: 'column', sm: 'row' },
+            width: { xs: '100%', sm: 'auto' },
+          }}
+        >
           <Button
-            size="small"
+            size="medium"
+            fullWidth
             variant="outlined"
+            sx={{ sm: { width: 'auto', minWidth: 120 } }}
             onClick={() => {
               try {
                 window.localStorage.setItem(STORAGE_KEY, 'rejected');
@@ -81,7 +91,7 @@ const CookieBanner = () => {
           >
             Reject
           </Button>
-          <Button variant="contained" size="small" onClick={handleAccept}>
+          <Button variant="contained" size="medium" fullWidth sx={{ sm: { width: 'auto', minWidth: 120 } }} onClick={handleAccept}>
             Accept
           </Button>
         </Box>

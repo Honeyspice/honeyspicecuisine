@@ -49,7 +49,13 @@ function App() {
               component="main"
               sx={{
                 flexGrow: 1,
-                pt: { xs: 8, sm: 9 }, // fixed navbar offset
+                // Navbar + notch / status bar on phones
+                pt: {
+                  xs: 'calc(64px + env(safe-area-inset-top, 0px))',
+                  sm: 'calc(72px + env(safe-area-inset-top, 0px))',
+                  md: 'calc(80px + env(safe-area-inset-top, 0px))',
+                },
+                pb: { xs: 'env(safe-area-inset-bottom, 0px)', md: 0 },
               }}
             >
               <Routes>
