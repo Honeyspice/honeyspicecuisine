@@ -35,7 +35,8 @@ const Menu = () => {
     [addItem]
   );
 
-  const virtualBrands = [
+  const virtualBrands = React.useMemo(
+    () => [
     {
       id: 'honeyspice-kitchen',
       name: 'HoneySpice Nigerian Kitchen',
@@ -113,7 +114,9 @@ const Menu = () => {
         },
       ],
     },
-  ];
+  ],
+    []
+  );
 
   const normalize = React.useCallback(
     (value) => String(value || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''),

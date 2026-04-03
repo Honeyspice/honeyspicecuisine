@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import {
   AppBar,
@@ -198,15 +198,15 @@ const DesktopNavbar = ({ pathname, itemCount, cartBadgeSx, subtotal, cuisineMenu
     { label: 'Drinks and Sides', path: '/menu?category=drinks-sides' },
   ];
 
-  const openCuisineMenu = () => {
+  const openCuisineMenu = useCallback(() => {
     if (closeTimerRef.current) {
       window.clearTimeout(closeTimerRef.current);
       closeTimerRef.current = null;
     }
     setCuisineMenuOpen(true);
-  };
+  }, [setCuisineMenuOpen]);
 
-  const closeCuisineMenu = () => {
+  const closeCuisineMenu = useCallback(() => {
     if (closeTimerRef.current) {
       window.clearTimeout(closeTimerRef.current);
     }
@@ -216,7 +216,7 @@ const DesktopNavbar = ({ pathname, itemCount, cartBadgeSx, subtotal, cuisineMenu
       }
       closeTimerRef.current = null;
     }, 220);
-  };
+  }, [isCuisineTriggerHover, isCuisineDropdownHover, setCuisineMenuOpen]);
 
   useEffect(() => {
     const updateDropdownPosition = () => {
@@ -252,7 +252,7 @@ const DesktopNavbar = ({ pathname, itemCount, cartBadgeSx, subtotal, cuisineMenu
       return;
     }
     closeCuisineMenu();
-  }, [isCuisineTriggerHover, isCuisineDropdownHover]);
+  }, [isCuisineTriggerHover, isCuisineDropdownHover, openCuisineMenu, closeCuisineMenu]);
 
   useEffect(() => {
     const mainEl = document.querySelector('main');
