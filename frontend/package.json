@@ -41,5 +41,12 @@
       "last 1 safari version"
     ]
   },
-  "packageManager": "yarn@4.1.1"
+  "packageManager": "yarn@4.1.1",
+  "devDependencies": {
+    "autoprefixer": "^10.4.27",
+    "postcss": "^8.5.8",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-loader": "^8.2.1",
+    "tailwindcss": "^4.2.2"
+  }
 }

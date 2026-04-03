@@ -82,6 +82,8 @@ app.use((req, res, next) => {
     next();
   } else if (req.path.startsWith('/api/payments')) {
     next();
+  } else if (req.path.startsWith('/api/network')) {
+    next();
   } else {
     csrfProtection(req, res, next);
   }
@@ -156,6 +158,7 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/menu', require('./routes/menu'));
 app.use('/api/orders', require('./routes/orders'));
 app.use('/api/payments', require('./routes/payments'));
+app.use('/api/network', require('./routes/network'));
 
 // API root route handler
 app.get('/api', (req, res) => {

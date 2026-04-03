@@ -19,8 +19,16 @@ import { formatGBP } from '../utils/money';
 
 const Cart = () => {
   const navigate = useNavigate();
-  const { items, subtotal, setQuantity, removeItem } = useCart();
+  const { items, subtotal, setQuantity, removeItem, clear } = useCart();
   const { deliveryFee, serviceFee, total } = computeFees(subtotal);
+
+  const handleClearBasket = () => {
+    if (items.length === 0) return;
+    const shouldClear = window.confirm('Clear all items from your basket?');
+    if (shouldClear) {
+      clear();
+    }
+  };
 
   return (
     <Box
@@ -36,9 +44,16 @@ const Cart = () => {
           <Typography variant="h2" component="h1" sx={{ color: 'text.primary' }}>
             Your basket
           </Typography>
-          <Button component={RouterLink} to="/menu" variant="text">
-            Continue shopping
-          </Button>
+          <Stack direction="row" spacing={1}>
+            {items.length > 0 ? (
+              <Button variant="outlined" color="error" onClick={handleClearBasket}>
+                Clear basket
+              </Button>
+            ) : null}
+            <Button component={RouterLink} to="/menu" variant="text">
+              Continue shopping
+            </Button>
+          </Stack>
         </Box>
 
         {items.length === 0 ? (

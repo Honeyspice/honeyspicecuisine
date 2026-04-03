@@ -20,7 +20,9 @@ import {
 import { keyframes, styled as muiStyled } from '@mui/material/styles';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import MenuIcon from '@mui/icons-material/Menu';
-import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import SearchIcon from '@mui/icons-material/Search';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Badge from '@mui/material/Badge';
 import { useCart } from '../context/CartContext';
 
@@ -31,13 +33,16 @@ const cartPulse = keyframes`
   100% { transform: scale(1); }
 `;
 
-const StyledAppBar = muiStyled(AppBar)(({ theme, scrolled }) => ({
-  backgroundColor: theme.palette.grey[900],
+const StyledAppBar = muiStyled(AppBar)(({ scrolled }) => ({
+  backgroundColor: scrolled ? 'rgba(18, 18, 18, 0.97)' : 'rgba(18, 18, 18, 0.94)',
   // Respect iPhone notch / status bar
   paddingTop: 'env(safe-area-inset-top, 0px)',
-  boxShadow: 'none',
+  backdropFilter: 'blur(8px)',
+  boxShadow: scrolled ? '0 8px 20px rgba(0, 0, 0, 0.25)' : 'none',
   border: 'none',
+  borderBottom: 'none',
   borderRadius: 0,
+  overflow: 'visible',
   transition: 'all 0.3s ease',
   '&::before': {
     display: 'none',
@@ -47,89 +52,90 @@ const StyledAppBar = muiStyled(AppBar)(({ theme, scrolled }) => ({
   },
 }));
 
-const Logo = muiStyled(RouterLink)(({ theme }) => ({
-  color: 'white',
+const Logo = muiStyled(RouterLink)(() => ({
+  color: '#fff',
   textDecoration: 'none',
-  fontSize: '24px',
+  fontSize: '22px',
   fontWeight: 700,
   display: 'flex',
   alignItems: 'center',
-  gap: '12px',
+  gap: '10px',
   '&:hover': {
-    color: 'rgba(255, 255, 255, 0.9)',
+    color: '#fff',
     '& img': {
-      transform: 'scale(1.05)',
-    }
-  },
-}));
-
-const MenuLink = muiStyled(RouterLink)(({ theme }) => ({
-  color: 'rgba(255, 255, 255, 0.9)',
-  textDecoration: 'none',
-  margin: '0 16px',
-  fontSize: '16px',
-  fontWeight: 500,
-  position: 'relative',
-  padding: '8px 16px',
-  minWidth: 'auto',
-  height: '36px',
-  lineHeight: '20px',
-  display: 'flex',
-  alignItems: 'center',
-  '&:after': {
-    content: '""',
-    position: 'absolute',
-    width: '0',
-    height: '2px',
-    bottom: '4px',
-    left: '16px',
-    right: '16px',
-    backgroundColor: 'white',
-    transition: 'width 0.3s ease',
-  },
-  '&:hover': {
-    color: 'white',
-    '&:after': {
-      width: 'calc(100% - 32px)',
+      transform: 'scale(1.03)',
     },
   },
 }));
 
-const AdditionalButton = muiStyled(Button)(({ theme }) => ({
+const MenuLink = muiStyled(RouterLink)(() => ({
   color: 'rgba(255, 255, 255, 0.9)',
-  textTransform: 'none',
-  fontSize: '16px',
-  fontWeight: 500,
-  padding: '8px 16px',
+  textDecoration: 'none',
+  margin: '0',
+  fontSize: '14px',
+  fontWeight: 600,
+  position: 'relative',
+  padding: '14px 22px',
   minWidth: 'auto',
+  lineHeight: '1',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  borderRight: '1px solid rgba(255, 255, 255, 0.1)',
   '&:hover': {
-    backgroundColor: 'transparent !important',
-    color: 'rgba(255, 255, 255, 0.9) !important',
-    textDecoration: 'none !important',
+    color: '#ffffff',
   },
-  '&.Mui-disabled': {
-    color: 'rgba(255, 255, 255, 0.9)',
-  }
+}));
+
+const MenuButton = muiStyled('button')(() => ({
+  color: 'rgba(255, 255, 255, 0.9)',
+  background: 'transparent',
+  border: 'none',
+  margin: '0',
+  fontSize: '14px',
+  fontWeight: 600,
+  position: 'relative',
+  padding: '14px 22px',
+  minWidth: 'auto',
+  lineHeight: '1',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  borderRight: '1px solid rgba(255, 255, 255, 0.1)',
+  cursor: 'pointer',
+  '&:hover': {
+    color: '#ffffff',
+  },
+}));
+
+const UtilityLink = muiStyled(RouterLink)(() => ({
+  fontSize: '13px',
+  color: 'rgba(255, 255, 255, 0.82)',
+  textDecoration: 'none',
+  lineHeight: 1,
+  '&:hover': {
+    color: '#ffffff',
+    textDecoration: 'none',
+  },
 }));
 
 // Mobile Navbar Component
 const MobileNavbar = ({ handleDrawerToggle, cartBadgeSx, itemCount }) => {
   return (
     <>
-      <Toolbar disableGutters sx={{ py: 1.5 }}>
+      <Toolbar disableGutters sx={{ py: 1.1 }}>
         <Logo component={RouterLink} to="/">
           <Box
             component="img"
             src="/logo.png"
             alt="HoneySpice Logo"
             sx={{
-              height: 45,
+              height: 42,
               width: 'auto',
               display: 'block',
               transition: 'transform 0.3s ease',
               objectFit: 'contain',
-              filter: 'brightness(1.1)',
-              marginTop: '-5px'
+              marginTop: '-3px'
             }}
           />
         </Logo>
@@ -138,11 +144,11 @@ const MobileNavbar = ({ handleDrawerToggle, cartBadgeSx, itemCount }) => {
           component={RouterLink}
           to="/cart"
           aria-label="Open basket"
-          sx={{ color: 'common.white', mr: 0.5 }}
+          sx={{ color: '#1f1f1f', mr: 0.5 }}
           size="medium"
         >
-          <Badge badgeContent={itemCount} color="warning" sx={cartBadgeSx}>
-            <ShoppingBagOutlinedIcon />
+          <Badge badgeContent={itemCount} sx={cartBadgeSx}>
+            <ShoppingCartOutlinedIcon />
           </Badge>
         </IconButton>
         <IconButton
@@ -153,7 +159,7 @@ const MobileNavbar = ({ handleDrawerToggle, cartBadgeSx, itemCount }) => {
           sx={{ mr: 0 }}
           size="medium"
         >
-          <MenuIcon />
+          <MenuIcon sx={{ color: '#1f1f1f' }} />
         </IconButton>
       </Toolbar>
     </>
@@ -161,158 +167,461 @@ const MobileNavbar = ({ handleDrawerToggle, cartBadgeSx, itemCount }) => {
 };
 
 // Desktop Navbar Component
-const DesktopNavbar = () => {
-  const menuItems = [
+const DesktopNavbar = ({ pathname, itemCount, cartBadgeSx, subtotal, cuisineMenuOpen, setCuisineMenuOpen }) => {
+  const desktopHeaderRef = useRef(null);
+  const cuisineTriggerRef = useRef(null);
+  const closeTimerRef = useRef(null);
+  const [isCuisineTriggerHover, setIsCuisineTriggerHover] = useState(false);
+  const [isCuisineDropdownHover, setIsCuisineDropdownHover] = useState(false);
+  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
+  const navItems = [
     { text: 'Home', path: '/' },
-    { text: 'Menu', path: '/menu' },
+    { text: 'Our Cuisine', path: '/gallery', hasArrow: true },
     { text: 'View Gallery', path: '/gallery' },
-    { text: 'Recipe Book', path: '/recipe-manual' },
+    { text: 'Event Service', path: '/reservation' },
+    { text: 'About Us', path: '/about' },
+    { text: 'Contact Us', path: '/contact' },
   ];
 
+  const formattedSubtotal = new Intl.NumberFormat('en-GB', {
+    style: 'currency',
+    currency: 'GBP',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(Number(subtotal) || 0);
+
+  const cuisineCategories = [
+    { label: 'Rice Dishes', path: '/menu?category=rice' },
+    { label: 'Soups and Swallows', path: '/menu?category=soups-swallows' },
+    { label: 'Grills and Suya', path: '/menu?category=grills-suya' },
+    { label: 'Small Chops', path: '/menu?category=small-chops' },
+    { label: 'Drinks and Sides', path: '/menu?category=drinks-sides' },
+  ];
+
+  const openCuisineMenu = () => {
+    if (closeTimerRef.current) {
+      window.clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+    setCuisineMenuOpen(true);
+  };
+
+  const closeCuisineMenu = () => {
+    if (closeTimerRef.current) {
+      window.clearTimeout(closeTimerRef.current);
+    }
+    closeTimerRef.current = window.setTimeout(() => {
+      if (!isCuisineTriggerHover && !isCuisineDropdownHover) {
+        setCuisineMenuOpen(false);
+      }
+      closeTimerRef.current = null;
+    }, 220);
+  };
+
+  useEffect(() => {
+    const updateDropdownPosition = () => {
+      if (!cuisineTriggerRef.current) return;
+      const rect = cuisineTriggerRef.current.getBoundingClientRect();
+      setDropdownPosition({
+        top: rect.bottom + 2,
+        left: rect.left,
+      });
+    };
+
+    updateDropdownPosition();
+    window.addEventListener('resize', updateDropdownPosition);
+    window.addEventListener('scroll', updateDropdownPosition);
+    return () => {
+      window.removeEventListener('resize', updateDropdownPosition);
+      window.removeEventListener('scroll', updateDropdownPosition);
+    };
+  }, []);
+
+  useEffect(
+    () => () => {
+      if (closeTimerRef.current) {
+        window.clearTimeout(closeTimerRef.current);
+      }
+    },
+    []
+  );
+
+  useEffect(() => {
+    if (isCuisineTriggerHover || isCuisineDropdownHover) {
+      openCuisineMenu();
+      return;
+    }
+    closeCuisineMenu();
+  }, [isCuisineTriggerHover, isCuisineDropdownHover]);
+
+  useEffect(() => {
+    const mainEl = document.querySelector('main');
+    const footerEl = document.querySelector('footer');
+    const targets = [mainEl, footerEl].filter(Boolean);
+
+    targets.forEach((el) => {
+      el.style.transition = 'filter 160ms ease, opacity 160ms ease';
+      el.style.filter = cuisineMenuOpen ? 'blur(7px)' : 'none';
+      el.style.opacity = cuisineMenuOpen ? '0.5' : '1';
+    });
+
+    return () => {
+      targets.forEach((el) => {
+        el.style.filter = 'none';
+        el.style.opacity = '1';
+      });
+    };
+  }, [cuisineMenuOpen]);
+
   return (
-    <Box>
-      <Toolbar disableGutters sx={{ py: 1.5 }}>
-        <Logo component={RouterLink} to="/">
+    <Box sx={{ position: 'relative', zIndex: 2000, filter: 'none' }}>
+      {cuisineMenuOpen ? (
+        <Box
+          sx={{
+            position: 'fixed',
+            top: `${dropdownPosition.top}px`,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 2050,
+            pointerEvents: 'none',
+            backgroundColor: 'rgba(0, 0, 0, 0.50)',
+            transition: 'background-color 160ms ease',
+          }}
+        />
+      ) : null}
+      <Box ref={desktopHeaderRef}>
+        <Box
+          sx={{
+            minHeight: 34,
+            py: 0.75,
+            width: '100vw',
+            position: 'relative',
+            left: '50%',
+            right: '50%',
+            ml: '-50vw',
+            mr: '-50vw',
+            borderBottom: 'none',
+            color: 'rgba(255, 255, 255, 0.82)',
+            fontSize: '12px',
+            backgroundColor: 'rgba(255, 255, 255, 0.03)',
+          }}
+        >
+        <Box
+          sx={{
+            maxWidth: '1200px',
+            mx: 'auto',
+            px: 2,
+            display: 'flex',
+            flexDirection: { xs: 'column', md: 'row' },
+            alignItems: { xs: 'flex-start', md: 'center' },
+            justifyContent: 'space-between',
+            gap: { xs: 0.75, md: 0 },
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: { xs: '13px', sm: '14px', md: '15px' },
+              fontWeight: 600,
+              color: 'rgba(255, 255, 255, 0.72)',
+              lineHeight: 1.35,
+              pr: { md: 2 },
+              flex: 1,
+            }}
+          >
+            Welcome To Honeyspice-Home To Your Authentic Nigerian Cuisine Made With Love And Delivered Fresh
+          </Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 2,
+              ml: { md: 3 },
+              flexWrap: 'wrap',
+            }}
+          >
+            <UtilityLink to="/order-tracking" sx={{ pointerEvents: 'none', cursor: 'default' }}>
+              Order Tracking
+            </UtilityLink>
+            <UtilityLink to="/wishlist" sx={{ pointerEvents: 'none', cursor: 'default' }}>
+              My Wishlist
+            </UtilityLink>
+            <UtilityLink to="/recently-viewed" sx={{ pointerEvents: 'none', cursor: 'default' }}>
+              Recently Viewed Products
+            </UtilityLink>
+          </Box>
+        </Box>
+        </Box>
+        <Toolbar
+        disableGutters
+        sx={{
+          minHeight: 94,
+          py: 1,
+          px: 2,
+          borderBottom: 'none',
+          overflow: 'visible',
+        }}
+      >
+        <Logo component={RouterLink} to="/" sx={{ minWidth: 138 }}>
           <Box
             component="img"
             src="/logo.png"
             alt="HoneySpice Logo"
             sx={{
-              height: 75,
+              height: 78,
               width: 'auto',
               display: 'block',
-              transition: 'transform 0.3s ease',
               objectFit: 'contain',
-              filter: 'brightness(1.1)',
-              marginTop: '-5px'
+              mt: 0,
             }}
           />
         </Logo>
-        <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
-          {menuItems.map((item) => (
-            <MenuLink 
-              key={item.text}
-              component={RouterLink} 
-              to={item.path}
+        <Box sx={{ width: 390, ml: 3.5, mr: 2 }}>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              border: '1px solid #e4e4e4',
+              borderRadius: 1,
+              height: 40,
+              backgroundColor: 'rgba(255, 255, 255, 0.08)',
+            }}
+          >
+            <Box
+              component="input"
+              aria-label="Search for products"
+              placeholder="Search for..."
               sx={{
-                margin: '0 16px',
-                fontSize: '16px',
-                padding: '8px 16px',
+                border: 'none',
+                outline: 'none',
+                background: 'transparent',
+                px: 1.5,
+                flex: 1,
+                fontSize: '14px',
+                color: '#fff',
+              }}
+            />
+            <Box sx={{ width: 46, display: 'grid', placeItems: 'center', borderLeft: '1px solid rgba(255, 255, 255, 0.2)' }}>
+              <SearchIcon sx={{ fontSize: 19, color: '#fff' }} />
+            </Box>
+          </Box>
+        </Box>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, ml: 2, flex: 1, minWidth: 0 }}>
+          <Button
+            component={RouterLink}
+            to="/recipe-manual"
+            disableElevation
+            sx={{
+              ml: 'auto',
+              minWidth: 128,
+              height: 52,
+              borderRadius: '10px',
+              textTransform: 'none',
+              color: '#fff',
+              px: 2,
+              border: '1px solid rgba(255, 255, 255, 0.3)',
+              backgroundColor: 'transparent',
+              '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.08)' },
+              fontWeight: 700,
+            }}
+          >
+            Recipe Book
+          </Button>
+          <Button
+            component={RouterLink}
+            to="/cart"
+            disableElevation
+            sx={{
+              minWidth: 118,
+              height: 52,
+              borderRadius: '10px',
+              textTransform: 'none',
+              color: 'white',
+              px: 1.1,
+              backgroundColor: '#F46A06',
+              boxShadow: '0 4px 14px rgba(244, 106, 6, 0.32)',
+              '&:hover': { backgroundColor: '#D45A00', boxShadow: '0 6px 16px rgba(212, 90, 0, 0.34)' },
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: 1.25,
+            }}
+          >
+            <Badge
+              badgeContent={itemCount}
+              sx={{
+                ...cartBadgeSx,
+                '& .MuiBadge-badge': {
+                  ...cartBadgeSx['& .MuiBadge-badge'],
+                  fontSize: '0.72rem',
+                  minWidth: 18,
+                  height: 18,
+                },
               }}
             >
-              {item.text}
-            </MenuLink>
+              <ShoppingCartOutlinedIcon sx={{ fontSize: 22, color: 'white' }} />
+            </Badge>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', lineHeight: 1.05 }}>
+              <Typography sx={{ fontSize: '12px', fontWeight: 700, color: 'white', m: 0 }}>Cart</Typography>
+              <Typography sx={{ fontSize: '12px', fontWeight: 600, color: 'rgba(255, 255, 255, 0.96)', m: 0 }}>
+                {formattedSubtotal}
+              </Typography>
+            </Box>
+          </Button>
+        </Box>
+        </Toolbar>
+        <Box sx={{ position: 'relative' }}>
+          <Box
+            sx={{
+              position: 'relative',
+              display: 'flex',
+              alignItems: 'stretch',
+              borderBottom: 'none',
+              px: 2,
+              zIndex: 2100,
+              filter: 'none',
+            }}
+          >
+            <Box sx={{ display: 'flex', flex: 1 }}>
+          {navItems.map((item, index) => (
+            item.hasArrow ? (
+              <MenuButton
+                key={item.text}
+                type="button"
+                ref={cuisineTriggerRef}
+                onClick={openCuisineMenu}
+                onMouseEnter={() => setIsCuisineTriggerHover(true)}
+                onMouseLeave={() => setIsCuisineTriggerHover(false)}
+                sx={{
+                  flex: 1,
+                  borderLeft: index === 0 ? '1px solid rgba(255, 255, 255, 0.1)' : 'none',
+                  color: cuisineMenuOpen ? '#fff' : 'rgba(255, 255, 255, 0.9)',
+                  position: 'relative',
+                  zIndex: 2200,
+                  boxShadow: cuisineMenuOpen ? 'inset 0 -2px 0 rgba(244, 106, 6, 0.95)' : 'none',
+                }}
+              >
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.35 }}>
+                  {item.text}
+                  <KeyboardArrowDownIcon
+                    sx={{
+                      fontSize: 16,
+                      mt: -0.15,
+                      transform: cuisineMenuOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                      transition: 'transform 0.2s ease',
+                    }}
+                  />
+                </Box>
+              </MenuButton>
+            ) : (
+              <MenuLink
+                key={item.text}
+                component={RouterLink}
+                to={item.path}
+                onClick={() => {
+                  if (item.path === '/' && pathname === '/') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }
+                  setCuisineMenuOpen(false);
+                  setIsCuisineTriggerHover(false);
+                  setIsCuisineDropdownHover(false);
+                }}
+                sx={{
+                  flex: 1,
+                  borderLeft: index === 0 ? '1px solid rgba(255, 255, 255, 0.1)' : 'none',
+                  color: pathname === item.path ? '#fff' : 'rgba(255, 255, 255, 0.9)',
+                  opacity: cuisineMenuOpen ? 0.35 : 1,
+                  pointerEvents: cuisineMenuOpen ? 'none' : 'auto',
+                  transition: 'opacity 120ms ease',
+                }}
+              >
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.35 }}>{item.text}</Box>
+              </MenuLink>
+            )
           ))}
+            </Box>
+          </Box>
         </Box>
-        <Box sx={{ display: 'flex', gap: 2, ml: 2 }}>
-          <Button
-            component={RouterLink}
-            to="/reservation"
-            variant="contained"
-            sx={{
-              backgroundColor: '#1A1A1A',
-              color: 'white',
-              border: '1px solid white',
-              '&:hover': {
-                backgroundColor: 'white',
-                color: '#1A1A1A',
-              },
-              fontSize: '14px',
-              padding: '6px 16px',
-            }}
-          >
-            Make Reservations
-          </Button>
-          <Button
-            component={RouterLink}
-            to="/order"
-            variant="contained"
-            sx={{
-              backgroundColor: 'white',
-              color: '#1A1A1A',
-              '&:hover': {
-                backgroundColor: '#1A1A1A',
-                color: 'white',
-                border: '1px solid white',
-              },
-              fontSize: '14px',
-              padding: '6px 16px',
-            }}
-          >
-            Order Now
-          </Button>
-        </Box>
-      </Toolbar>
-      <Box sx={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        gap: 2, 
-        py: 1,
-        borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-      }}>
-        <AdditionalButton 
-          disabled
+      </Box>
+      {cuisineMenuOpen ? (
+        <Box
+          onMouseEnter={() => setIsCuisineDropdownHover(true)}
+          onMouseLeave={() => setIsCuisineDropdownHover(false)}
           sx={{
-            fontSize: '14px',
-            padding: '6px 12px',
-          }}
-        >
-          Allergen Information
-        </AdditionalButton>
-        <AdditionalButton 
-          disabled
-          sx={{
-            fontSize: '14px',
-            padding: '6px 12px',
-          }}
-        >
-          Offers
-        </AdditionalButton>
-        <AdditionalButton
-          disabled
-          sx={{
-            fontSize: '14px',
-            padding: '6px 12px',
-          }}
-        >
-          Jobs
-        </AdditionalButton>
-        <Typography
-          component={RouterLink}
-          to="/location"
-          sx={{
-            color: 'rgba(255, 255, 255, 0.9)',
-            textDecoration: 'none',
-            fontSize: '14px',
-            fontWeight: 500,
-            padding: '6px 12px',
-            cursor: 'pointer',
-            '&:hover': {
-              color: 'white',
+            position: 'fixed',
+            top: `${dropdownPosition.top}px`,
+            left: { xs: '8px', md: `${dropdownPosition.left}px` },
+            width: { xs: 'calc(100vw - 16px)', md: '280px' },
+            zIndex: 3000,
+            filter: 'none',
+            backdropFilter: 'none',
+            WebkitBackdropFilter: 'none',
+            isolation: 'isolate',
+            '& *': {
+              filter: 'none',
+              backdropFilter: 'none',
+              WebkitBackdropFilter: 'none',
             },
           }}
         >
-          Locate Us
-        </Typography>
-      </Box>
+          <Box
+            sx={{
+              mt: 0,
+              width: '100%',
+              borderRadius: 2,
+              border: '1px solid rgba(255, 255, 255, 0.18)',
+              backgroundColor: 'rgba(18, 18, 18, 0.96)',
+              boxShadow: '0 16px 44px rgba(0, 0, 0, 0.35)',
+              py: 1,
+              maxHeight: `calc(100vh - ${dropdownPosition.top + 12}px)`,
+              overflowY: 'auto',
+            }}
+          >
+            {cuisineCategories.map((category) => (
+              <Box
+                key={category.label}
+                component={RouterLink}
+                to={category.path}
+                onClick={() => {
+                  setCuisineMenuOpen(false);
+                  setIsCuisineTriggerHover(false);
+                  setIsCuisineDropdownHover(false);
+                }}
+                sx={{
+                  display: 'block',
+                  px: 2,
+                  py: 1.1,
+                  color: 'rgba(255, 255, 255, 0.9)',
+                  textDecoration: 'none',
+                  fontSize: '14px',
+                  fontWeight: 600,
+                  '&:hover': {
+                    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                    color: '#fff',
+                  },
+                }}
+              >
+                {category.label}
+              </Box>
+            ))}
+          </Box>
+        </Box>
+      ) : null}
     </Box>
   );
 };
 
 const Navbar = () => {
   const location = useLocation();
-  const isMenuPage =
-    location.pathname === '/menu' ||
-    location.pathname === '/gallery' ||
-    location.pathname === '/location';
   const trigger = useScrollTrigger({
     disableHysteresis: true,
     threshold: 100,
   });
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [cuisineMenuOpen, setCuisineMenuOpen] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const { itemCount } = useCart();
+  const { itemCount, subtotal } = useCart();
   const prevCountRef = useRef(itemCount);
   const [pulse, setPulse] = useState(false);
 
@@ -327,9 +636,21 @@ const Navbar = () => {
     return undefined;
   }, [itemCount]);
 
+  useEffect(() => {
+    setCuisineMenuOpen(false);
+  }, [location.pathname]);
+
   const cartBadgeSx = useMemo(
     () => ({
       '& .MuiBadge-badge': {
+        backgroundColor: '#ffffff',
+        color: '#F46A06',
+        borderRadius: '999px',
+        border: '1px solid rgba(255, 255, 255, 0.35)',
+        fontWeight: 700,
+        minWidth: 18,
+        height: 18,
+        lineHeight: '18px',
         transformOrigin: '50% 50%',
         animation: pulse ? `${cartPulse} 450ms ease` : 'none',
       },
@@ -347,8 +668,9 @@ const Navbar = () => {
 
   const menuItems = [
     { text: 'Home', path: '/' },
+    { text: 'Start Order', path: '/order' },
     { text: 'Menu', path: '/menu' },
-    { text: 'View Gallery', path: '/gallery' },
+    { text: 'Our Cuisine', path: '/gallery' },
     { text: 'Recipe Book', path: '/recipe-manual' },
   ];
 
@@ -380,11 +702,11 @@ const Navbar = () => {
         <ListItem disablePadding>
           <ListItemButton
             component={RouterLink}
-            to="/order"
+            to="/login"
             onClick={handleDrawerToggle}
             sx={{ minHeight: 52, py: 1.25, px: 2 }}
           >
-            <ListItemText primary="Order Now" primaryTypographyProps={{ fontWeight: 600 }} />
+            <ListItemText primary="Account Login/Register" primaryTypographyProps={{ fontWeight: 600 }} />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
@@ -440,7 +762,7 @@ const Navbar = () => {
   );
 
   return (
-    <StyledAppBar position={isMenuPage ? "static" : "fixed"} scrolled={trigger}>
+    <StyledAppBar position="fixed" scrolled={trigger}>
       <Container maxWidth="lg">
         {isMobile ? (
           <MobileNavbar 
@@ -450,29 +772,16 @@ const Navbar = () => {
             itemCount={itemCount}
           />
         ) : (
-          <DesktopNavbar handleWhatsAppClick={handleWhatsAppClick} />
+          <DesktopNavbar
+            pathname={location.pathname}
+            itemCount={itemCount}
+            cartBadgeSx={cartBadgeSx}
+            subtotal={subtotal}
+            cuisineMenuOpen={cuisineMenuOpen}
+            setCuisineMenuOpen={setCuisineMenuOpen}
+          />
         )}
       </Container>
-      <Box
-        sx={{
-          position: 'absolute',
-          right: { xs: 16, sm: 24 },
-          top: { xs: 14, sm: 18 },
-          display: { xs: 'none', md: 'flex' },
-          alignItems: 'center',
-        }}
-      >
-        <IconButton
-          component={RouterLink}
-          to="/cart"
-          aria-label="Open basket"
-          sx={{ color: 'common.white' }}
-        >
-          <Badge badgeContent={itemCount} color="warning" sx={cartBadgeSx}>
-            <ShoppingBagOutlinedIcon />
-          </Badge>
-        </IconButton>
-      </Box>
       <Drawer
         variant="temporary"
         anchor="right"

@@ -17,6 +17,9 @@ import { computeFees } from '../utils/pricing';
 import { formatGBP } from '../utils/money';
 import { apiUrl } from '../utils/apiBase';
 
+/** Set to false when card checkout should be live again. */
+const PAYMENT_TEMPORARILY_DISABLED = true;
+
 const Checkout = () => {
   const { items, subtotal } = useCart();
   const { deliveryFee, serviceFee, total } = computeFees(subtotal);
@@ -149,7 +152,16 @@ const Checkout = () => {
                 Delivery details
               </Typography>
 
-              <Box component="form" onSubmit={handlePayByCard}>
+              <Box
+                component="form"
+                onSubmit={(e) => {
+                  if (PAYMENT_TEMPORARILY_DISABLED) {
+                    e.preventDefault();
+                    return;
+                  }
+                  handlePayByCard(e);
+                }}
+              >
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={6}>
                     <TextField label="Full name" fullWidth required />
@@ -181,20 +193,26 @@ const Checkout = () => {
                   </Grid>
 
                   <Grid item xs={12}>
-                    <Alert severity="info">
-                      You’ll be redirected to a secure Stripe checkout to pay by card.
+                    <Alert severity={PAYMENT_TEMPORARILY_DISABLED ? 'warning' : 'info'}>
+                      {PAYMENT_TEMPORARILY_DISABLED
+                        ? 'Card payment is paused for now. You can still review your basket and details here.'
+                        : 'You’ll be redirected to a secure Stripe checkout to pay by card.'}
                     </Alert>
                   </Grid>
 
                   <Grid item xs={12}>
                     <Button
-                      type="submit"
+                      type={PAYMENT_TEMPORARILY_DISABLED ? 'button' : 'submit'}
                       variant="contained"
                       size="large"
                       fullWidth
-                      disabled={items.length === 0 || submitting}
+                      disabled={PAYMENT_TEMPORARILY_DISABLED || items.length === 0 || submitting}
                     >
-                      {submitting ? 'Redirecting…' : `Pay ${formatGBP(total)}`}
+                      {PAYMENT_TEMPORARILY_DISABLED
+                        ? `Pay ${formatGBP(total)} (unavailable)`
+                        : submitting
+                          ? 'Redirecting…'
+                          : `Pay ${formatGBP(total)}`}
                     </Button>
                   </Grid>
                 </Grid>
