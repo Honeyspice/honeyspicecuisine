@@ -1,4 +1,6 @@
-import { Box, Container, Typography, Grid, Card, CardMedia, CardContent } from '@mui/material';
+import { Box, Container, Typography, Grid } from '@mui/material';
+import FadeIn from '../components/FadeIn';
+import Seo from '../components/Seo';
 
 const foodImages = [
   { image: '/images/Amala.png', title: 'Amala with Ewedu' },
@@ -11,98 +13,124 @@ const foodImages = [
 
 const Gallery = () => {
   return (
-    <Box sx={{ 
-      bgcolor: 'background.paper', 
-      minHeight: '100vh', 
-      pt: { xs: 4, sm: 6, md: 8 },
-      pb: { xs: 3, sm: 4, md: 6 },
-      px: { xs: 2, sm: 0 }
-    }}>
-      <Container maxWidth="lg">
-        <Typography 
-          variant="h2" 
-          component="h1"
-          sx={{
-            color: 'primary.main',
-            fontSize: {
-              xs: '1.75rem',
-              sm: '2.25rem',
-              md: '2.5rem'
-            },
-            fontWeight: 'bold',
-            mb: { xs: 1.5, sm: 2, md: 2.5 }
-          }}
-        >
-          Food Gallery
-        </Typography>
-        <Typography 
-          variant="body1" 
-          color="text.secondary" 
-          sx={{ 
-            mb: { xs: 3, sm: 4, md: 6 },
-            maxWidth: 760,
-            fontSize: {
-              xs: '0.875rem',
-              sm: '1rem',
-              md: '1.125rem'
-            },
-            lineHeight: {
-              xs: 1.7,
-              sm: 1.7,
-              md: 1.6,
-            },
-          }}
-        >
-          Explore some of our favourite Nigerian dishes and get a feel for what HoneySpice serves.
-        </Typography>
-        <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
+    <Box sx={{ bgcolor: 'background.paper', minHeight: '100vh' }}>
+      <Seo title="Gallery | HoneySpice Cuisine" description="Browse our gallery of authentic Nigerian dishes — Jollof Rice, Egusi, Amala, Efo Riro and more from HoneySpice Cuisine in Stirling." />
+      {/* Hero */}
+      <Box
+        sx={{
+          position: 'relative',
+          height: { xs: '28vh', md: '36vh' },
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          mb: { xs: 4, md: 6 },
+          overflow: 'hidden',
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            inset: 0,
+            background: `
+              radial-gradient(circle at 0% 0%, rgba(244, 106, 6, 0.7) 0%, transparent 50%),
+              radial-gradient(circle at 100% 0%, rgba(255, 139, 61, 0.6) 0%, transparent 50%),
+              radial-gradient(circle at 100% 100%, rgba(244, 106, 6, 0.5) 0%, transparent 50%),
+              radial-gradient(circle at 0% 100%, rgba(255, 139, 61, 0.8) 0%, transparent 50%)
+            `,
+            filter: 'blur(70px)',
+            zIndex: 1,
+          },
+          '&::after': {
+            content: '""',
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(120deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 100%)',
+            zIndex: 2,
+          },
+        }}
+      >
+        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 3, textAlign: 'center' }}>
+          <Typography
+            variant="h1"
+            sx={{
+              color: 'white',
+              fontSize: { xs: '2.2rem', md: '3.2rem' },
+              fontWeight: 'bold',
+              textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
+              lineHeight: 1.1,
+            }}
+          >
+            Food Gallery
+          </Typography>
+          <Typography
+            variant="body1"
+            sx={{ color: 'rgba(255,255,255,0.82)', mt: 1.5, fontSize: { xs: '0.95rem', md: '1.1rem' } }}
+          >
+            Explore some of our favourite Nigerian dishes.
+          </Typography>
+        </Container>
+      </Box>
+
+      {/* Grid */}
+      <Container maxWidth="lg" sx={{ pb: { xs: 5, md: 8 }, px: { xs: 2, sm: 0 } }}>
+        <Grid container spacing={{ xs: 2, sm: 3, md: 3 }}>
           {foodImages.map((item, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
-              <Card 
-                sx={{ 
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  transition: 'transform 0.3s ease-in-out',
-                  '&:hover': {
-                    transform: 'translateY(-5px)',
-                  }
-                }}
-              >
-                <CardMedia
-                  component="img"
-                  image={item.image}
-                  alt={item.title}
-                  onError={(e) => {
-                    // eslint-disable-next-line no-param-reassign
-                    e.currentTarget.src = '/images/efo_riro.png';
-                  }}
+              <FadeIn delay={index * 80}>
+                <Box
                   sx={{
-                    height: { xs: 180, sm: 220, md: 260 },
-                    objectFit: 'cover',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    borderRadius: 3,
+                    cursor: 'pointer',
+                    height: { xs: 220, sm: 260, md: 300 },
+                    '&:hover .gallery-img': {
+                      transform: 'scale(1.07)',
+                    },
+                    '&:hover .gallery-overlay': {
+                      opacity: 1,
+                    },
                   }}
-                />
-                <CardContent sx={{ 
-                  flexGrow: 1, 
-                  textAlign: 'center',
-                  p: { xs: 1.5, sm: 2 }
-                }}>
-                  <Typography 
-                    variant="h6" 
-                    component="h3"
+                >
+                  <Box
+                    className="gallery-img"
+                    component="img"
+                    src={item.image}
+                    alt={item.title}
+                    onError={(e) => { e.currentTarget.src = '/images/efo_riro.png'; }}
                     sx={{
-                      fontSize: {
-                        xs: '1rem',
-                        sm: '1.125rem',
-                        md: '1.25rem'
-                      },
-                      fontWeight: 600
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      display: 'block',
+                      transition: 'transform 0.5s ease',
+                    }}
+                  />
+                  <Box
+                    className="gallery-overlay"
+                    sx={{
+                      position: 'absolute',
+                      inset: 0,
+                      background: 'linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.1) 55%, transparent 100%)',
+                      opacity: 0,
+                      transition: 'opacity 0.35s ease',
+                      display: 'flex',
+                      alignItems: 'flex-end',
+                      p: { xs: 2, md: 2.5 },
                     }}
                   >
-                    {item.title}
-                  </Typography>
-                </CardContent>
-              </Card>
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        color: 'white',
+                        fontWeight: 700,
+                        fontSize: { xs: '1rem', md: '1.1rem' },
+                        textShadow: '0 2px 8px rgba(0,0,0,0.4)',
+                      }}
+                    >
+                      {item.title}
+                    </Typography>
+                  </Box>
+                </Box>
+              </FadeIn>
             </Grid>
           ))}
         </Grid>
@@ -111,4 +139,4 @@ const Gallery = () => {
   );
 };
 
-export default Gallery; 
+export default Gallery;

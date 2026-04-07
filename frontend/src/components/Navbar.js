@@ -25,6 +25,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Badge from '@mui/material/Badge';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 
 const cartPulse = keyframes`
   0% { transform: scale(1); }
@@ -82,8 +83,19 @@ const MenuLink = muiStyled(RouterLink)(() => ({
   alignItems: 'center',
   justifyContent: 'center',
   borderRight: '1px solid rgba(255, 255, 255, 0.1)',
+  '&::after': {
+    content: '""',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    width: 0,
+    height: '2px',
+    backgroundColor: '#fff',
+    transition: 'width 0.28s ease',
+  },
   '&:hover': {
     color: '#ffffff',
+    '&::after': { width: '100%' },
   },
 }));
 
@@ -103,8 +115,19 @@ const MenuButton = muiStyled('button')(() => ({
   justifyContent: 'center',
   borderRight: '1px solid rgba(255, 255, 255, 0.1)',
   cursor: 'pointer',
+  '&::after': {
+    content: '""',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    width: 0,
+    height: '2px',
+    backgroundColor: '#fff',
+    transition: 'width 0.28s ease',
+  },
   '&:hover': {
     color: '#ffffff',
+    '&::after': { width: '100%' },
   },
 }));
 
@@ -118,6 +141,95 @@ const UtilityLink = muiStyled(RouterLink)(() => ({
     textDecoration: 'none',
   },
 }));
+
+// Auth-aware Sign In / Dashboard button
+const AuthNavButton = () => {
+  const { user, logout } = useAuth();
+  if (user) {
+    return (
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, ml: 'auto' }}>
+        <Button
+          component={RouterLink}
+          to="/dashboard"
+          disableElevation
+          sx={{
+            height: 44,
+            borderRadius: '10px',
+            textTransform: 'none',
+            color: '#fff',
+            px: 2,
+            fontSize: '13px',
+            fontWeight: 700,
+            background: 'linear-gradient(135deg,#F46A06,#FF8D3D)',
+            '&:hover': { background: '#D45A00' },
+          }}
+        >
+          ✨ My Plan
+        </Button>
+        <Button
+          onClick={logout}
+          disableElevation
+          sx={{
+            height: 44,
+            borderRadius: '10px',
+            textTransform: 'none',
+            color: 'rgba(255,255,255,0.75)',
+            px: 1.5,
+            fontSize: '12px',
+            fontWeight: 600,
+            border: '1px solid rgba(255,255,255,0.2)',
+            '&:hover': { backgroundColor: 'rgba(255,255,255,0.08)', color: '#fff' },
+          }}
+        >
+          Sign out
+        </Button>
+      </Box>
+    );
+  }
+  return (
+    <Button
+      component={RouterLink}
+      to="/login"
+      disableElevation
+      sx={{
+        ml: 'auto',
+        minWidth: 128,
+        height: 52,
+        borderRadius: '10px',
+        textTransform: 'none',
+        color: '#fff',
+        px: 2,
+        border: '1px solid rgba(255, 255, 255, 0.3)',
+        backgroundColor: 'transparent',
+        '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.08)' },
+        fontWeight: 700,
+      }}
+    >
+      Sign In
+    </Button>
+  );
+};
+
+const MobileAuthItem = ({ handleDrawerToggle }) => {
+  const { user, logout } = useAuth();
+  if (user) {
+    return (
+      <Box sx={{ width: '100%' }}>
+        <ListItemButton component={RouterLink} to="/dashboard" onClick={handleDrawerToggle} sx={{ minHeight: 52, py: 1.25, px: 2 }}>
+          <ListItemText primary="✨ My Meal Plan" primaryTypographyProps={{ fontWeight: 700, color: '#F46A06' }} />
+        </ListItemButton>
+        <ListItemButton onClick={() => { logout(); handleDrawerToggle(); }} sx={{ minHeight: 48, py: 1, px: 2 }}>
+          <ListItemText primary="Sign Out" primaryTypographyProps={{ fontWeight: 600, color: '#888' }} />
+        </ListItemButton>
+      </Box>
+    );
+  }
+  return (
+    <ListItemButton component={RouterLink} to="/login" onClick={handleDrawerToggle} sx={{ minHeight: 52, py: 1.25, px: 2 }}>
+      <ListItemText primary="Account Login / Register" primaryTypographyProps={{ fontWeight: 600 }} />
+    </ListItemButton>
+  );
+};
 
 // Mobile Navbar Component
 const MobileNavbar = ({ handleDrawerToggle, cartBadgeSx, itemCount }) => {
@@ -176,8 +288,8 @@ const DesktopNavbar = ({ pathname, itemCount, cartBadgeSx, subtotal, cuisineMenu
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const navItems = [
     { text: 'Home', path: '/' },
+    { text: 'Menu', path: '/menu' },
     { text: 'Our Cuisine', path: '/gallery', hasArrow: true },
-    { text: 'View Gallery', path: '/gallery' },
     { text: 'Event Service', path: '/reservation' },
     { text: 'About Us', path: '/about' },
     { text: 'Contact Us', path: '/contact' },
@@ -340,14 +452,14 @@ const DesktopNavbar = ({ pathname, itemCount, cartBadgeSx, subtotal, cuisineMenu
               flexWrap: 'wrap',
             }}
           >
-            <UtilityLink to="/order-tracking" sx={{ pointerEvents: 'none', cursor: 'default' }}>
+            <UtilityLink to="/order-tracking">
               Order Tracking
             </UtilityLink>
-            <UtilityLink to="/wishlist" sx={{ pointerEvents: 'none', cursor: 'default' }}>
+            <UtilityLink to="/wishlist">
               My Wishlist
             </UtilityLink>
-            <UtilityLink to="/recently-viewed" sx={{ pointerEvents: 'none', cursor: 'default' }}>
-              Recently Viewed Products
+            <UtilityLink to="/recently-viewed">
+              Recently Viewed
             </UtilityLink>
           </Box>
         </Box>
@@ -407,26 +519,7 @@ const DesktopNavbar = ({ pathname, itemCount, cartBadgeSx, subtotal, cuisineMenu
           </Box>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, ml: 2, flex: 1, minWidth: 0 }}>
-          <Button
-            component={RouterLink}
-            to="/recipe-manual"
-            disableElevation
-            sx={{
-              ml: 'auto',
-              minWidth: 128,
-              height: 52,
-              borderRadius: '10px',
-              textTransform: 'none',
-              color: '#fff',
-              px: 2,
-              border: '1px solid rgba(255, 255, 255, 0.3)',
-              backgroundColor: 'transparent',
-              '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.08)' },
-              fontWeight: 700,
-            }}
-          >
-            Recipe Book
-          </Button>
+          <AuthNavButton />
           <Button
             component={RouterLink}
             to="/cart"
@@ -476,7 +569,7 @@ const DesktopNavbar = ({ pathname, itemCount, cartBadgeSx, subtotal, cuisineMenu
               position: 'relative',
               display: 'flex',
               alignItems: 'stretch',
-              borderBottom: 'none',
+              borderBottom: '1px solid rgba(255,255,255,0.18)',
               px: 2,
               zIndex: 2100,
               filter: 'none',
@@ -700,14 +793,7 @@ const Navbar = () => {
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
-          <ListItemButton
-            component={RouterLink}
-            to="/login"
-            onClick={handleDrawerToggle}
-            sx={{ minHeight: 52, py: 1.25, px: 2 }}
-          >
-            <ListItemText primary="Account Login/Register" primaryTypographyProps={{ fontWeight: 600 }} />
-          </ListItemButton>
+          <MobileAuthItem handleDrawerToggle={handleDrawerToggle} />
         </ListItem>
         <ListItem disablePadding>
           <ListItemButton

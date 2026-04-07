@@ -45,21 +45,21 @@ const Menu = () => {
         {
           title: 'Rice Dishes',
           items: [
-            { name: 'Ofada Sauce Ayamase Stew', description: 'Jumbo Ofada rice with assorted meat, egg, ponmo and panla fish', price: 15.99 },
-            { name: 'Jollof Rice', description: 'Traditional Nigerian jollof rice with your choice of protein', price: 12.99 },
-            { name: 'Coconut Rice', description: 'Fragrant rice cooked in coconut milk with vegetables', price: 12.99 },
-            { name: 'Fried Rice', description: 'Nigerian-style fried rice with mixed vegetables and protein', price: 12.99 },
+            { name: 'Ofada Sauce Ayamase Stew', description: 'Jumbo Ofada rice with assorted meat, egg, ponmo and panla fish', price: 15.99, image: '/images/Ofada.png' },
+            { name: 'Jollof Rice', description: 'Traditional Nigerian jollof rice with your choice of protein', price: 12.99, image: '/images/jollof_rice.png' },
+            { name: 'Coconut Rice', description: 'Fragrant rice cooked in coconut milk with vegetables', price: 12.99, image: '/images/White_Rice.png' },
+            { name: 'Fried Rice', description: 'Nigerian-style fried rice with mixed vegetables and protein', price: 12.99, image: '/images/White_Rice.png' },
           ],
         },
         {
           title: 'Soups & Swallows',
           items: [
-            { name: 'Egusi Soup', description: 'Melon seed soup with assorted meat and fish', price: 15.99 },
-            { name: 'Efo Riro', description: 'Vegetable soup with assorted meat and fish', price: 15.99 },
+            { name: 'Egusi Soup', description: 'Melon seed soup with assorted meat and fish', price: 15.99, image: '/images/Egusi.png' },
+            { name: 'Efo Riro', description: 'Vegetable soup with assorted meat and fish', price: 15.99, image: '/images/efo_riro.png' },
             { name: 'Ogbono Soup', description: 'Wild mango seed soup with assorted meat and fish', price: 15.99 },
             { name: 'Banga Soup', description: 'Palm nut soup with assorted meat and fish', price: 15.99 },
             { name: 'Pounded Yam', description: 'Smooth pounded yam with choice of soup', price: 9.99 },
-            { name: 'Amala', description: 'Yam flour swallow with choice of soup', price: 9.99 },
+            { name: 'Amala', description: 'Yam flour swallow with choice of soup', price: 9.99, image: '/images/Amala.png' },
             { name: 'Eba', description: 'Garri (cassava flour) swallow with choice of soup', price: 9.99 },
             { name: 'Fufu', description: 'Cassava and plantain fufu with choice of soup', price: 9.99 },
           ],
@@ -74,9 +74,9 @@ const Menu = () => {
         {
           title: 'Grilled Favorites',
           items: [
-            { name: 'Beef Suya', description: 'Spicy grilled beef skewers with suya spice and onions', price: 15.99 },
-            { name: 'Grilled Chicken', description: 'Flame-grilled chicken with house pepper glaze', price: 14.99 },
-            { name: 'Boli (Roasted Plantain)', description: 'Roasted plantain with spicy sauce', price: 9.99 },
+            { name: 'Beef Suya', description: 'Spicy grilled beef skewers with suya spice and onions', price: 15.99, image: '/images/grilled_suya.jpg' },
+            { name: 'Grilled Chicken', description: 'Flame-grilled chicken with house pepper glaze', price: 14.99, image: '/images/barbecue.jpg' },
+            { name: 'Boli (Roasted Plantain)', description: 'Roasted plantain with spicy sauce', price: 9.99, image: '/images/boli.png' },
             { name: 'Pepper Soup', description: 'Spicy meat or fish soup with traditional herbs', price: 15.99 },
           ],
         },
@@ -295,6 +295,21 @@ const Menu = () => {
                                 gap: { xs: 1.5, sm: 2 },
                               }}
                             >
+                              {item.image && (
+                                <Box
+                                  component="img"
+                                  src={item.image}
+                                  alt={item.name}
+                                  loading="lazy"
+                                  sx={{
+                                    width: { xs: '100%', sm: 80 },
+                                    height: { xs: 180, sm: 80 },
+                                    objectFit: 'cover',
+                                    borderRadius: 2,
+                                    flexShrink: 0,
+                                  }}
+                                />
+                              )}
                               <ListItemText
                                 sx={{ m: 0, flexGrow: 1, minWidth: 0 }}
                                 primary={

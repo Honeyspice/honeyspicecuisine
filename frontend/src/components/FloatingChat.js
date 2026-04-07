@@ -10,14 +10,16 @@ const FloatingChat = () => {
   const [openHint, setOpenHint] = React.useState(false);
 
   React.useEffect(() => {
+    let timer;
     try {
       const seen = window.localStorage.getItem(CHAT_STORAGE_KEY);
       if (!seen) {
-        setOpenHint(true);
+        timer = window.setTimeout(() => setOpenHint(true), 4000);
       }
     } catch {
       // ignore storage errors
     }
+    return () => window.clearTimeout(timer);
   }, []);
 
   const openWhatsApp = () => {
