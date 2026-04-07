@@ -83,9 +83,9 @@ const Menu = () => {
         {
           title: 'Grill Sides',
           items: [
-            { name: 'Dodo (Fried Plantain)', description: 'Crispy fried plantain', price: 6.99 },
-            { name: 'Coleslaw', description: 'Fresh cabbage and carrot salad', price: 6.99 },
-            { name: 'Soft Drinks', description: 'Coca-Cola, Fanta, Sprite', price: 3.99 },
+            { name: 'Dodo (Fried Plantain)', description: 'Crispy fried plantain', price: 6.99, image: 'https://images.unsplash.com/photo-1604329760661-e71dc83f8f26?auto=format&fit=crop&w=200&q=80' },
+            { name: 'Coleslaw', description: 'Fresh cabbage and carrot salad', price: 6.99, image: 'https://images.unsplash.com/photo-1621987542476-5c1c7a9f5a0a?auto=format&fit=crop&w=200&q=80' },
+            { name: 'Soft Drinks', description: 'Coca-Cola, Fanta, Sprite', price: 3.99, image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=200&q=80' },
           ],
         },
       ],
@@ -100,16 +100,16 @@ const Menu = () => {
           items: [
             { name: 'Chicken Shawarma Wrap', description: 'Toasted wrap with chicken, slaw and creamy pepper sauce', price: 10.99, image: '/images/ChickenShawarmaWrap.jpg' },
             { name: 'Loaded Fries', description: 'Crispy fries topped with suya-spiced chicken and sauce', price: 9.99, image: '/images/fries.jpg' },
-            { name: 'Shawarma + Fries Combo', description: 'Chicken shawarma wrap paired with a regular fries', price: 13.99 },
-            { name: 'Mini Bites Platter', description: 'Akara, moi moi and spicy dip for sharing', price: 11.99 },
+            { name: 'Shawarma + Fries Combo', description: 'Chicken shawarma wrap paired with a regular fries', price: 13.99, image: 'https://images.unsplash.com/photo-1561050501-a4b71771a403?auto=format&fit=crop&w=200&q=80' },
+            { name: 'Mini Bites Platter', description: 'Akara, moi moi and spicy dip for sharing', price: 11.99, image: 'https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=200&q=80' },
           ],
         },
         {
           title: 'Drinks',
           items: [
             { name: 'Zobo', description: 'Hibiscus drink with ginger and pineapple', price: 6.99, image: '/images/zobo.jpg' },
-            { name: 'Chapman', description: 'Nigerian cocktail with fruit juice and sprite', price: 9.99 },
-            { name: 'Kunu', description: 'Traditional millet drink with spices', price: 6.99 },
+            { name: 'Chapman', description: 'Nigerian cocktail with fruit juice and sprite', price: 9.99, image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=200&q=80' },
+            { name: 'Kunu', description: 'Traditional millet drink with spices', price: 6.99, image: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?auto=format&fit=crop&w=200&q=80' },
           ],
         },
       ],
