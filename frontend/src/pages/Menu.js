@@ -56,12 +56,12 @@ const Menu = () => {
           items: [
             { name: 'Egusi Soup', description: 'Melon seed soup with assorted meat and fish', price: 15.99, image: '/images/Egusi.png' },
             { name: 'Efo Riro', description: 'Vegetable soup with assorted meat and fish', price: 15.99, image: '/images/efo_riro.png' },
-            { name: 'Ogbono Soup', description: 'Wild mango seed soup with assorted meat and fish', price: 15.99 },
-            { name: 'Banga Soup', description: 'Palm nut soup with assorted meat and fish', price: 15.99 },
-            { name: 'Pounded Yam', description: 'Smooth pounded yam with choice of soup', price: 9.99 },
+            { name: 'Ogbono Soup', description: 'Wild mango seed soup with assorted meat and fish', price: 15.99, image: '/images/ogbono.jpg' },
+            { name: 'Banga Soup', description: 'Palm nut soup with assorted meat and fish', price: 15.99, image: '/images/banga.jpg' },
+            { name: 'Pounded Yam', description: 'Smooth pounded yam with choice of soup', price: 9.99, image: '/images/poundedyam.jpg' },
             { name: 'Amala', description: 'Yam flour swallow with choice of soup', price: 9.99, image: '/images/Amala.png' },
-            { name: 'Eba', description: 'Garri (cassava flour) swallow with choice of soup', price: 9.99 },
-            { name: 'Fufu', description: 'Cassava and plantain fufu with choice of soup', price: 9.99 },
+            { name: 'Eba', description: 'Garri (cassava flour) swallow with choice of soup', price: 9.99, image: '/images/eba.jpg' },
+            { name: 'Fufu', description: 'Cassava and plantain fufu with choice of soup', price: 9.99, image: '/images/fufu.jpg' },
           ],
         },
       ],
@@ -77,7 +77,7 @@ const Menu = () => {
             { name: 'Beef Suya', description: 'Spicy grilled beef skewers with suya spice and onions', price: 15.99, image: '/images/grilled_suya.jpg' },
             { name: 'Grilled Chicken', description: 'Flame-grilled chicken with house pepper glaze', price: 14.99, image: '/images/barbecue.jpg' },
             { name: 'Boli (Roasted Plantain)', description: 'Roasted plantain with spicy sauce', price: 9.99, image: '/images/boli.png' },
-            { name: 'Pepper Soup', description: 'Spicy meat or fish soup with traditional herbs', price: 15.99 },
+            { name: 'Pepper Soup', description: 'Spicy meat or fish soup with traditional herbs', price: 15.99, image: '/images/peppersoup.jpg' },
           ],
         },
         {
@@ -98,8 +98,8 @@ const Menu = () => {
         {
           title: 'Late Night Combos',
           items: [
-            { name: 'Chicken Shawarma Wrap', description: 'Toasted wrap with chicken, slaw and creamy pepper sauce', price: 10.99 },
-            { name: 'Loaded Fries', description: 'Crispy fries topped with suya-spiced chicken and sauce', price: 9.99 },
+            { name: 'Chicken Shawarma Wrap', description: 'Toasted wrap with chicken, slaw and creamy pepper sauce', price: 10.99, image: '/images/ChickenShawarmaWrap.jpg' },
+            { name: 'Loaded Fries', description: 'Crispy fries topped with suya-spiced chicken and sauce', price: 9.99, image: '/images/fries.jpg' },
             { name: 'Shawarma + Fries Combo', description: 'Chicken shawarma wrap paired with a regular fries', price: 13.99 },
             { name: 'Mini Bites Platter', description: 'Akara, moi moi and spicy dip for sharing', price: 11.99 },
           ],
@@ -107,7 +107,7 @@ const Menu = () => {
         {
           title: 'Drinks',
           items: [
-            { name: 'Zobo', description: 'Hibiscus drink with ginger and pineapple', price: 6.99 },
+            { name: 'Zobo', description: 'Hibiscus drink with ginger and pineapple', price: 6.99, image: '/images/zobo.jpg' },
             { name: 'Chapman', description: 'Nigerian cocktail with fruit juice and sprite', price: 9.99 },
             { name: 'Kunu', description: 'Traditional millet drink with spices', price: 6.99 },
           ],
