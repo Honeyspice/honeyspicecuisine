@@ -108,21 +108,6 @@ export default function Order() {
             Central kitchen fulfilment using the original HoneySpice menu.
           </p>
         </button>
-        <button
-          type="button"
-          onClick={() => setOrderSource('nearby-kitchen')}
-          className={[
-            'rounded-xl border p-4 text-left transition',
-            orderSource === 'nearby-kitchen'
-              ? 'border-[#F59E0B] bg-[#FFFBEB]'
-              : 'border-[#E5E7EB] bg-white hover:border-[#D1D5DB]',
-          ].join(' ')}
-        >
-          <p className="text-sm font-semibold text-[#111827]">Order Nearby (AI-assisted)</p>
-          <p className="mt-1 text-sm text-[#4B5563]">
-            AI picks the closest partner kitchen and helps with faster routing.
-          </p>
-        </button>
       </div>
 
       {orderSource === 'honeyspice' && (
@@ -240,7 +225,7 @@ export default function Order() {
         <div className="mt-6 rounded-xl border border-[#BBF7D0] bg-[#F0FDF4] p-4">
           <p className="text-sm font-semibold text-[#166534]">Order submitted</p>
           <p className="mt-1 text-sm text-[#166534]">
-            ID: {result.id} | Routed to: {result.partner?.name} | Source: {result.orderSource}
+            ID: {result.id} | Fulfilled by: Honeyspice Kitchen | Source: {result.orderSource}
           </p>
         </div>
       )}

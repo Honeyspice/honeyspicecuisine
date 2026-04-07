@@ -98,7 +98,7 @@ const Home = () => {
               </Box>
               <Box
                 component={RouterLink}
-                to="/partner/dashboard"
+                to="/reservation"
                 sx={{
                   textDecoration: 'none',
                   display: 'inline-block',
@@ -115,7 +115,7 @@ const Home = () => {
                   '&:hover': { background: '#D45A00', borderColor: '#D45A00' },
                 }}
               >
-                Explore Partner Kitchen
+                Book an Event
               </Box>
             </Box>
           </Box>
@@ -210,7 +210,7 @@ const Home = () => {
                 variant="overline"
                 sx={{ letterSpacing: '0.2em', color: 'text.secondary', fontWeight: 600, fontSize: '0.7rem' }}
               >
-                One Kitchen
+                Honeyspice Kitchen
               </Typography>
               <Typography
                 variant="h2"
@@ -222,13 +222,13 @@ const Home = () => {
                   letterSpacing: '-0.02em',
                 }}
               >
-                Three Food Concepts
+                Every Craving, One Kitchen
               </Typography>
               <Typography
                 color="text.secondary"
                 sx={{ mt: 1.5, maxWidth: 520, mx: 'auto', fontSize: { xs: '0.95rem', sm: '1rem' } }}
               >
-                HoneySpice serves different cravings from one kitchen. Browse your preferred menu and order from your phone.
+                We cook everything ourselves — Nigerian classics, grill house favourites and late-night bites, all from our Stirling kitchen.
               </Typography>
             </Box>
 

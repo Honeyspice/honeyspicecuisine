@@ -12,20 +12,20 @@ const SLIDES = [
   {
     src: '/images/jollof_rice.png',
     heading: 'BOOK YOUR\nEVENT.',
-    sub: 'Private catering, weddings, corporate gatherings — we bring Nigeria to your table.',
+    sub: 'Private catering, weddings, corporate gatherings — cooked and delivered by our kitchen.',
     cta: { label: 'Book Catering', to: '/reservation' },
   },
   {
     src: '/images/grilled_suya.jpg',
-    heading: 'YOUR AI\nMEAL PLAN.',
-    sub: 'Tell us your health goals. Claude AI builds you a personalised Nigerian food timetable.',
+    heading: 'AI-POWERED\nMEAL HELP.',
+    sub: 'Tell us your budget, group size and occasion. Our AI builds you the perfect Nigerian spread.',
     cta: { label: 'Get My Plan', to: '/register' },
   },
   {
     src: '/images/barbecue.jpg',
-    heading: 'LATE NIGHT\nBITES.',
-    sub: 'Suya, shawarma, grills and sides — order now for fast delivery in Stirling.',
-    cta: { label: 'Order Now', to: '/order' },
+    heading: 'PICNIC &\nGROUP MEALS.',
+    sub: 'Planning a picnic or feeding a crowd? Let our AI bundle the right dishes for your group.',
+    cta: { label: 'Plan My Picnic', to: '/reservation' },
   },
 ];
 

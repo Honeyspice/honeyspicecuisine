@@ -137,7 +137,7 @@ const Footer = () => {
             <ColHeading>Services</ColHeading>
             <FooterLink to="/reservation">Event Catering</FooterLink>
             <FooterLink to="/order">Order Online</FooterLink>
-            <FooterLink to="/partner/dashboard">Partner Kitchen</FooterLink>
+            <FooterLink to="/register">AI Meal Plans</FooterLink>
             <FooterLink to="/register">AI Meal Plans</FooterLink>
             <FooterLink to="/location">Find Us</FooterLink>
           </Box>

@@ -26,7 +26,6 @@ import Checkout from './pages/Checkout';
 import CheckoutSuccess from './pages/CheckoutSuccess';
 import CheckoutCancel from './pages/CheckoutCancel';
 import Order from './pages/Order';
-import PartnerDashboard from './pages/PartnerDashboard';
 
 // Components
 import Navbar from './components/Navbar';
@@ -129,7 +128,6 @@ function App() {
                 <Route path="/checkout/success" element={<CheckoutSuccess />} />
                 <Route path="/checkout/cancel" element={<CheckoutCancel />} />
                 <Route path="/order" element={<Order />} />
-                <Route path="/partner/dashboard" element={<PartnerDashboard />} />
                 <Route path="/reservation" element={<Reservation />} />
                 <Route path="/why-us" element={<WhyUs />} />
                 <Route path="/gallery" element={<Gallery />} />
