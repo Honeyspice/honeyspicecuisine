@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Container, Grid, Typography } from '@mui/material';
+import { Box, Button, Container, Typography } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import Seo from '../components/Seo';
 import Hero from '../components/Hero';
