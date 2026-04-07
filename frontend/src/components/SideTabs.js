@@ -1,18 +1,19 @@
 import React from 'react';
+import { Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 export default function SideTabs() {
   return (
-    <div
-      style={{
+    <Box
+      sx={{
+        display: { xs: 'none', md: 'flex' },
+        flexDirection: 'column',
+        gap: '4px',
         position: 'fixed',
         right: 0,
         top: '50%',
         transform: 'translateY(-50%)',
         zIndex: 1200,
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 4,
       }}
     >
       {/* OUR MENU tab */}
@@ -68,6 +69,6 @@ export default function SideTabs() {
       >
         Book Now
       </Link>
-    </div>
+    </Box>
   );
 }

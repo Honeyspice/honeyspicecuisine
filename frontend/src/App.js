@@ -39,6 +39,7 @@ import MobileSplash from './components/MobileSplash';
 import ProtectedRoute from './components/ProtectedRoute';
 import NotFound from './pages/NotFound';
 import SideTabs from './components/SideTabs';
+import MobileBottomBar from './components/MobileBottomBar';
 
 // ScrollToTop component
 const pageFadeIn = keyframes`
@@ -114,7 +115,7 @@ function App() {
                   sm: 'calc(72px + env(safe-area-inset-top, 0px))',
                   md: 'calc(176px + env(safe-area-inset-top, 0px))',
                 },
-                pb: { xs: 'env(safe-area-inset-bottom, 0px)', md: 0 },
+                pb: { xs: 'calc(56px + env(safe-area-inset-bottom, 0px))', md: 0 },
               }}
             >
               <PageWrapper>
@@ -147,6 +148,7 @@ function App() {
           </Box>
           <MobileSplash />
           <SideTabs />
+          <MobileBottomBar />
           <CookieBanner />
           <FloatingChat />
         </Router>
