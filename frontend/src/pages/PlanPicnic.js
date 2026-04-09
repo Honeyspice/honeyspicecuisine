@@ -1,14 +1,11 @@
-import React, { useState } from 'react';
-import { Box, Container, Typography, Slider, Divider } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Box, Container, Typography, Slider, Divider, TextField, CircularProgress } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
+import MyLocationIcon from '@mui/icons-material/MyLocation';
+import SearchIcon from '@mui/icons-material/Search';
+import DirectionsIcon from '@mui/icons-material/Directions';
 import Seo from '../components/Seo';
 import { recommendBundle, INDIVIDUAL_MEAL } from '../utils/bundleRecommender';
-
-// Bundle recommendation uses shared logic from bundleRecommender:
-// people <= 2 → Couple Pack (£25)
-// people 3–5  → Friends Pack (£45)
-// people >= 6 → Group Pack (£70)
-// budget too low → individual meals
 
 // ─── Picnic spots ─────────────────────────────────────────────────────────────
 
@@ -18,35 +15,67 @@ const SPOTS = [
     location: 'Stirling',
     desc: 'Large open parkland with grassy areas, benches, and a beautiful view of Stirling Castle. Great for groups.',
     tags: ['Free entry', 'Open space', 'Good for groups'],
+    coords: { lat: 56.1119, lng: -3.9369 },
+    wikiTitle: "King's_Park,_Stirling",
+    mapsQuery: "King's Park, Stirling, Scotland",
   },
   {
     name: 'Stirling Castle Esplanade',
     location: 'Stirling',
     desc: "A wide open esplanade with panoramic views over the city and surrounding landscape. One of Stirling's finest spots.",
     tags: ['Views', 'Historic', 'Family friendly'],
+    coords: { lat: 56.1232, lng: -3.9486 },
+    wikiTitle: 'Stirling_Castle',
+    mapsQuery: 'Stirling Castle Esplanade, Stirling, Scotland',
   },
   {
     name: 'Cambuskenneth Abbey Grounds',
     location: 'Near Stirling',
     desc: 'Peaceful riverside grounds surrounding the ancient abbey ruins. Quiet, scenic, and ideal for a relaxed outdoor meal.',
     tags: ['Quiet', 'Riverside', 'Scenic'],
+    coords: { lat: 56.1181, lng: -3.9136 },
+    wikiTitle: 'Cambuskenneth_Abbey',
+    mapsQuery: 'Cambuskenneth Abbey, Stirling, Scotland',
   },
   {
     name: 'University of Stirling Campus',
     location: 'Bridge of Allan',
     desc: 'Sprawling campus grounds with a loch, wooded paths, and open lawns. Perfect for a long, leisurely picnic.',
     tags: ['Loch views', 'Wooded walks', 'Large lawns'],
+    coords: { lat: 56.1448, lng: -3.9218 },
+    wikiTitle: 'University_of_Stirling',
+    mapsQuery: 'University of Stirling, Bridge of Allan, Scotland',
   },
   {
     name: 'Bannockburn Heritage Site',
     location: 'Bannockburn, Stirling',
     desc: 'Open fields and grassy spaces around the historic site. Plenty of room for a group spread in good weather.',
     tags: ['Historic', 'Open fields', 'Easy parking'],
+    coords: { lat: 56.0902, lng: -3.9239 },
+    wikiTitle: 'Bannockburn',
+    mapsQuery: 'Bannockburn Heritage Centre, Stirling, Scotland',
   },
 ];
 
+// ─── Helpers ──────────────────────────────────────────────────────────────────
 
-// ─── Preference pill ──────────────────────────────────────────────────────────
+function haversineKm(lat1, lng1, lat2, lng2) {
+  const R = 6371;
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLng = ((lng2 - lng1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLng / 2) ** 2;
+  return R * 2 * Math.asin(Math.sqrt(a));
+}
+
+function mapsUrl(query) {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+}
+
+// ─── Preferences ──────────────────────────────────────────────────────────────
 
 const PREFERENCES = [
   { key: 'light', label: 'Light', sub: 'Snacks & small bites' },
@@ -62,6 +91,91 @@ export default function PlanPicnic() {
   const [preference, setPreference] = useState('mixed');
   const [result, setResult] = useState(null);
 
+  // Location state
+  const [postcode, setPostcode] = useState('');
+  const [userCoords, setUserCoords] = useState(null);
+  const [locationLabel, setLocationLabel] = useState('');
+  const [locationLoading, setLocationLoading] = useState(false);
+  const [locationError, setLocationError] = useState('');
+
+  // Wikipedia images per spot
+  const [spotImages, setSpotImages] = useState({});
+
+  // Fetch Wikipedia thumbnail for each spot
+  useEffect(() => {
+    SPOTS.forEach((spot) => {
+      if (!spot.wikiTitle) return;
+      fetch(
+        `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(spot.wikiTitle)}`
+      )
+        .then((r) => r.json())
+        .then((data) => {
+          const src = data?.thumbnail?.source || data?.originalimage?.source;
+          if (src) {
+            setSpotImages((prev) => ({ ...prev, [spot.name]: src }));
+          }
+        })
+        .catch(() => {});
+    });
+  }, []);
+
+  // Sort spots by distance if user location known
+  const spotsWithDistance = SPOTS.map((s) => ({
+    ...s,
+    distanceKm: userCoords
+      ? haversineKm(userCoords.lat, userCoords.lng, s.coords.lat, s.coords.lng)
+      : null,
+  }));
+
+  const sortedSpots = userCoords
+    ? [...spotsWithDistance].sort((a, b) => a.distanceKm - b.distanceKm)
+    : spotsWithDistance;
+
+  // Use my location
+  const handleUseLocation = () => {
+    if (!navigator.geolocation) {
+      setLocationError('Geolocation is not supported by your browser.');
+      return;
+    }
+    setLocationLoading(true);
+    setLocationError('');
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setUserCoords({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+        setLocationLabel('your location');
+        setLocationLoading(false);
+      },
+      () => {
+        setLocationError('Could not get your location. Please try entering a postcode.');
+        setLocationLoading(false);
+      }
+    );
+  };
+
+  // Postcode search via Nominatim (OpenStreetMap, free)
+  const handlePostcodeSearch = async () => {
+    const q = postcode.trim();
+    if (!q) return;
+    setLocationLoading(true);
+    setLocationError('');
+    try {
+      const res = await fetch(
+        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q + ', UK')}&format=json&limit=1`,
+        { headers: { 'Accept-Language': 'en' } }
+      );
+      const data = await res.json();
+      if (data.length > 0) {
+        setUserCoords({ lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) });
+        setLocationLabel(data[0].display_name?.split(',')[0] || q.toUpperCase());
+      } else {
+        setLocationError('Postcode not found. Please try again.');
+      }
+    } catch {
+      setLocationError('Search failed. Please check your connection.');
+    }
+    setLocationLoading(false);
+  };
+
   const handlePlan = () => {
     const rec = recommendBundle(people, budget);
     setResult(rec);
@@ -71,7 +185,6 @@ export default function PlanPicnic() {
     }, 80);
   };
 
-  // Resolved display data (bundle or individual fallback)
   const display = result
     ? result.type === 'individual'
       ? { ...INDIVIDUAL_MEAL, price: result.totalCost }
@@ -85,7 +198,7 @@ export default function PlanPicnic() {
         description="Plan your perfect picnic in seconds. Tell us how many people you're feeding and your budget — we'll suggest the best meal options for you."
       />
 
-      {/* Hero header */}
+      {/* Hero */}
       <Box
         sx={{
           position: 'relative',
@@ -198,7 +311,10 @@ export default function PlanPicnic() {
                       {btn.label}
                     </Box>
                   ) : (
-                    <Typography key="count" sx={{ fontWeight: 800, fontSize: '1.6rem', color: '#1a1a1a', minWidth: 36, textAlign: 'center' }}>
+                    <Typography
+                      key="count"
+                      sx={{ fontWeight: 800, fontSize: '1.6rem', color: '#1a1a1a', minWidth: 36, textAlign: 'center' }}
+                    >
                       {people}
                     </Typography>
                   )
@@ -264,7 +380,9 @@ export default function PlanPicnic() {
                       }}
                     >
                       <Box>
-                        <Typography sx={{ fontWeight: active ? 700 : 600, fontSize: '0.9rem', color: active ? '#F46A06' : '#1a1a1a' }}>
+                        <Typography
+                          sx={{ fontWeight: active ? 700 : 600, fontSize: '0.9rem', color: active ? '#F46A06' : '#1a1a1a' }}
+                        >
                           {p.label}
                         </Typography>
                         <Typography sx={{ fontSize: '0.8rem', color: '#9CA3AF', mt: 0.25 }}>
@@ -347,7 +465,6 @@ export default function PlanPicnic() {
               </Box>
             ) : (
               <Box sx={{ border: '1px solid #E5E7EB', bgcolor: '#fff', overflow: 'hidden' }}>
-                {/* Image */}
                 <Box sx={{ width: '100%', height: { xs: 190, md: 230 }, overflow: 'hidden', position: 'relative' }}>
                   <Box
                     component="img"
@@ -375,11 +492,15 @@ export default function PlanPicnic() {
                 </Box>
 
                 <Box sx={{ p: { xs: 3, md: 4 } }}>
-                  <Typography sx={{ fontSize: '0.78rem', color: '#F46A06', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', mb: 0.5 }}>
+                  <Typography
+                    sx={{ fontSize: '0.78rem', color: '#F46A06', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', mb: 0.5 }}
+                  >
                     Recommended bundle
                   </Typography>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
-                    <Typography sx={{ fontWeight: 800, fontSize: { xs: '1.35rem', md: '1.55rem' }, color: '#1a1a1a', lineHeight: 1.2 }}>
+                    <Typography
+                      sx={{ fontWeight: 800, fontSize: { xs: '1.35rem', md: '1.55rem' }, color: '#1a1a1a', lineHeight: 1.2 }}
+                    >
                       {display.name}
                     </Typography>
                     <Typography sx={{ fontWeight: 800, fontSize: '1.4rem', color: '#F46A06', ml: 2, whiteSpace: 'nowrap' }}>
@@ -390,8 +511,9 @@ export default function PlanPicnic() {
                     {display.desc}
                   </Typography>
 
-                  {/* Item breakdown */}
-                  <Typography sx={{ fontWeight: 700, fontSize: '0.78rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#374151', mb: 1.5 }}>
+                  <Typography
+                    sx={{ fontWeight: 700, fontSize: '0.78rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#374151', mb: 1.5 }}
+                  >
                     What's included
                   </Typography>
                   <Box component="ul" sx={{ m: 0, pl: 2.5, mb: 1 }}>
@@ -402,7 +524,6 @@ export default function PlanPicnic() {
                     ))}
                   </Box>
 
-                  {/* Total cost summary */}
                   <Box
                     sx={{
                       display: 'flex',
@@ -419,7 +540,6 @@ export default function PlanPicnic() {
                     <Typography sx={{ fontSize: '1.1rem', fontWeight: 800, color: '#F46A06' }}>£{display.price}</Typography>
                   </Box>
 
-                  {/* Budget note */}
                   {result.budgetNote && (
                     <Box sx={{ bgcolor: '#FFF7ED', border: '1px solid #FED7AA', px: 2, py: 1.5, mb: 3 }}>
                       <Typography sx={{ fontSize: '0.85rem', lineHeight: 1.6, color: '#92400E' }}>
@@ -428,7 +548,6 @@ export default function PlanPicnic() {
                     </Box>
                   )}
 
-                  {/* CTAs */}
                   <Box
                     component={RouterLink}
                     to="/reservation"
@@ -485,7 +604,7 @@ export default function PlanPicnic() {
         <Box sx={{ mt: { xs: 10, md: 14 } }}>
           <Divider sx={{ mb: { xs: 8, md: 10 } }} />
 
-          <Box sx={{ textAlign: 'center', mb: { xs: 6, md: 8 } }}>
+          <Box sx={{ textAlign: 'center', mb: { xs: 5, md: 6 } }}>
             <Typography
               variant="overline"
               sx={{ letterSpacing: '0.2em', color: '#F46A06', fontWeight: 700, fontSize: '0.7rem' }}
@@ -505,10 +624,142 @@ export default function PlanPicnic() {
               Suggested Picnic Spots
             </Typography>
             <Typography sx={{ color: '#666', mt: 1.5, maxWidth: 480, mx: 'auto', fontSize: '0.95rem', lineHeight: 1.75 }}>
-              Some of our favourite outdoor spots in and around Stirling — order your bundle and head out.
+              Some of our favourite outdoor spots in and around Stirling. Enter your postcode or use your location to see how far each one is.
             </Typography>
           </Box>
 
+          {/* ── Location finder ─────────────────────────────────────────── */}
+          <Box
+            sx={{
+              border: '1px solid #E5E7EB',
+              bgcolor: '#fff',
+              p: { xs: 3, md: 4 },
+              mb: { xs: 5, md: 6 },
+              display: 'flex',
+              flexDirection: { xs: 'column', sm: 'row' },
+              alignItems: { xs: 'stretch', sm: 'flex-end' },
+              gap: 2,
+            }}
+          >
+            {/* Postcode input */}
+            <Box sx={{ flex: 1 }}>
+              <Typography sx={{ fontSize: '0.8rem', fontWeight: 600, color: '#374151', mb: 1 }}>
+                Enter your postcode
+              </Typography>
+              <Box sx={{ display: 'flex', gap: 1 }}>
+                <TextField
+                  value={postcode}
+                  onChange={(e) => setPostcode(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handlePostcodeSearch()}
+                  placeholder="e.g. FK1 1AA"
+                  size="small"
+                  sx={{
+                    flex: 1,
+                    '& .MuiOutlinedInput-root': {
+                      '& fieldset': { borderColor: '#E5E7EB' },
+                      '&:hover fieldset': { borderColor: '#F46A06' },
+                      '&.Mui-focused fieldset': { borderColor: '#F46A06' },
+                    },
+                  }}
+                />
+                <Box
+                  onClick={handlePostcodeSearch}
+                  sx={{
+                    px: 2,
+                    height: 40,
+                    bgcolor: '#1a1a1a',
+                    color: '#fff',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 0.75,
+                    cursor: 'pointer',
+                    fontSize: '0.82rem',
+                    fontWeight: 700,
+                    letterSpacing: '0.05em',
+                    whiteSpace: 'nowrap',
+                    flexShrink: 0,
+                    transition: 'background 0.2s',
+                    '&:hover': { bgcolor: '#333' },
+                  }}
+                >
+                  {locationLoading ? (
+                    <CircularProgress size={14} sx={{ color: '#fff' }} />
+                  ) : (
+                    <SearchIcon sx={{ fontSize: 16 }} />
+                  )}
+                  Search
+                </Box>
+              </Box>
+            </Box>
+
+            {/* Divider */}
+            <Typography sx={{ color: '#9CA3AF', fontSize: '0.8rem', alignSelf: 'center', flexShrink: 0 }}>
+              or
+            </Typography>
+
+            {/* Use my location */}
+            <Box
+              onClick={handleUseLocation}
+              sx={{
+                px: 2.5,
+                height: 40,
+                border: '2px solid #F46A06',
+                color: '#F46A06',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+                cursor: 'pointer',
+                fontSize: '0.82rem',
+                fontWeight: 700,
+                letterSpacing: '0.05em',
+                whiteSpace: 'nowrap',
+                flexShrink: 0,
+                transition: 'all 0.2s',
+                '&:hover': { bgcolor: '#FFF7F0' },
+              }}
+            >
+              {locationLoading ? (
+                <CircularProgress size={14} sx={{ color: '#F46A06' }} />
+              ) : (
+                <MyLocationIcon sx={{ fontSize: 16 }} />
+              )}
+              Use my location
+            </Box>
+          </Box>
+
+          {/* Status / error */}
+          {userCoords && !locationError && (
+            <Box
+              sx={{
+                mb: 4,
+                px: 2.5,
+                py: 1.5,
+                bgcolor: '#ECFDF5',
+                border: '1px solid #6EE7B7',
+                display: 'flex',
+                flexDirection: { xs: 'column', sm: 'row' },
+                alignItems: { xs: 'flex-start', sm: 'center' },
+                gap: 1,
+              }}
+            >
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: '#10B981', flexShrink: 0 }} />
+                <Typography sx={{ fontSize: '0.85rem', color: '#065F46', fontWeight: 700 }}>
+                  Location set: {locationLabel}
+                </Typography>
+              </Box>
+              <Typography sx={{ fontSize: '0.82rem', color: '#047857', pl: { xs: 2.5, sm: 0 } }}>
+                · Spots are sorted by distance from you. All spots are in Stirling — distances show how far you'll travel.
+              </Typography>
+            </Box>
+          )}
+          {locationError && (
+            <Box sx={{ mb: 4, px: 2.5, py: 1.25, bgcolor: '#FEF2F2', border: '1px solid #FECACA' }}>
+              <Typography sx={{ fontSize: '0.85rem', color: '#991B1B' }}>{locationError}</Typography>
+            </Box>
+          )}
+
+          {/* ── Spot cards ──────────────────────────────────────────────── */}
           <Box
             sx={{
               display: 'grid',
@@ -516,61 +767,135 @@ export default function PlanPicnic() {
               gap: { xs: 2.5, md: 3 },
             }}
           >
-            {SPOTS.map((spot) => (
-              <Box
-                key={spot.name}
-                sx={{
-                  border: '1px solid #E5E7EB',
-                  bgcolor: '#fff',
-                  p: 3,
-                  transition: 'box-shadow 0.25s',
-                  '&:hover': { boxShadow: '0 8px 28px rgba(0,0,0,0.08)' },
-                }}
-              >
-                {/* Green dot icon */}
+            {sortedSpots.map((spot) => {
+              const imgSrc = spotImages[spot.name];
+              const distText =
+                spot.distanceKm !== null
+                  ? spot.distanceKm < 1
+                    ? `${Math.round(spot.distanceKm * 1000)} m away`
+                    : `${spot.distanceKm.toFixed(1)} km away`
+                  : null;
+
+              return (
                 <Box
+                  key={spot.name}
                   sx={{
-                    width: 40,
-                    height: 40,
-                    bgcolor: '#ECFDF5',
+                    border: '1px solid #E5E7EB',
+                    bgcolor: '#fff',
+                    overflow: 'hidden',
+                    transition: 'box-shadow 0.25s',
+                    '&:hover': { boxShadow: '0 8px 28px rgba(0,0,0,0.08)' },
                     display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '1.2rem',
-                    mb: 2,
+                    flexDirection: 'column',
                   }}
                 >
-                  🌳
-                </Box>
-                <Typography sx={{ fontWeight: 700, fontSize: '1rem', color: '#1a1a1a', mb: 0.5 }}>
-                  {spot.name}
-                </Typography>
-                <Typography sx={{ fontSize: '0.78rem', color: '#F46A06', fontWeight: 600, mb: 1.5 }}>
-                  {spot.location}
-                </Typography>
-                <Typography sx={{ fontSize: '0.875rem', color: '#666', lineHeight: 1.7, mb: 2 }}>
-                  {spot.desc}
-                </Typography>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75 }}>
-                  {spot.tags.map((tag) => (
+                  {/* Photo */}
+                  <Box sx={{ position: 'relative', width: '100%', height: 180, overflow: 'hidden', bgcolor: '#F3F4F6' }}>
+                    {imgSrc ? (
+                      <Box
+                        component="img"
+                        src={imgSrc}
+                        alt={spot.name}
+                        loading="lazy"
+                        sx={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                      />
+                    ) : (
+                      <Box
+                        sx={{
+                          width: '100%',
+                          height: '100%',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '2.5rem',
+                        }}
+                      >
+                        🌳
+                      </Box>
+                    )}
+
+                    {/* Distance badge */}
+                    {distText && (
+                      <Box
+                        sx={{
+                          position: 'absolute',
+                          top: 10,
+                          right: 10,
+                          bgcolor: '#F46A06',
+                          color: '#fff',
+                          fontSize: '0.75rem',
+                          fontWeight: 800,
+                          px: 1.5,
+                          py: 0.5,
+                          letterSpacing: '0.02em',
+                          boxShadow: '0 2px 8px rgba(0,0,0,0.25)',
+                        }}
+                      >
+                        📍 {distText}
+                      </Box>
+                    )}
+                  </Box>
+
+                  <Box sx={{ p: 2.5, flex: 1, display: 'flex', flexDirection: 'column' }}>
+                    <Typography sx={{ fontWeight: 700, fontSize: '1rem', color: '#1a1a1a', mb: 0.5 }}>
+                      {spot.name}
+                    </Typography>
+                    <Typography sx={{ fontSize: '0.78rem', color: '#F46A06', fontWeight: 600, mb: 1.25 }}>
+                      {spot.location}
+                    </Typography>
+                    <Typography sx={{ fontSize: '0.875rem', color: '#666', lineHeight: 1.7, mb: 2, flex: 1 }}>
+                      {spot.desc}
+                    </Typography>
+
+                    {/* Tags */}
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75, mb: 2 }}>
+                      {spot.tags.map((tag) => (
+                        <Box
+                          key={tag}
+                          sx={{
+                            px: 1.5,
+                            py: 0.4,
+                            bgcolor: '#F3F4F6',
+                            color: '#374151',
+                            fontSize: '0.72rem',
+                            fontWeight: 600,
+                            letterSpacing: '0.03em',
+                          }}
+                        >
+                          {tag}
+                        </Box>
+                      ))}
+                    </Box>
+
+                    {/* Directions link */}
                     <Box
-                      key={tag}
+                      component="a"
+                      href={mapsUrl(spot.mapsQuery)}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       sx={{
-                        px: 1.5,
-                        py: 0.4,
-                        bgcolor: '#F3F4F6',
-                        color: '#374151',
-                        fontSize: '0.72rem',
-                        fontWeight: 600,
-                        letterSpacing: '0.03em',
+                        textDecoration: 'none',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 0.75,
+                        fontSize: '0.8rem',
+                        fontWeight: 700,
+                        color: '#1a1a1a',
+                        letterSpacing: '0.05em',
+                        textTransform: 'uppercase',
+                        borderTop: '1px solid #F3F4F6',
+                        pt: 2,
+                        transition: 'color 0.2s',
+                        '&:hover': { color: '#F46A06' },
                       }}
                     >
-                      {tag}
+                      <DirectionsIcon sx={{ fontSize: 16 }} />
+                      Get Directions
                     </Box>
-                  ))}
+                  </Box>
                 </Box>
-              </Box>
-            ))}
+              );
+            })}
           </Box>
 
           {/* Bottom CTA */}
