@@ -36,7 +36,6 @@ import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
 import CookieBanner from './components/CookieBanner';
 import FloatingChat from './components/FloatingChat';
-import MobileSplash from './components/MobileSplash';
 import ProtectedRoute from './components/ProtectedRoute';
 import NotFound from './pages/NotFound';
 import SideTabs from './components/SideTabs';
@@ -148,8 +147,7 @@ function App() {
             </Box>
             <Footer />
           </Box>
-          <MobileSplash />
-          <SideTabs />
+<SideTabs />
           <MobileBottomBar />
           <CookieBanner />
           <FloatingChat />
