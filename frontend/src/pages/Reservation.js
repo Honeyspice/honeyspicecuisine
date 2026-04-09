@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Seo from '../components/Seo';
 import {
   Container,
   Typography,
@@ -176,55 +177,66 @@ const Reservation = () => {
   };
 
   return (
-    <Box sx={{ 
-      minHeight: '100vh', 
-      bgcolor: 'background.paper',
-      pt: { xs: 6, sm: 8, md: 10 },
-      pb: { xs: 3, sm: 4, md: 6 },
-      px: { xs: 2, sm: 0 }
-    }}>
+    <Box sx={{ minHeight: '100vh', bgcolor: 'background.paper' }}>
+      <Seo title="Book Catering & Events | HoneySpice Cuisine" description="Book HoneySpice Cuisine for your event, wedding, or corporate catering in Stirling. Authentic Nigerian food for any occasion." />
+      {/* Hero Section */}
+      <Box
+        sx={{
+          position: 'relative',
+          height: { xs: '32vh', md: '42vh' },
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          mb: { xs: 4, md: 6 },
+          overflow: 'hidden',
+          backgroundImage: 'url(/images/barbecue.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(135deg, rgba(244,106,6,0.45) 0%, rgba(0,0,0,0.1) 100%)',
+            zIndex: 1,
+          },
+          '&::after': {
+            content: '""',
+            position: 'absolute',
+            inset: 0,
+            background: 'rgba(0,0,0,0.52)',
+            zIndex: 2,
+          },
+        }}
+      >
+        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 3, textAlign: 'center' }}>
+          <Typography
+            variant="h1"
+            sx={{
+              color: 'white',
+              fontSize: { xs: '2rem', md: '3rem' },
+              fontWeight: 'bold',
+              textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
+              lineHeight: 1.1,
+            }}
+          >
+            Event Catering & Reservations
+          </Typography>
+          <Typography
+            variant="body1"
+            sx={{
+              color: 'rgba(255,255,255,0.82)',
+              mt: 1.5,
+              fontSize: { xs: '0.95rem', md: '1.1rem' },
+            }}
+          >
+            Weddings, corporate events, celebrations — we bring the flavour to your occasion.
+          </Typography>
+        </Container>
+      </Box>
+
+      <Box sx={{ px: { xs: 2, sm: 0 }, pb: { xs: 3, sm: 4, md: 6 } }}>
       <Container maxWidth="lg" sx={{ py: { xs: 2, sm: 3, md: 4 } }}>
         <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
-          <Grid item xs={12}>
-            <StyledCard>
-              <Typography 
-                variant="h4" 
-                component="h1" 
-                gutterBottom 
-                sx={{ 
-                  color: 'primary.main', 
-                  fontWeight: 'bold',
-                  textAlign: 'left',
-                  fontSize: {
-                    xs: '1.5rem',
-                    sm: '1.75rem',
-                    md: '2rem'
-                  }
-                }}
-              >
-                Make Reservations
-              </Typography>
-              <Typography 
-                variant="body1" 
-                sx={{ 
-                  mb: { xs: 3, sm: 4 },
-                  textAlign: 'left',
-                  maxWidth: '800px',
-                  color: 'text.secondary',
-                  fontSize: {
-                    xs: '0.875rem',
-                    sm: '1rem',
-                    md: '1.125rem'
-                  }
-                }}
-              >
-                Whether you're planning a corporate event, wedding, or special gathering, 
-                we're here to make your food experience special. Place your bulk order or request 
-                our catering services today.
-              </Typography>
-            </StyledCard>
-          </Grid>
-
           <Grid item xs={12}>
             <StyledCard>
               <form onSubmit={handleSubmit}>
@@ -670,6 +682,7 @@ const Reservation = () => {
           </Grid>
         </Grid>
       </Container>
+      </Box>
     </Box>
   );
 };

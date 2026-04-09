@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSearchParams } from 'react-router-dom';
 import {
   Container,
   Typography,
@@ -19,15 +18,107 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { useCart } from '../context/CartContext';
 
+// ─── Single kitchen menu ──────────────────────────────────────────────────────
+
+const MENU_CATEGORIES = [
+  {
+    id: 'wraps',
+    title: 'Wraps',
+    items: [
+      { name: 'Chicken Shawarma Wrap', description: 'Toasted wrap with chicken, slaw and creamy pepper sauce', price: 10.99, image: '/images/ChickenShawarmaWrap.jpg' },
+      { name: 'Beef Shawarma Wrap', description: 'Grilled beef strips with fresh veg and pepper sauce in a toasted wrap', price: 11.99, image: '/images/ChickenShawarmaWrap.jpg' },
+      { name: 'Shawarma + Fries Combo', description: 'Chicken shawarma wrap paired with crispy fries', price: 13.99, image: '/images/shawarmafriescombo.jpg' },
+    ],
+  },
+  {
+    id: 'rice-meals',
+    title: 'Rice Meals',
+    items: [
+      { name: 'Jollof Rice', description: 'Traditional Nigerian jollof rice with your choice of protein', price: 12.99, image: '/images/jollof_rice.png' },
+      { name: 'Ofada Sauce Ayamase Stew', description: 'Jumbo Ofada rice with assorted meat, egg, ponmo and panla fish', price: 15.99, image: '/images/Ofada.png' },
+      { name: 'Coconut Rice', description: 'Fragrant rice cooked in coconut milk with vegetables', price: 12.99, image: '/images/White_Rice.png' },
+      { name: 'Fried Rice', description: 'Nigerian-style fried rice with mixed vegetables and protein', price: 12.99, image: '/images/Friedrice.jpg' },
+      { name: 'Egusi Soup', description: 'Melon seed soup with assorted meat and fish', price: 15.99, image: '/images/Egusi.png' },
+      { name: 'Efo Riro', description: 'Vegetable soup with assorted meat and fish', price: 15.99, image: '/images/efo_riro.png' },
+      { name: 'Ogbono Soup', description: 'Wild mango seed soup with assorted meat and fish', price: 15.99, image: '/images/ogbono.jpg' },
+      { name: 'Banga Soup', description: 'Palm nut soup with assorted meat and fish', price: 15.99, image: '/images/banga.jpg' },
+      { name: 'Pounded Yam', description: 'Smooth pounded yam — order with any soup', price: 9.99, image: '/images/poundedyam.jpg' },
+      { name: 'Amala', description: 'Yam flour swallow — order with any soup', price: 9.99, image: '/images/Amala.png' },
+      { name: 'Eba', description: 'Garri (cassava flour) swallow — order with any soup', price: 9.99, image: '/images/eba.jpg' },
+      { name: 'Fufu', description: 'Cassava and plantain fufu — order with any soup', price: 9.99, image: '/images/fufu.jpg' },
+    ],
+  },
+  {
+    id: 'sides',
+    title: 'Sides',
+    items: [
+      { name: 'Beef Suya', description: 'Spicy grilled beef skewers with suya spice and onions', price: 15.99, image: '/images/grilled_suya.jpg' },
+      { name: 'Grilled Chicken', description: 'Flame-grilled chicken with house pepper glaze', price: 14.99, image: '/images/barbecue.jpg' },
+      { name: 'Boli (Roasted Plantain)', description: 'Roasted plantain with spicy sauce', price: 9.99, image: '/images/boli.png' },
+      { name: 'Loaded Fries', description: 'Crispy fries topped with suya-spiced chicken and sauce', price: 9.99, image: '/images/fries.jpg' },
+      { name: 'Coleslaw', description: 'Fresh cabbage and carrot salad', price: 6.99, image: '/images/Coleslaw.jpg' },
+      { name: 'Akara', description: 'Crispy bean cakes — a classic Nigerian snack', price: 6.99, image: '/images/Akara.jpg' },
+      { name: 'Pepper Soup', description: 'Spicy meat or fish soup with traditional herbs', price: 15.99, image: '/images/peppersoup.jpg' },
+    ],
+  },
+  {
+    id: 'drinks',
+    title: 'Drinks',
+    items: [
+      { name: 'Zobo', description: 'Hibiscus drink with ginger and pineapple', price: 6.99, image: '/images/zobo.jpg' },
+      { name: 'Chapman', description: 'Nigerian cocktail with fruit juice and sprite', price: 9.99, image: '/images/chapman.jpg' },
+      { name: 'Kunu', description: 'Traditional millet drink with spices', price: 6.99, image: '/images/kunu.jpg' },
+      { name: 'Soft Drinks', description: 'Coca-Cola, Fanta, Sprite', price: 3.99, image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=200&q=80' },
+    ],
+  },
+];
+
+const BUNDLES = [
+  {
+    id: 'couple-pack',
+    name: 'Couple Pack',
+    price: 25,
+    tag: 'For 2',
+    image: '/images/jollof_rice.png',
+    items: ['2 × Jollof Rice & Chicken', '1 × Coleslaw', '2 × Soft Drinks'],
+    desc: 'A perfect spread for two — mains plus a shared side.',
+  },
+  {
+    id: 'friends-pack',
+    name: 'Friends Pack',
+    price: 45,
+    tag: 'For 4–6',
+    image: '/images/grilled_suya.jpg',
+    items: ['4 × Shawarma Wraps', '2 × Loaded Fries', '1 × Large Jollof Rice', '6 × Soft Drinks'],
+    desc: 'A crowd-pleasing mix for a group of friends.',
+  },
+  {
+    id: 'group-pack',
+    name: 'Group Pack',
+    price: 70,
+    tag: 'For 8–12',
+    image: '/images/Egusi.png',
+    items: ['Large Jollof Rice (serves 10)', 'Egusi Soup + Eba (serves 8)', '4 × Grilled Chicken', '10 × Soft Drinks'],
+    desc: 'A generous Nigerian feast for large groups and events.',
+  },
+];
+
+const TABS = [
+  { id: 'all', label: 'All Items' },
+  ...MENU_CATEGORIES.map((c) => ({ id: c.id, label: c.title })),
+  { id: 'bundles', label: 'Bundles' },
+];
+
+// ─── Component ────────────────────────────────────────────────────────────────
+
 const Menu = () => {
-  const [searchParams] = useSearchParams();
   const { addItem } = useCart();
   const [lastAdded, setLastAdded] = React.useState(null);
-  const [activeBrand, setActiveBrand] = React.useState('all');
+  const [activeTab, setActiveTab] = React.useState('all');
 
   const handleAdd = React.useCallback(
-    (brandName, categoryTitle, item) => {
-      const id = `${brandName}:${categoryTitle}:${item.name}`;
+    (categoryTitle, item) => {
+      const id = `honeyspice:${categoryTitle}:${item.name}`;
       addItem({ id, name: item.name, price: item.price });
       setLastAdded(id);
       window.setTimeout(() => setLastAdded((cur) => (cur === id ? null : cur)), 1000);
@@ -35,411 +126,369 @@ const Menu = () => {
     [addItem]
   );
 
-  const virtualBrands = React.useMemo(
-    () => [
-    {
-      id: 'honeyspice-kitchen',
-      name: 'HoneySpice Nigerian Kitchen',
-      subtitle: 'Classic jollof, soups and swallows.',
-      categories: [
-        {
-          title: 'Rice Dishes',
-          items: [
-            { name: 'Ofada Sauce Ayamase Stew', description: 'Jumbo Ofada rice with assorted meat, egg, ponmo and panla fish', price: 15.99 },
-            { name: 'Jollof Rice', description: 'Traditional Nigerian jollof rice with your choice of protein', price: 12.99 },
-            { name: 'Coconut Rice', description: 'Fragrant rice cooked in coconut milk with vegetables', price: 12.99 },
-            { name: 'Fried Rice', description: 'Nigerian-style fried rice with mixed vegetables and protein', price: 12.99 },
-          ],
-        },
-        {
-          title: 'Soups & Swallows',
-          items: [
-            { name: 'Egusi Soup', description: 'Melon seed soup with assorted meat and fish', price: 15.99 },
-            { name: 'Efo Riro', description: 'Vegetable soup with assorted meat and fish', price: 15.99 },
-            { name: 'Ogbono Soup', description: 'Wild mango seed soup with assorted meat and fish', price: 15.99 },
-            { name: 'Banga Soup', description: 'Palm nut soup with assorted meat and fish', price: 15.99 },
-            { name: 'Pounded Yam', description: 'Smooth pounded yam with choice of soup', price: 9.99 },
-            { name: 'Amala', description: 'Yam flour swallow with choice of soup', price: 9.99 },
-            { name: 'Eba', description: 'Garri (cassava flour) swallow with choice of soup', price: 9.99 },
-            { name: 'Fufu', description: 'Cassava and plantain fufu with choice of soup', price: 9.99 },
-          ],
-        },
-      ],
+  const handleBundleAdd = React.useCallback(
+    (bundle) => {
+      const id = `honeyspice:bundles:${bundle.name}`;
+      addItem({ id, name: bundle.name, price: bundle.price });
+      setLastAdded(id);
+      window.setTimeout(() => setLastAdded((cur) => (cur === id ? null : cur)), 1000);
     },
-    {
-      id: 'spice-grill-house',
-      name: 'Spice Grill House',
-      subtitle: 'Suya and grilled specials from the same kitchen.',
-      categories: [
-        {
-          title: 'Grilled Favorites',
-          items: [
-            { name: 'Beef Suya', description: 'Spicy grilled beef skewers with suya spice and onions', price: 15.99 },
-            { name: 'Grilled Chicken', description: 'Flame-grilled chicken with house pepper glaze', price: 14.99 },
-            { name: 'Boli (Roasted Plantain)', description: 'Roasted plantain with spicy sauce', price: 9.99 },
-            { name: 'Pepper Soup', description: 'Spicy meat or fish soup with traditional herbs', price: 15.99 },
-          ],
-        },
-        {
-          title: 'Grill Sides',
-          items: [
-            { name: 'Dodo (Fried Plantain)', description: 'Crispy fried plantain', price: 6.99 },
-            { name: 'Coleslaw', description: 'Fresh cabbage and carrot salad', price: 6.99 },
-            { name: 'Soft Drinks', description: 'Coca-Cola, Fanta, Sprite', price: 3.99 },
-          ],
-        },
-      ],
-    },
-    {
-      id: 'late-night-bites',
-      name: 'Late Night Bites',
-      subtitle: 'Quick shawarma, fries and easy late-night combos.',
-      categories: [
-        {
-          title: 'Late Night Combos',
-          items: [
-            { name: 'Chicken Shawarma Wrap', description: 'Toasted wrap with chicken, slaw and creamy pepper sauce', price: 10.99 },
-            { name: 'Loaded Fries', description: 'Crispy fries topped with suya-spiced chicken and sauce', price: 9.99 },
-            { name: 'Shawarma + Fries Combo', description: 'Chicken shawarma wrap paired with a regular fries', price: 13.99 },
-            { name: 'Mini Bites Platter', description: 'Akara, moi moi and spicy dip for sharing', price: 11.99 },
-          ],
-        },
-        {
-          title: 'Drinks',
-          items: [
-            { name: 'Zobo', description: 'Hibiscus drink with ginger and pineapple', price: 6.99 },
-            { name: 'Chapman', description: 'Nigerian cocktail with fruit juice and sprite', price: 9.99 },
-            { name: 'Kunu', description: 'Traditional millet drink with spices', price: 6.99 },
-          ],
-        },
-      ],
-    },
-  ],
-    []
+    [addItem]
   );
 
-  const normalize = React.useCallback(
-    (value) => String(value || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''),
-    []
-  );
+  const visibleCategories =
+    activeTab === 'all'
+      ? MENU_CATEGORIES
+      : activeTab === 'bundles'
+      ? []
+      : MENU_CATEGORIES.filter((c) => c.id === activeTab);
 
-  const selectedCategory = normalize(searchParams.get('category'));
-  const hasCategoryFilter = Boolean(selectedCategory);
-
-  const categoryMatchesFilter = React.useCallback(
-    (title) => {
-      const slug = normalize(title);
-      switch (selectedCategory) {
-        case 'rice':
-          return slug.includes('rice');
-        case 'soups-swallows':
-          return slug.includes('soup') || slug.includes('swallow');
-        case 'grills-suya':
-          return slug.includes('grill') || slug.includes('suya');
-        case 'small-chops':
-          return slug.includes('small-chops') || slug.includes('late-night-combos') || slug.includes('bites');
-        case 'drinks-sides':
-          return slug.includes('drink') || slug.includes('side');
-        default:
-          return slug === selectedCategory;
-      }
-    },
-    [normalize, selectedCategory]
-  );
-
-  const brandsToRender = React.useMemo(() => {
-    if (hasCategoryFilter) {
-      return virtualBrands
-        .map((brand) => ({
-          ...brand,
-          categories: brand.categories.filter((category) => categoryMatchesFilter(category.title)),
-        }))
-        .filter((brand) => brand.categories.length > 0);
-    }
-    return activeBrand === 'all'
-      ? virtualBrands
-      : virtualBrands.filter((brand) => brand.id === activeBrand);
-  }, [activeBrand, categoryMatchesFilter, hasCategoryFilter, virtualBrands]);
-
-  const handleBrandChange = (brandId) => {
-    setActiveBrand(brandId);
-    if (brandId === 'all') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-    window.setTimeout(() => {
-      const el = document.getElementById(`brand-${brandId}`);
-      if (el) {
-        // Keep selected brand near top and avoid inconsistent browser scrollIntoView behavior.
-        const NAVBAR_OFFSET = 190;
-        const targetTop = Math.max(0, window.scrollY + el.getBoundingClientRect().top - NAVBAR_OFFSET);
-        window.scrollTo({ top: targetTop, behavior: 'smooth' });
-      }
-    }, 60);
-  };
+  const showBundles = activeTab === 'all' || activeTab === 'bundles';
 
   return (
     <>
       <Seo
         title="Menu | HoneySpice Cuisine Stirling"
-        description="Explore HoneySpice virtual brands in one place: Nigerian kitchen classics, grill house favorites and late-night bites in Stirling, UK."
+        description="Explore the full HoneySpice Kitchen menu — wraps, rice meals, sides, drinks and curated bundles. Authentic Nigerian food in Stirling, UK."
       />
-      <Box 
-      sx={{ 
-        minHeight: '100vh',
-        bgcolor: 'background.paper',
-        py: { xs: 4, sm: 6, md: 8 },
-        px: { xs: 2, sm: 0 }
-      }}
-    >
-      <Container maxWidth="lg">
-        {!hasCategoryFilter ? (
-        <Paper
-          elevation={0}
-          sx={(theme) => ({
-            mb: { xs: 2.5, sm: 3 },
-            p: { xs: 1.5, sm: 2 },
-            borderRadius: 3,
-            border: `1px solid ${theme.palette.divider}`,
-            backgroundColor: 'background.paper',
-          })}
-        >
-          <Stack direction="row" spacing={1} sx={{ overflowX: 'auto', pb: 0.5 }}>
-            <Chip
-              label="All Items"
-              color={activeBrand === 'all' ? 'primary' : 'default'}
-              onClick={() => handleBrandChange('all')}
-              clickable
-            />
-            {virtualBrands.map((brand) => (
-              <Chip
-                key={brand.id}
-                label={brand.name}
-                color={activeBrand === brand.id ? 'primary' : 'default'}
-                onClick={() => handleBrandChange(brand.id)}
-                clickable
-              />
-            ))}
-          </Stack>
-        </Paper>
-        ) : null}
+      <Box sx={{ minHeight: '100vh', bgcolor: 'background.paper', py: { xs: 4, sm: 6, md: 8 }, px: { xs: 2, sm: 0 } }}>
+        <Container maxWidth="lg">
 
-        {brandsToRender.map((brand) => (
-          <Box key={brand.id} id={`brand-${brand.id}`} sx={{ mb: { xs: 4, sm: 5 } }}>
-            <Paper
-              elevation={0}
-              sx={(theme) => ({
-                mb: { xs: 2, sm: 3 },
-                p: { xs: 2, sm: 2.5 },
-                border: `1px solid ${theme.palette.divider}`,
-                borderRadius: 3,
-                backgroundColor: 'rgba(244, 106, 6, 0.06)',
-              })}
+          {/* Kitchen header */}
+          <Paper
+            elevation={0}
+            sx={(theme) => ({
+              mb: { xs: 3, sm: 4 },
+              p: { xs: 2.5, sm: 3 },
+              border: `1px solid ${theme.palette.divider}`,
+              borderRadius: 3,
+              bgcolor: 'rgba(244, 106, 6, 0.06)',
+            })}
+          >
+            <Typography
+              variant="h4"
+              component="h1"
+              sx={{ color: 'primary.main', fontWeight: 800, fontSize: { xs: '1.35rem', sm: '1.6rem', md: '1.85rem' } }}
             >
-              <Typography
-                variant="h4"
-                component="h2"
-                sx={{
-                  color: 'primary.main',
-                  fontWeight: 800,
-                  fontSize: { xs: '1.25rem', sm: '1.5rem', md: '1.75rem' },
-                }}
-              >
-                {brand.name}
-              </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
-                {brand.subtitle}
-              </Typography>
-            </Paper>
-            <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
-              {brand.categories.map((category) => (
-                <Grid item xs={12} md={6} key={`${brand.id}-${category.title}`}>
+              Honeyspice Kitchen
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
+              Authentic Nigerian cuisine — cooked and served from our Stirling kitchen.
+            </Typography>
+          </Paper>
+
+          {/* Category tabs */}
+          <Paper
+            elevation={0}
+            sx={(theme) => ({
+              mb: { xs: 3, sm: 4 },
+              p: { xs: 1.5, sm: 2 },
+              borderRadius: 3,
+              border: `1px solid ${theme.palette.divider}`,
+              bgcolor: 'background.paper',
+            })}
+          >
+            <Stack direction="row" spacing={1} sx={{ overflowX: 'auto', pb: 0.5 }}>
+              {TABS.map((tab) => (
+                <Chip
+                  key={tab.id}
+                  label={tab.label}
+                  color={activeTab === tab.id ? 'primary' : 'default'}
+                  onClick={() => setActiveTab(tab.id)}
+                  clickable
+                  sx={{ flexShrink: 0 }}
+                />
+              ))}
+            </Stack>
+          </Paper>
+
+          {/* Menu categories */}
+          {visibleCategories.length > 0 && (
+            <Grid container spacing={{ xs: 2, sm: 3, md: 4 }} sx={{ mb: showBundles ? { xs: 5, md: 7 } : 0 }}>
+              {visibleCategories.map((category) => (
+                <Grid item xs={12} md={6} key={category.id}>
                   <Paper
-                    id={`category-${brand.id}-${normalize(category.title)}`}
                     elevation={0}
                     sx={(theme) => ({
                       p: { xs: 2, sm: 3 },
                       height: '100%',
                       border: `1px solid ${theme.palette.divider}`,
                       borderRadius: { xs: 3, sm: 4 },
-                      backgroundColor: 'background.paper',
+                      bgcolor: 'background.paper',
                       boxShadow: '0 14px 40px rgba(16, 24, 40, 0.06)',
                     })}
                   >
                     <Typography
                       variant="h5"
-                      component="h3"
+                      component="h2"
                       sx={{
                         color: 'primary.main',
                         mb: { xs: 2, sm: 3 },
                         fontWeight: 600,
-                        fontSize: {
-                          xs: '1.2rem',
-                          sm: '1.4rem',
-                          md: '1.55rem',
-                        },
+                        fontSize: { xs: '1.2rem', sm: '1.4rem', md: '1.55rem' },
                       }}
                     >
                       {category.title}
                     </Typography>
-                    <List>
-                      {category.items.map((item, index) => (
-                        <React.Fragment key={`${brand.id}-${category.title}-${item.name}`}>
-                          <ListItem sx={{ px: 0, py: 1.25 }}>
-                            <Box
-                              sx={{
-                                width: '100%',
-                                display: 'flex',
-                                flexDirection: { xs: 'column', sm: 'row' },
-                                alignItems: { xs: 'stretch', sm: 'flex-start' },
-                                gap: { xs: 1.5, sm: 2 },
-                              }}
-                            >
-                              <ListItemText
-                                sx={{ m: 0, flexGrow: 1, minWidth: 0 }}
-                                primary={
-                                  <Typography
-                                    variant="subtitle1"
+                    <List disablePadding>
+                      {category.items.map((item, index) => {
+                        const itemId = `honeyspice:${category.title}:${item.name}`;
+                        const isAdded = lastAdded === itemId;
+                        return (
+                          <React.Fragment key={item.name}>
+                            <ListItem sx={{ px: 0, py: 1.25 }}>
+                              <Box
+                                sx={{
+                                  width: '100%',
+                                  display: 'flex',
+                                  flexDirection: { xs: 'column', sm: 'row' },
+                                  alignItems: { xs: 'stretch', sm: 'flex-start' },
+                                  gap: { xs: 1.5, sm: 2 },
+                                }}
+                              >
+                                {item.image && (
+                                  <Box
+                                    component="img"
+                                    src={item.image}
+                                    alt={item.name}
+                                    loading="lazy"
                                     sx={{
-                                      fontWeight: 700,
-                                      fontSize: { xs: '0.95rem', sm: '1.1rem' },
-                                    }}
-                                  >
-                                    {item.name}
-                                  </Typography>
-                                }
-                                secondary={
-                                  <Box sx={{ mt: 0.5 }}>
-                                    <Typography
-                                      variant="body2"
-                                      color="text.secondary"
-                                      sx={{
-                                        fontSize: {
-                                          xs: '0.875rem',
-                                          sm: '0.9375rem',
-                                          md: '1rem',
-                                        },
-                                        lineHeight: 1.45,
-                                      }}
-                                    >
-                                      {item.description}
-                                    </Typography>
-                                    <Box sx={{ mt: 1 }}>
-                                      <Chip
-                                        size="small"
-                                        label={`£${item.price.toFixed(2)}`}
-                                        sx={(theme) => ({
-                                          fontWeight: 800,
-                                          letterSpacing: '0.01em',
-                                          backgroundColor: 'rgba(244, 106, 6, 0.10)',
-                                          color: theme.palette.primary.dark,
-                                          border: '1px solid rgba(244, 106, 6, 0.22)',
-                                        })}
-                                      />
-                                    </Box>
-                                  </Box>
-                                }
-                              />
-                              {(() => {
-                                const itemId = `${brand.name}:${category.title}:${item.name}`;
-                                const isAdded = lastAdded === itemId;
-                                return (
-                                  <Button
-                                    variant={isAdded ? 'contained' : 'outlined'}
-                                    size="small"
-                                    onClick={() => handleAdd(brand.name, category.title, item)}
-                                    disabled={isAdded}
-                                    color={isAdded ? 'success' : 'primary'}
-                                    sx={{
+                                      width: { xs: '100%', sm: 80 },
+                                      height: { xs: 100, sm: 80 },
+                                      objectFit: 'cover',
+                                      borderRadius: 2,
                                       flexShrink: 0,
-                                      minWidth: { xs: '100%', sm: 108 },
-                                      height: 36,
-                                      mt: { xs: 1, sm: 0.25 },
-                                      borderRadius: 999,
-                                      fontWeight: 800,
-                                      letterSpacing: '0.01em',
-                                      textTransform: 'none',
-                                      transform: isAdded ? 'scale(1.03)' : 'scale(1)',
-                                      transition:
-                                        'transform 180ms ease, background-color 180ms ease, color 180ms ease, border-color 180ms ease',
-                                      backgroundColor: isAdded ? 'success.main' : undefined,
-                                      boxShadow: isAdded ? '0 10px 30px rgba(9, 162, 16, 0.32)' : 'none',
-                                      '&:hover': {
-                                        backgroundColor: isAdded
-                                          ? 'success.dark'
-                                          : 'rgba(244, 106, 6, 0.06)',
-                                        boxShadow: isAdded
-                                          ? '0 12px 36px rgba(9, 162, 16, 0.36)'
-                                          : 'none',
-                                        transform: isAdded ? 'scale(1.03)' : 'scale(1.02)',
-                                      },
                                     }}
-                                    startIcon={
-                                      isAdded ? (
-                                        <CheckCircleIcon fontSize="small" />
-                                      ) : (
-                                        <AddShoppingCartIcon fontSize="small" />
-                                      )
-                                    }
-                                  >
-                                    {isAdded ? 'Added' : 'Add'}
-                                  </Button>
-                                );
-                              })()}
-                            </Box>
-                          </ListItem>
-                          {index < category.items.length - 1 && (
-                            <Divider sx={{ my: { xs: 1, sm: 1.25 } }} />
-                          )}
-                        </React.Fragment>
-                      ))}
+                                  />
+                                )}
+                                <ListItemText
+                                  sx={{ m: 0, flexGrow: 1, minWidth: 0 }}
+                                  primary={
+                                    <Typography variant="subtitle1" sx={{ fontWeight: 700, fontSize: { xs: '0.95rem', sm: '1.1rem' } }}>
+                                      {item.name}
+                                    </Typography>
+                                  }
+                                  secondary={
+                                    <Box sx={{ mt: 0.5 }}>
+                                      <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.875rem', sm: '0.9375rem' }, lineHeight: 1.45 }}>
+                                        {item.description}
+                                      </Typography>
+                                      <Box sx={{ mt: 1 }}>
+                                        <Chip
+                                          size="small"
+                                          label={`£${item.price.toFixed(2)}`}
+                                          sx={(theme) => ({
+                                            fontWeight: 800,
+                                            bgcolor: 'rgba(244, 106, 6, 0.10)',
+                                            color: theme.palette.primary.dark,
+                                            border: '1px solid rgba(244, 106, 6, 0.22)',
+                                          })}
+                                        />
+                                      </Box>
+                                    </Box>
+                                  }
+                                />
+                                <Button
+                                  variant={isAdded ? 'contained' : 'outlined'}
+                                  size="small"
+                                  onClick={() => handleAdd(category.title, item)}
+                                  disabled={isAdded}
+                                  color={isAdded ? 'success' : 'primary'}
+                                  sx={{
+                                    flexShrink: 0,
+                                    minWidth: { xs: '100%', sm: 108 },
+                                    height: { xs: 44, sm: 36 },
+                                    mt: { xs: 1, sm: 0.25 },
+                                    borderRadius: 999,
+                                    fontWeight: 800,
+                                    textTransform: 'none',
+                                    transform: isAdded ? 'scale(1.03)' : 'scale(1)',
+                                    transition: 'transform 180ms ease, background-color 180ms ease, color 180ms ease',
+                                    bgcolor: isAdded ? 'success.main' : undefined,
+                                    boxShadow: isAdded ? '0 10px 30px rgba(9, 162, 16, 0.32)' : 'none',
+                                    '&:hover': {
+                                      bgcolor: isAdded ? 'success.dark' : 'rgba(244, 106, 6, 0.06)',
+                                      boxShadow: isAdded ? '0 12px 36px rgba(9, 162, 16, 0.36)' : 'none',
+                                      transform: isAdded ? 'scale(1.03)' : 'scale(1.02)',
+                                    },
+                                  }}
+                                  startIcon={isAdded ? <CheckCircleIcon fontSize="small" /> : <AddShoppingCartIcon fontSize="small" />}
+                                >
+                                  {isAdded ? 'Added' : 'Add'}
+                                </Button>
+                              </Box>
+                            </ListItem>
+                            {index < category.items.length - 1 && <Divider sx={{ my: { xs: 1, sm: 1.25 } }} />}
+                          </React.Fragment>
+                        );
+                      })}
                     </List>
                   </Paper>
                 </Grid>
               ))}
             </Grid>
+          )}
+
+          {/* ── Bundles section ─────────────────────────────────────────── */}
+          {showBundles && (
+            <Box>
+              {activeTab === 'all' && (
+                <Box sx={{ mb: { xs: 4, md: 5 } }}>
+                  <Divider sx={{ mb: { xs: 4, md: 5 } }} />
+                  <Typography
+                    variant="overline"
+                    sx={{ letterSpacing: '0.2em', color: 'primary.main', fontWeight: 700, fontSize: '0.7rem' }}
+                  >
+                    Ready-made deals
+                  </Typography>
+                  <Typography
+                    variant="h4"
+                    component="h2"
+                    sx={{ fontWeight: 800, mt: 0.5, mb: 1, fontSize: { xs: '1.5rem', sm: '1.85rem', md: '2.25rem' }, letterSpacing: '-0.02em' }}
+                  >
+                    Bundles
+                  </Typography>
+                  <Typography color="text.secondary" sx={{ fontSize: { xs: '0.9rem', sm: '1rem' }, maxWidth: 500 }}>
+                    Curated Nigerian spreads for every group size — better value, less hassle.
+  </Typography>
+                </Box>
+              )}
+
+              <Grid container spacing={{ xs: 2.5, md: 3 }}>
+                {BUNDLES.map((bundle) => {
+                  const bundleId = `honeyspice:bundles:${bundle.name}`;
+                  const isAdded = lastAdded === bundleId;
+                  return (
+                    <Grid item xs={12} sm={6} md={4} key={bundle.id}>
+                      <Paper
+                        elevation={0}
+                        sx={(theme) => ({
+                          border: `1px solid ${theme.palette.divider}`,
+                          borderRadius: { xs: 3, sm: 4 },
+                          overflow: 'hidden',
+                          height: '100%',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          transition: 'box-shadow 0.25s',
+                          '&:hover': { boxShadow: '0 12px 36px rgba(0,0,0,0.09)' },
+                        })}
+                      >
+                        {/* Bundle image */}
+                        <Box sx={{ width: '100%', height: 180, overflow: 'hidden', position: 'relative' }}>
+                          <Box
+                            component="img"
+                            src={bundle.image}
+                            alt={bundle.name}
+                            loading="lazy"
+                            sx={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                          />
+                          <Box
+                            sx={{
+                              position: 'absolute',
+                              top: 12,
+                              left: 12,
+                              bgcolor: 'primary.main',
+                              color: '#fff',
+                              fontSize: '0.7rem',
+                              fontWeight: 700,
+                              letterSpacing: '0.1em',
+                              textTransform: 'uppercase',
+                              px: 1.25,
+                              py: 0.4,
+                              borderRadius: 0.5,
+                            }}
+                          >
+                            {bundle.tag}
+                          </Box>
+                        </Box>
+
+                        {/* Bundle details */}
+                        <Box sx={{ p: { xs: 2.5, sm: 3 }, flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+                          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
+                            <Typography sx={{ fontWeight: 800, fontSize: '1.15rem', color: 'text.primary', lineHeight: 1.2 }}>
+                              {bundle.name}
+                            </Typography>
+                            <Chip
+                              label={`£${bundle.price}`}
+                              size="small"
+                              sx={(theme) => ({
+                                fontWeight: 800,
+                                fontSize: '0.9rem',
+                                bgcolor: 'rgba(244, 106, 6, 0.10)',
+                                color: theme.palette.primary.dark,
+                                border: '1px solid rgba(244, 106, 6, 0.22)',
+                                ml: 1,
+                                flexShrink: 0,
+                              })}
+                            />
+                          </Box>
+
+                          <Typography color="text.secondary" sx={{ fontSize: '0.875rem', lineHeight: 1.6, mb: 2 }}>
+                            {bundle.desc}
+                          </Typography>
+
+                          {/* Item list */}
+                          <Box component="ul" sx={{ m: 0, pl: 2, mb: 2.5, flexGrow: 1 }}>
+                            {bundle.items.map((item) => (
+                              <Box
+                                component="li"
+                                key={item}
+                                sx={{ fontSize: '0.85rem', color: 'text.secondary', lineHeight: 1.85 }}
+                              >
+                                {item}
+                              </Box>
+                            ))}
+                          </Box>
+
+                          {/* Add to cart */}
+                          <Button
+                            variant={isAdded ? 'contained' : 'outlined'}
+                            fullWidth
+                            onClick={() => handleBundleAdd(bundle)}
+                            disabled={isAdded}
+                            color={isAdded ? 'success' : 'primary'}
+                            sx={{
+                              borderRadius: 999,
+                              fontWeight: 800,
+                              textTransform: 'none',
+                              height: 40,
+                              transform: isAdded ? 'scale(1.03)' : 'scale(1)',
+                              transition: 'transform 180ms ease, background-color 180ms ease',
+                              bgcolor: isAdded ? 'success.main' : undefined,
+                              boxShadow: isAdded ? '0 10px 30px rgba(9, 162, 16, 0.32)' : 'none',
+                              '&:hover': {
+                                bgcolor: isAdded ? 'success.dark' : 'rgba(244, 106, 6, 0.06)',
+                                transform: 'scale(1.02)',
+                              },
+                            }}
+                            startIcon={isAdded ? <CheckCircleIcon fontSize="small" /> : <AddShoppingCartIcon fontSize="small" />}
+                          >
+                            {isAdded ? 'Added to Cart' : 'Add to Cart'}
+                          </Button>
+                        </Box>
+                      </Paper>
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </Box>
+          )}
+
+          {/* Allergen notice */}
+          <Box sx={{ mt: { xs: 5, sm: 6 }, p: { xs: 2, sm: 3 }, bgcolor: 'background.paper', borderRadius: 2, boxShadow: 1 }}>
+            <Typography variant="h6" gutterBottom sx={{ fontSize: { xs: '1.1rem', sm: '1.25rem' } }}>
+              Allergen Information
+            </Typography>
+            <Typography variant="body1" sx={{ fontSize: { xs: '0.875rem', sm: '0.9375rem' } }}>
+              Please inform our team of any allergies or dietary requirements before ordering.
+              Our menu items may contain allergens including nuts, dairy, gluten, and shellfish.
+            </Typography>
           </Box>
-        ))}
-        
-        <Box sx={{ 
-          mt: { xs: 3, sm: 4 }, 
-          p: { xs: 2, sm: 3 }, 
-          bgcolor: 'background.paper', 
-          borderRadius: 2, 
-          boxShadow: 1 
-        }}>
-          <Typography 
-            variant="h6" 
-            gutterBottom
-            sx={{
-              fontSize: {
-                xs: '1.1rem',
-                sm: '1.25rem',
-                md: '1.5rem'
-              }
-            }}
-          >
-            Allergen Information
-          </Typography>
-          <Typography 
-            variant="body1" 
-            paragraph
-            sx={{
-              fontSize: {
-                xs: '0.875rem',
-                sm: '0.9375rem',
-                md: '1rem'
-              }
-            }}
-          >
-            Please inform our staff of any allergies or dietary requirements before ordering.
-            Our menu items may contain allergens including nuts, dairy, gluten, and shellfish.
-          </Typography>
-        </Box>
-      </Container>
-    </Box>
+
+        </Container>
+      </Box>
     </>
   );
 };
 
-export default Menu; 
+export default Menu;

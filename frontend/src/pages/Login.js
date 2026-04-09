@@ -1,154 +1,94 @@
-import React from 'react';
-
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-function validateForm(mode, values) {
-  const nextErrors = {};
-
-  if (!values.email.trim()) {
-    nextErrors.email = 'Email is required.';
-  } else if (!EMAIL_REGEX.test(values.email)) {
-    nextErrors.email = 'Please enter a valid email address.';
-  }
-
-  if (!values.password) {
-    nextErrors.password = 'Password is required.';
-  } else if (values.password.length < 6) {
-    nextErrors.password = 'Password must be at least 6 characters.';
-  }
-
-  if (mode === 'register') {
-    if (!values.confirmPassword) {
-      nextErrors.confirmPassword = 'Confirm your password.';
-    } else if (values.password !== values.confirmPassword) {
-      nextErrors.confirmPassword = 'Passwords do not match.';
-    }
-  }
-
-  return nextErrors;
-}
-
-function FormField({ name, type, placeholder, value, onChange, error, onBlur }) {
-  return (
-    <div className="w-full">
-      <input
-        name={name}
-        type={type}
-        value={value}
-        onChange={onChange}
-        onBlur={onBlur}
-        placeholder={placeholder}
-        className={[
-          'w-full rounded-[8px] border bg-white px-3 py-3 text-[14px] font-normal text-[#333333] placeholder:text-[14px] placeholder:font-normal placeholder:text-[#999999] focus:border-[#007BFF] focus:outline-none',
-          error ? 'border-[#FF4D4F]' : 'border-[#CCCCCC]',
-        ].join(' ')}
-      />
-      {error ? <p className="mt-1 text-[12px] text-[#FF4D4F]">{error}</p> : null}
-    </div>
-  );
-}
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function Login() {
-  const [mode, setMode] = React.useState('login');
-  const [values, setValues] = React.useState({
-    email: '',
-    password: '',
-    confirmPassword: '',
-  });
-  const [errors, setErrors] = React.useState({});
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const { login, API_BASE } = useAuth();
+  const navigate = useNavigate();
+  const [values, setValues] = useState({ email: '', password: '' });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const isRegister = mode === 'register';
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setValues((prev) => ({ ...prev, [name]: value }));
-    setErrors((prev) => ({ ...prev, [name]: undefined }));
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+    try {
+      const res = await fetch(`${API_BASE}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'Login failed');
+      await login(data.token);
+      navigate('/dashboard');
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
-
-  const handleBlur = () => {
-    setErrors(validateForm(mode, values));
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const nextErrors = validateForm(mode, values);
-    setErrors(nextErrors);
-    if (Object.keys(nextErrors).length > 0) return;
-
-    setIsSubmitting(true);
-    window.setTimeout(() => {
-      setIsSubmitting(false);
-    }, 700);
-  };
-
-  const switchMode = () => {
-    setMode((prev) => (prev === 'login' ? 'register' : 'login'));
-    setErrors({});
-    setValues((prev) => ({ ...prev, password: '', confirmPassword: '' }));
-  };
-
-  const hasErrors = Object.values(errors).some(Boolean);
-  const isIncomplete = !values.email || !values.password || (isRegister && !values.confirmPassword);
-  const isDisabled = isSubmitting || isIncomplete || hasErrors;
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#F8F8F8] px-4 py-10">
-      <div className="w-[90%] max-w-[400px] rounded-[12px] bg-[#FFFFFF] p-6 shadow-sm">
-        <h1 className="text-center text-[24px] font-bold text-[#333333]">
-          {isRegister ? 'Create Account' : 'Login'}
-        </h1>
+    <div className="relative flex min-h-screen items-center justify-center px-4 py-10">
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background: `
+            radial-gradient(circle at 0% 0%, rgba(244,106,6,0.18) 0%, transparent 50%),
+            radial-gradient(circle at 100% 100%, rgba(255,139,61,0.14) 0%, transparent 50%)
+          `,
+        }}
+      />
+      <div className="relative w-[90%] max-w-[420px] rounded-[16px] bg-white px-8 py-10 shadow-lg">
+        <div className="mb-6 text-center">
+          <span className="text-[28px] font-extrabold tracking-tight text-[#F46A06]">HoneySpice</span>
+          <p className="mt-0.5 text-[13px] font-medium text-[#888]">CUISINE</p>
+        </div>
 
-        <form className="mt-6" onSubmit={handleSubmit} noValidate>
+        <h1 className="text-center text-[22px] font-bold text-[#1a1a1a]">Welcome back</h1>
+        <p className="mt-1 text-center text-[14px] text-[#888]">Sign in to your account</p>
+
+        {error && (
+          <div className="mt-4 rounded-lg border border-red-200 bg-red-50 p-3 text-center text-[13px] text-red-600">
+            {error}
+          </div>
+        )}
+
+        <form className="mt-7" onSubmit={handleSubmit} noValidate>
           <div className="space-y-4">
-            <FormField
-              name="email"
+            <input
               type="email"
-              placeholder="Email"
+              placeholder="Email address"
               value={values.email}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={errors.email}
+              onChange={e => setValues(v => ({ ...v, email: e.target.value }))}
+              required
+              className="w-full rounded-[8px] border border-[#CCCCCC] bg-white px-3 py-3 text-[14px] text-[#333] placeholder:text-[#999] focus:border-[#F46A06] focus:outline-none"
             />
-            <FormField
-              name="password"
+            <input
               type="password"
               placeholder="Password"
               value={values.password}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={errors.password}
+              onChange={e => setValues(v => ({ ...v, password: e.target.value }))}
+              required
+              className="w-full rounded-[8px] border border-[#CCCCCC] bg-white px-3 py-3 text-[14px] text-[#333] placeholder:text-[#999] focus:border-[#F46A06] focus:outline-none"
             />
-            {isRegister ? (
-              <FormField
-                name="confirmPassword"
-                type="password"
-                placeholder="Confirm Password"
-                value={values.confirmPassword}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={errors.confirmPassword}
-              />
-            ) : null}
-          </div>
-
-          <div className="mt-4 text-center">
-            <button
-              type="button"
-              onClick={switchMode}
-              className="text-[14px] text-[#007BFF] hover:underline"
-            >
-              {isRegister ? 'Already have an account? Login' : 'No account? Register'}
-            </button>
           </div>
 
           <button
             type="submit"
-            disabled={isDisabled}
-            className="mt-8 h-12 w-full rounded-[8px] bg-[#007BFF] text-[16px] font-bold text-[#FFFFFF] transition-colors hover:bg-[#0056b3] disabled:cursor-not-allowed disabled:bg-[#CCCCCC]"
+            disabled={loading || !values.email || !values.password}
+            className="mt-7 h-12 w-full rounded-[10px] bg-[#F46A06] text-[15px] font-bold text-white transition-colors hover:bg-[#D45A00] disabled:cursor-not-allowed disabled:bg-[#CCCCCC]"
           >
-            {isSubmitting ? 'Please wait...' : isRegister ? 'Register' : 'Login'}
+            {loading ? 'Signing in…' : 'Sign In'}
           </button>
+
+          <div className="mt-5 text-center">
+            <Link to="/register" className="text-[14px] font-medium text-[#F46A06] hover:underline">
+              No account? Register for free
+            </Link>
+          </div>
         </form>
       </div>
     </div>

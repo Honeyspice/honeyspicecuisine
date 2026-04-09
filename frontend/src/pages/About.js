@@ -1,4 +1,5 @@
 import React from 'react';
+import Seo from '../components/Seo';
 import {
   Container,
   Typography,
@@ -53,34 +54,32 @@ const About = () => {
 
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.paper', position: 'relative' }}>
-      {/* Header Section with Gradient Mesh */}
+      <Seo title="About Us | HoneySpice Cuisine" description="Learn the story behind HoneySpice Cuisine — authentic Nigerian food brought to Stirling, Scotland, with love and tradition." />
+      {/* Header Section with Photo Background */}
       <Box
         sx={{
           position: 'relative',
-          height: { xs: '28vh', md: '36vh' },
+          height: { xs: '32vh', md: '42vh' },
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           mb: 8,
           overflow: 'hidden',
+          backgroundImage: 'url(/images/jollof_rice.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
           '&::before': {
             content: '""',
             position: 'absolute',
             inset: 0,
-            background: `
-              radial-gradient(circle at 0% 0%, rgba(244, 106, 6, 0.7) 0%, transparent 50%),
-              radial-gradient(circle at 100% 0%, rgba(255, 139, 61, 0.6) 0%, transparent 50%),
-              radial-gradient(circle at 100% 100%, rgba(244, 106, 6, 0.5) 0%, transparent 50%),
-              radial-gradient(circle at 0% 100%, rgba(255, 139, 61, 0.8) 0%, transparent 50%)
-            `,
-            filter: 'blur(70px)',
+            background: 'linear-gradient(135deg, rgba(244,106,6,0.45) 0%, rgba(0,0,0,0.1) 100%)',
             zIndex: 1
           },
           '&::after': {
             content: '""',
             position: 'absolute',
             inset: 0,
-            background: 'linear-gradient(120deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 100%)',
+            background: 'rgba(0,0,0,0.52)',
             zIndex: 2
           }
         }}
@@ -99,43 +98,74 @@ const About = () => {
           >
             About HoneySpice Cuisine
           </Typography>
+          <Typography
+            variant="body1"
+            sx={{ color: 'rgba(255,255,255,0.82)', mt: 1.5, fontSize: { xs: '0.95rem', md: '1.1rem' }, textAlign: 'center' }}
+          >
+            Bringing authentic Nigerian flavours to the UK since 2018.
+          </Typography>
         </Container>
       </Box>
 
       {/* Content Section */}
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, py: 4 }}>
+        {/* First card spans full width — most important section */}
         <Grid container spacing={4}>
-          {sections.map((section, index) => (
-            <Grid item xs={12} key={index}>
+          <Grid item xs={12} key={0}>
+            <Card
+              sx={{
+                borderRadius: '12px',
+                boxShadow: '0 4px 30px rgba(0,0,0,0.08)',
+                backgroundColor: 'rgba(244, 106, 6, 0.04)',
+                border: '1px solid rgba(244, 106, 6, 0.12)',
+                transition: 'transform 0.3s ease-in-out',
+                '&:hover': { transform: 'translateY(-4px)', boxShadow: '0 8px 40px rgba(0,0,0,0.12)' },
+              }}
+            >
+              <CardHeader
+                title={
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                    {sections[0].icon}
+                    <Typography variant="h5" component="h2" sx={{ fontWeight: 'bold' }}>
+                      {sections[0].title}
+                    </Typography>
+                  </Box>
+                }
+              />
+              <CardContent>
+                <Typography variant="body1" color="text.secondary" sx={{ whiteSpace: 'pre-line', fontSize: '1.05rem', lineHeight: 1.7 }}>
+                  {sections[0].content}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          {/* Remaining sections in 2-column grid */}
+          {sections.slice(1).map((section, index) => (
+            <Grid item xs={12} md={6} key={index + 1}>
               <Card
                 sx={{
-                  borderRadius: '10px',
-                  boxShadow: '0 4px 30px rgba(0,0,0,0.1)',
-                  backdropFilter: 'blur(5px)',
-                  backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                  height: '100%',
+                  borderRadius: '12px',
+                  boxShadow: '0 4px 30px rgba(0,0,0,0.07)',
+                  backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                  border: '1px solid rgba(0,0,0,0.06)',
                   transition: 'transform 0.3s ease-in-out',
-                  '&:hover': {
-                    transform: 'translateY(-5px)',
-                    boxShadow: '0 6px 35px rgba(0,0,0,0.15)',
-                  }
+                  '&:hover': { transform: 'translateY(-4px)', boxShadow: '0 8px 40px rgba(0,0,0,0.12)' },
                 }}
               >
                 <CardHeader
                   title={
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                       {section.icon}
-                      <Typography variant="h5" component="h2" sx={{ fontWeight: 'bold' }}>
+                      <Typography variant="h6" component="h2" sx={{ fontWeight: 700 }}>
                         {section.title}
                       </Typography>
                     </Box>
                   }
                 />
                 <CardContent>
-                  <Typography
-                    variant="body1"
-                    color="text.secondary"
-                    sx={{ whiteSpace: 'pre-line' }}
-                  >
+                  <Typography variant="body2" color="text.secondary" sx={{ whiteSpace: 'pre-line', lineHeight: 1.75 }}>
                     {section.content}
                   </Typography>
                 </CardContent>

@@ -2,6 +2,7 @@ import { Box, Container, Typography, Grid } from '@mui/material';
 import RestaurantIcon from '@mui/icons-material/Restaurant';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import StarIcon from '@mui/icons-material/Star';
+import FadeIn from './FadeIn';
 
 const features = [
   {
@@ -24,14 +25,11 @@ const features = [
 const Features = () => {
   return (
     <Box
-      sx={(theme) => ({
-        py: { xs: 6, sm: 8, md: 10 },
+      sx={{
+        py: { xs: 10, sm: 12, md: 16 },
         bgcolor: 'background.paper',
-        borderRadius: { xs: 3, sm: 4 },
-        boxShadow: '0 18px 60px rgba(16, 24, 40, 0.08)',
-        border: `1px solid ${theme.palette.divider}`,
-        my: { xs: 3, sm: 4, md: 6 },
-      })}
+        my: 0,
+      }}
     >
       <Container maxWidth="lg">
         <Typography 
@@ -70,8 +68,9 @@ const Features = () => {
         <Grid container spacing={{ xs: 3, sm: 4, md: 6 }} justifyContent="center">
           {features.map((feature, index) => (
             <Grid item key={index} xs={12} sm={6} md={4}>
-              <Box sx={{ 
-                textAlign: 'center', 
+              <FadeIn delay={index * 120}>
+              <Box sx={{
+                textAlign: 'center',
                 p: { xs: 2, sm: 3 },
                 height: '100%',
                 display: 'flex',
@@ -116,6 +115,7 @@ const Features = () => {
                   {feature.description}
                 </Typography>
               </Box>
+              </FadeIn>
             </Grid>
           ))}
         </Grid>

@@ -58,20 +58,22 @@ const WhyUs = () => {
                 />
               </ListItem>
             </List>
-            <Button 
-              variant="contained" 
+            <Button
+              variant="contained"
               color="primary"
-              size="large" 
-              sx={{ 
-                borderRadius: 2, 
-                px: 4, 
+              size="large"
+              component="a"
+              href="/menu"
+              sx={{
+                borderRadius: 2,
+                px: 4,
                 mt: 2,
                 '&:hover': {
                   backgroundColor: 'primary.light'
                 }
               }}
             >
-              Learn More
+              See Our Menu
             </Button>
           </Grid>
           <Grid item xs={12} md={6} order={{ xs: 1, md: 2 }}>

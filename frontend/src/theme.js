@@ -55,70 +55,72 @@ let theme = createTheme({
     },
   },
   typography: {
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    fontFamily: '"Jost", "Helvetica", "Arial", sans-serif',
     h1: {
-      fontFamily: '"Quicksand", "Roboto", "Helvetica", "Arial", sans-serif',
-      fontWeight: 700,
+      fontFamily: '"Cormorant Garamond", "Georgia", serif',
+      fontWeight: 600,
       fontSize: '3rem',
       lineHeight: 1.1,
-      letterSpacing: '-0.02em',
+      letterSpacing: '-0.01em',
     },
     h2: {
-      fontFamily: '"Quicksand", "Roboto", "Helvetica", "Arial", sans-serif',
+      fontFamily: '"Cormorant Garamond", "Georgia", serif',
       fontWeight: 600,
-      fontSize: '2.25rem',
+      fontSize: '2rem',
       lineHeight: 1.2,
-      letterSpacing: '-0.015em',
+      letterSpacing: '-0.01em',
     },
     h3: {
-      fontFamily: '"Quicksand", "Roboto", "Helvetica", "Arial", sans-serif',
+      fontFamily: '"Cormorant Garamond", "Georgia", serif',
       fontWeight: 600,
       fontSize: '1.875rem',
       lineHeight: 1.25,
-      letterSpacing: '-0.01em',
+      letterSpacing: '0',
     },
     h4: {
-      fontFamily: '"Quicksand", "Roboto", "Helvetica", "Arial", sans-serif',
+      fontFamily: '"Cormorant Garamond", "Georgia", serif',
       fontWeight: 600,
       fontSize: '1.5rem',
       lineHeight: 1.3,
     },
     h5: {
-      fontFamily: '"Quicksand", "Roboto", "Helvetica", "Arial", sans-serif',
+      fontFamily: '"Cormorant Garamond", "Georgia", serif',
       fontWeight: 600,
       fontSize: '1.25rem',
       lineHeight: 1.35,
     },
     h6: {
-      fontFamily: '"Quicksand", "Roboto", "Helvetica", "Arial", sans-serif',
+      fontFamily: '"Cormorant Garamond", "Georgia", serif',
       fontWeight: 600,
       fontSize: '1.125rem',
       lineHeight: 1.4,
     },
     body1: {
+      fontFamily: '"Jost", "Helvetica", "Arial", sans-serif',
       fontSize: '1.02rem',
       lineHeight: 1.65,
       fontWeight: 400,
     },
     body2: {
+      fontFamily: '"Jost", "Helvetica", "Arial", sans-serif',
       fontSize: '0.95rem',
       lineHeight: 1.55,
       fontWeight: 400,
     },
     button: {
-      fontFamily: '"Quicksand", "Roboto", "Helvetica", "Arial", sans-serif',
+      fontFamily: '"Jost", "Helvetica", "Arial", sans-serif',
       textTransform: 'none',
-      fontWeight: 700,
-      letterSpacing: '0.02em',
+      fontWeight: 600,
+      letterSpacing: '0.04em',
       fontSize: '0.95rem',
     },
     subtitle1: {
-      fontFamily: '"Quicksand", "Roboto", "Helvetica", "Arial", sans-serif',
+      fontFamily: '"Jost", "Helvetica", "Arial", sans-serif',
       fontWeight: 600,
       fontSize: '1rem',
     },
     subtitle2: {
-      fontFamily: '"Quicksand", "Roboto", "Helvetica", "Arial", sans-serif',
+      fontFamily: '"Jost", "Helvetica", "Arial", sans-serif',
       fontWeight: 600,
       fontSize: '0.95rem',
     },
@@ -346,6 +348,6 @@ let theme = createTheme({
   },
 });
 
-theme = responsiveFontSizes(theme, { factor: 2.2 });
+theme = responsiveFontSizes(theme, { factor: 1.4 });
 
 export default theme; 
