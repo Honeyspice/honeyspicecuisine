@@ -6,26 +6,30 @@ const SLIDES = [
   {
     src: '/images/efo_riro.png',
     heading: 'TASTE NIGERIAN\nFLAVOURS.',
-    sub: 'Authentic soups, stews and swallows — cooked the way your owambe would taste.',
-    cta: { label: 'Explore Menu', to: '/menu' },
+    sub: 'Authentic soups, stews and swallows — bold, rich and cooked the traditional way. Delivery & collection from Stirling.',
+    cta: { label: 'Order Now', to: '/menu' },
+    secondaryCta: { label: 'Get Suggestions', to: '/ai-assistant' },
   },
   {
     src: '/images/jollof_rice.png',
     heading: 'BOOK YOUR\nEVENT.',
     sub: 'Private catering, weddings, corporate gatherings — cooked and delivered by our kitchen.',
     cta: { label: 'Book Catering', to: '/reservation' },
+    secondaryCta: { label: 'View Menu', to: '/menu' },
   },
   {
     src: '/images/grilled_suya.jpg',
-    heading: 'AI-POWERED\nMEAL HELP.',
-    sub: 'Tell us your budget, group size and occasion. Our AI builds you the perfect Nigerian spread.',
-    cta: { label: 'Get My Plan', to: '/register' },
+    heading: 'SMART MEAL\nSUGGESTIONS.',
+    sub: 'Tell us your budget, group size and occasion — we\'ll suggest the perfect Nigerian spread for you.',
+    cta: { label: 'Get Suggestions', to: '/ai-assistant' },
+    secondaryCta: { label: 'View Menu', to: '/menu' },
   },
   {
     src: '/images/barbecue.jpg',
     heading: 'PICNIC &\nGROUP MEALS.',
-    sub: 'Planning a picnic or feeding a crowd? Let our AI bundle the right dishes for your group.',
-    cta: { label: 'Plan My Picnic', to: '/reservation' },
+    sub: 'Planning a picnic or feeding a crowd? We\'ll bundle the right dishes for your group size and budget.',
+    cta: { label: 'Plan My Picnic', to: '/plan-picnic' },
+    secondaryCta: { label: 'View Menu', to: '/menu' },
   },
 ];
 
@@ -140,7 +144,7 @@ const Hero = () => {
           sx={{
             color: '#fff',
             fontWeight: 900,
-            fontSize: { xs: '2.6rem', sm: '4rem', md: '5.5rem' },
+            fontSize: { xs: '2rem', sm: '3.2rem', md: '4.5rem' },
             lineHeight: 1.05,
             letterSpacing: '-0.02em',
             textShadow: '0 2px 28px rgba(0,0,0,0.4)',
@@ -188,7 +192,7 @@ const Hero = () => {
           </Box>
           <Box
             component={RouterLink}
-            to="/menu"
+            to={SLIDES[current].secondaryCta.to}
             sx={{
               textDecoration: 'none',
               display: 'inline-block',
@@ -205,7 +209,7 @@ const Hero = () => {
               '&:hover': { background: '#fff', color: '#1a1a1a' },
             }}
           >
-            View Menu
+            {SLIDES[current].secondaryCta.label}
           </Box>
         </Box>
       </Box>

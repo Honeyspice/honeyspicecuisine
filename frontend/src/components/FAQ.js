@@ -10,7 +10,7 @@ const faqs = [
   },
   {
     question: 'What services does HoneySpice offer?',
-    answer: 'We offer catering for events and special occasions, food delivery across Stirling and surrounding areas, custom menu planning for corporate events, private chef services, and personalised AI-generated weekly meal plans.',
+    answer: 'We offer catering for events and special occasions, food delivery across Stirling and surrounding areas, custom menu planning for corporate events, private chef services, and personalised weekly meal plans.',
   },
   {
     question: 'What types of dishes do you serve?',
@@ -33,8 +33,8 @@ const faqs = [
     answer: '2–3 weeks for large events (50+ guests), 1 week for medium events (20–50 guests), and 48 hours for small gatherings. We can sometimes accommodate last-minute bookings — get in touch to discuss.',
   },
   {
-    question: 'What is the AI Meal Plan feature?',
-    answer: 'Create a free account, fill in your health goals and dietary preferences, and our Claude AI integration generates a personalised 7-day Nigerian food timetable tailored to you.',
+    question: 'What is the Meal Planning feature?',
+    answer: 'Create a free account, fill in your health goals and dietary preferences, and we generate a personalised 7-day Nigerian food timetable tailored to you.',
   },
 ];
 

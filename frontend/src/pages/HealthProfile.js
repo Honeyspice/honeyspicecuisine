@@ -156,7 +156,7 @@ const HealthProfile = () => {
       }}>
         <Typography variant="h4" sx={{ color: 'white', fontWeight: 800, mb: 1 }}>Your Health Profile</Typography>
         <Typography sx={{ color: 'rgba(255,255,255,0.85)', fontSize: '1rem' }}>
-          Tell us about yourself so our AI can build your perfect Nigerian meal plan
+          Tell us about yourself so we can build your perfect Nigerian meal plan
         </Typography>
         {/* Progress bar */}
         <Box sx={{ maxWidth: 400, mx: 'auto', mt: 3 }}>

@@ -27,8 +27,3 @@ export async function askNetworkAssistant(payload) {
 
   return parseJson(response);
 }
-
-export async function getPartnerDashboard() {
-  const response = await fetch(apiUrl('/api/network/partners/dashboard'));
-  return parseJson(response);
-}

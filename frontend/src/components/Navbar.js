@@ -231,11 +231,36 @@ const MobileAuthItem = ({ handleDrawerToggle }) => {
   );
 };
 
+const PAGE_TITLES = {
+  '/menu': 'Our Menu',
+  '/order': 'Order',
+  '/cart': 'Your Basket',
+  '/checkout': 'Checkout',
+  '/checkout-success': 'Order Confirmed',
+  '/ai-assistant': 'Suggest a Meal',
+  '/plan-picnic': 'Plan a Picnic',
+  '/reservation': 'Book Catering',
+  '/contact': 'Contact Us',
+  '/location': 'Find Us',
+  '/about': 'About Us',
+  '/gallery': 'Our Cuisine',
+  '/why-us': 'Why HoneySpice',
+  '/register': 'Create Account',
+  '/login': 'Sign In',
+  '/dashboard': 'My Dashboard',
+  '/meal-plan': 'My Meal Plan',
+  '/profile-setup': 'Health Profile',
+};
+
 // Mobile Navbar Component
-const MobileNavbar = ({ handleDrawerToggle, cartBadgeSx, itemCount }) => {
+const MobileNavbar = ({ handleDrawerToggle, cartBadgeSx, itemCount, pathname }) => {
+  const isHome = pathname === '/';
+  const pageTitle = PAGE_TITLES[pathname];
+
   return (
     <>
-      <Toolbar disableGutters sx={{ py: 1.1 }}>
+      <Toolbar disableGutters sx={{ py: 1.1, position: 'relative' }}>
+        {/* Logo always visible — tapping goes home */}
         <Logo component={RouterLink} to="/">
           <Box
             component="img"
@@ -251,12 +276,32 @@ const MobileNavbar = ({ handleDrawerToggle, cartBadgeSx, itemCount }) => {
             }}
           />
         </Logo>
+
+        {/* Centred page title on sub-pages */}
+        {!isHome && pageTitle && (
+          <Typography
+            sx={{
+              position: 'absolute',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              color: '#fff',
+              fontWeight: 700,
+              fontSize: '0.9rem',
+              letterSpacing: '0.02em',
+              pointerEvents: 'none',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {pageTitle}
+          </Typography>
+        )}
+
         <Box sx={{ flexGrow: 1 }} />
         <IconButton
           component={RouterLink}
           to="/cart"
           aria-label="Open basket"
-          sx={{ color: '#1f1f1f', mr: 0.5 }}
+          sx={{ color: '#fff', mr: 0.5 }}
           size="medium"
         >
           <Badge badgeContent={itemCount} sx={cartBadgeSx}>
@@ -271,7 +316,7 @@ const MobileNavbar = ({ handleDrawerToggle, cartBadgeSx, itemCount }) => {
           sx={{ mr: 0 }}
           size="medium"
         >
-          <MenuIcon sx={{ color: '#1f1f1f' }} />
+          <MenuIcon sx={{ color: '#fff' }} />
         </IconButton>
       </Toolbar>
     </>
@@ -288,11 +333,9 @@ const DesktopNavbar = ({ pathname, itemCount, cartBadgeSx, subtotal, cuisineMenu
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const navItems = [
     { text: 'Home', path: '/' },
-    { text: 'Menu', path: '/menu' },
-    { text: 'Our Cuisine', path: '/gallery', hasArrow: true },
-    { text: 'Event Service', path: '/reservation' },
-    { text: 'About Us', path: '/about' },
-    { text: 'Contact Us', path: '/contact' },
+    { text: 'Order', path: '/menu' },
+    { text: 'Get Suggestions', path: '/ai-assistant' },
+    { text: 'Plan Picnic', path: '/plan-picnic' },
   ];
 
   const formattedSubtotal = new Intl.NumberFormat('en-GB', {
@@ -452,14 +495,14 @@ const DesktopNavbar = ({ pathname, itemCount, cartBadgeSx, subtotal, cuisineMenu
               flexWrap: 'wrap',
             }}
           >
-            <UtilityLink to="/order-tracking">
-              Order Tracking
+            <UtilityLink to="/reservation">
+              Book Catering
             </UtilityLink>
-            <UtilityLink to="/wishlist">
-              My Wishlist
+            <UtilityLink to="/location">
+              Find Us
             </UtilityLink>
-            <UtilityLink to="/recently-viewed">
-              Recently Viewed
+            <UtilityLink to="/contact">
+              Contact
             </UtilityLink>
           </Box>
         </Box>
@@ -761,10 +804,9 @@ const Navbar = () => {
 
   const menuItems = [
     { text: 'Home', path: '/' },
-    { text: 'Start Order', path: '/order' },
-    { text: 'Menu', path: '/menu' },
-    { text: 'Our Cuisine', path: '/gallery' },
-    { text: 'Recipe Book', path: '/recipe-manual' },
+    { text: 'Order', path: '/menu' },
+    { text: 'Get Suggestions', path: '/ai-assistant' },
+    { text: 'Plan Picnic', path: '/plan-picnic' },
   ];
 
   const drawer = (
@@ -851,11 +893,12 @@ const Navbar = () => {
     <StyledAppBar position="fixed" scrolled={trigger}>
       <Container maxWidth="lg">
         {isMobile ? (
-          <MobileNavbar 
+          <MobileNavbar
             handleDrawerToggle={handleDrawerToggle}
             handleWhatsAppClick={handleWhatsAppClick}
             cartBadgeSx={cartBadgeSx}
             itemCount={itemCount}
+            pathname={location.pathname}
           />
         ) : (
           <DesktopNavbar

@@ -48,7 +48,7 @@ const Dashboard = () => {
 
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: '#f8f8f6' }}>
-      <Seo title="My Dashboard | HoneySpice Cuisine" description="View your AI-generated Nigerian meal plan, health profile and quick-access features on your HoneySpice dashboard." />
+      <Seo title="My Dashboard | HoneySpice Cuisine" description="View your personalised Nigerian meal plan, health profile and quick-access features on your HoneySpice dashboard." />
       {/* Header */}
       <Box sx={{ background: 'linear-gradient(135deg, rgba(244,106,6,0.12) 0%, rgba(255,141,61,0.08) 100%)', borderBottom: '1px solid rgba(244,106,6,0.1)', py: 3, px: { xs: 2, md: 4 } }}>
         <Container maxWidth="lg">
@@ -109,7 +109,7 @@ const Dashboard = () => {
                 </Box>
               ) : (
                 <Box sx={{ textAlign: 'center', py: 3 }}>
-                  <Typography sx={{ color: '#888', mb: 2, fontSize: '0.9rem' }}>Complete your health profile to unlock your AI meal plan</Typography>
+                  <Typography sx={{ color: '#888', mb: 2, fontSize: '0.9rem' }}>Complete your health profile to unlock your personalised meal plan</Typography>
                   <button
                     onClick={() => navigate('/profile-setup')}
                     style={{ padding: '12px 24px', borderRadius: 10, border: 'none', background: '#F46A06', color: 'white', fontWeight: 700, cursor: 'pointer', fontSize: '0.95rem' }}
@@ -126,7 +126,7 @@ const Dashboard = () => {
             <Box sx={{ background: 'white', borderRadius: 3, p: 3, boxShadow: '0 2px 16px rgba(0,0,0,0.06)' }}>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
                 <Box>
-                  <Typography variant="h6" sx={{ fontWeight: 700 }}>AI Meal Plan</Typography>
+                  <Typography variant="h6" sx={{ fontWeight: 700 }}>Your Meal Plan</Typography>
                   <Typography sx={{ color: '#888', fontSize: '0.85rem' }}>
                     {hasMealPlan ? 'Your personalised 7-day Nigerian timetable' : 'Get your personalised Nigerian food plan'}
                   </Typography>
@@ -188,9 +188,9 @@ const Dashboard = () => {
               ) : (
                 <Box sx={{ textAlign: 'center', py: 4 }}>
                   <Box sx={{ fontSize: '3rem', mb: 1 }}>🤖</Box>
-                  <Typography sx={{ fontWeight: 700, fontSize: '1.1rem', mb: 1 }}>AI-Powered Meal Planning</Typography>
+                  <Typography sx={{ fontWeight: 700, fontSize: '1.1rem', mb: 1 }}>Smart Meal Planning</Typography>
                   <Typography sx={{ color: '#666', fontSize: '0.9rem', mb: 3, maxWidth: 400, mx: 'auto' }}>
-                    Our AI analyses your health profile and generates a complete 7-day Nigerian food timetable with recipes and shopping lists.
+                    We analyse your health profile and build a complete 7-day Nigerian food timetable with recipes and shopping lists — personalised to you.
                   </Typography>
                   <button
                     onClick={handleGenerate}
@@ -211,7 +211,7 @@ const Dashboard = () => {
                   )}
                   {generating && (
                     <Typography sx={{ color: '#888', fontSize: '0.8rem', mt: 1.5 }}>
-                      Claude AI is crafting your personalised plan… this takes 15–30 seconds
+                      Crafting your personalised plan… this takes 15–30 seconds
                     </Typography>
                   )}
                 </Box>

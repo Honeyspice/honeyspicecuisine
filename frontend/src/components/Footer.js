@@ -83,7 +83,7 @@ const Footer = () => {
                 mb: 3,
               }}
             >
-              Authentic Nigerian cuisine crafted with love — served in Stirling, Scotland and across the UK for events and catering.
+              Authentic Nigerian cuisine crafted with love — served in Stirling, Scotland and across the UK for events and catering. Built with intelligent recommendation technology to personalise your experience.
             </Typography>
             <Box sx={{ display: 'flex', gap: 0.5 }}>
               <IconButton
@@ -137,8 +137,7 @@ const Footer = () => {
             <ColHeading>Services</ColHeading>
             <FooterLink to="/reservation">Event Catering</FooterLink>
             <FooterLink to="/order">Order Online</FooterLink>
-            <FooterLink to="/register">AI Meal Plans</FooterLink>
-            <FooterLink to="/register">AI Meal Plans</FooterLink>
+            <FooterLink to="/register">Personalised Meal Plans</FooterLink>
             <FooterLink to="/location">Find Us</FooterLink>
           </Box>
 
@@ -206,9 +205,9 @@ const Footer = () => {
           </Typography>
           <Box sx={{ display: 'flex', gap: 3 }}>
             {[
-              { label: 'Privacy Policy', to: '/contact' },
-              { label: 'Terms of Use', to: '/contact' },
               { label: 'Contact', to: '/contact' },
+              { label: 'Book Catering', to: '/reservation' },
+              { label: 'Find Us', to: '/location' },
             ].map(({ label, to }) => (
               <Box
                 key={label}

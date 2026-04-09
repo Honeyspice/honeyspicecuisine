@@ -82,8 +82,6 @@ app.use((req, res, next) => {
     next();
   } else if (req.path.startsWith('/api/payments')) {
     next();
-  } else if (req.path.startsWith('/api/network')) {
-    next();
   } else if (req.path.startsWith('/api/mealplan')) {
     next(); // JWT-protected, no CSRF needed
   } else {
@@ -160,7 +158,6 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/menu', require('./routes/menu'));
 app.use('/api/orders', require('./routes/orders'));
 app.use('/api/payments', require('./routes/payments'));
-app.use('/api/network', require('./routes/network'));
 app.use('/api/mealplan', require('./routes/mealplan'));
 
 // API root route handler
