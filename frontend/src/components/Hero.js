@@ -18,7 +18,7 @@ const SLIDES = [
     secondaryCta: { label: 'View Menu', to: '/menu' },
   },
   {
-    src: '/images/peppersoup.jpg',
+    src: '/images/peppersoup.webp',
     heading: 'Get help choosing your meal',
     sub: 'Tell us your budget, group size and occasion. We\'ll suggest the perfect Nigerian spread for you.',
     cta: { label: 'Get Suggestions', to: '/ai-assistant' },

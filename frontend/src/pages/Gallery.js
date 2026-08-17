@@ -4,7 +4,7 @@ import Seo from '../components/Seo';
 
 const foodImages = [
   { image: '/images/Amala.webp', title: 'Amala with Ewedu' },
-  { image: '/images/boli.png', title: 'Boli with Fish' },
+  { image: '/images/boli.webp', title: 'Boli with Fish' },
   { image: '/images/efo_riro.webp', title: 'Efo Riro with Pounded Yam' },
   { image: '/images/Egusi.webp', title: 'Egusi Soup with Fufu' },
   { image: '/images/jollof_rice.webp', title: 'Jollof Rice with Chicken' },

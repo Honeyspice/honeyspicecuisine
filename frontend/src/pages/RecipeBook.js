@@ -23,7 +23,7 @@ const RecipeBook = () => {
         >
           <Box
             component="img"
-            src="/images/recipe_book.jpg"
+            src="/images/recipe_book.webp"
             alt="Recipe book preview"
             sx={{
               width: '100%',
