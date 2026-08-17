@@ -13,4 +13,8 @@ Disallow: /meal-plan
 Disallow: /profile-setup
 Disallow: /order
 
+# Search result pages. Infinite in number, thin by nature, and they duplicate
+# content that already has its own canonical URL.
+Disallow: /search
+
 Sitemap: https://honeyspicecuisine.co.uk/sitemap.xml

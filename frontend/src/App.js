@@ -25,6 +25,7 @@ import CheckoutCancel from './pages/CheckoutCancel';
 import Order from './pages/Order';
 import AIAssistant from './pages/AIAssistant';
 import PlanPicnic from './pages/PlanPicnic';
+import Search from './pages/Search';
 
 // Components
 import Navbar from './components/Navbar';
@@ -142,6 +143,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/menu" element={<Menu />} />
+                <Route path="/search" element={<Search />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/cart" element={<Cart />} />

@@ -16,83 +16,11 @@ import {
 import Seo from '../components/Seo';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import { useSearchParams } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { MENU_CATEGORIES, BUNDLES } from '../data/menu';
+// Menu data lives in src/data/menu.js so search reads the same definition.
 
-// ─── Single kitchen menu ──────────────────────────────────────────────────────
-
-const MENU_CATEGORIES = [
-  {
-    id: 'wraps',
-    title: 'Wraps',
-    items: [
-      { name: 'Chicken Shawarma Wrap', description: 'Toasted wrap with chicken, slaw and creamy pepper sauce', price: 10.99, image: '/images/ChickenShawarmaWrap.jpg' },
-      { name: 'Beef Shawarma Wrap', description: 'Grilled beef strips with fresh veg and pepper sauce in a toasted wrap', price: 11.99, image: '/images/beef-shawarma.webp' },
-      { name: 'Shawarma + Fries Combo', description: 'Chicken shawarma wrap paired with crispy fries', price: 13.99, image: '/images/shawarmafriescombo.jpg' },
-    ],
-  },
-  {
-    id: 'rice-meals',
-    title: 'Rice Meals',
-    items: [
-      { name: 'Jollof Rice', description: 'Traditional Nigerian jollof rice with your choice of protein', price: 12.99, image: '/images/jollof_rice.webp' },
-      { name: 'Ofada Sauce Ayamase Stew', description: 'Jumbo Ofada rice with assorted meat, egg, ponmo and panla fish', price: 15.99, image: '/images/Ofada.webp' },
-      { name: 'Coconut Rice', description: 'Fragrant rice cooked in coconut milk with vegetables', price: 12.99, image: '/images/White_Rice.webp' },
-      { name: 'Fried Rice', description: 'Nigerian-style fried rice with mixed vegetables and protein', price: 12.99, image: '/images/Friedrice.jpg' },
-    ],
-  },
-  {
-    id: 'soups',
-    title: 'Soups and Swallow',
-    items: [
-      { name: 'Egusi Soup', description: 'Melon seed soup with assorted meat and fish, served with any swallow of your choice', price: 15.99, image: '/images/Egusi.webp' },
-      { name: 'Efo Riro', description: 'Vegetable soup with assorted meat and fish, served with any swallow of your choice', price: 15.99, image: '/images/efo_riro.webp' },
-      { name: 'Ogbono Soup', description: 'Wild mango seed soup with assorted meat and fish, served with any swallow of your choice', price: 15.99, image: '/images/ogbono.jpg' },
-      { name: 'Banga Soup', description: 'Palm nut soup with assorted meat and fish, served with any swallow of your choice', price: 15.99, image: '/images/banga.jpg' },
-      { name: 'Pepper Soup', description: 'Spicy meat or fish soup with traditional herbs, served with any swallow of your choice', price: 15.99, image: '/images/peppersoup.jpg' },
-    ],
-  },
-  {
-    id: 'sides',
-    title: 'Sides',
-    items: [
-      { name: 'Beef Suya', description: 'Spicy grilled beef skewers with suya spice and onions', price: 15.99, image: '/images/suya.webp' },
-      { name: 'Grilled Chicken', description: 'Flame-grilled chicken with house pepper glaze', price: 14.99 },
-      { name: 'Boli (Roasted Plantain)', description: 'Roasted plantain with spicy sauce', price: 9.99, image: '/images/boli.png' },
-      { name: 'Coleslaw', description: 'Fresh cabbage and carrot salad', price: 6.99, image: '/images/Coleslaw.jpg' },
-      { name: 'Akara', description: 'Crispy bean cakes, a classic Nigerian snack', price: 6.99, image: '/images/Akara.jpg' },
-    ],
-  },
-];
-
-const BUNDLES = [
-  {
-    id: 'couple-pack',
-    name: 'Couple Pack',
-    price: 25,
-    tag: 'For 2',
-    image: '/images/jollof_rice.webp',
-    items: ['2 × Jollof Rice & Chicken', '1 × Coleslaw'],
-    desc: 'A perfect spread for two: mains plus a shared side.',
-  },
-  {
-    id: 'friends-pack',
-    name: 'Friends Pack',
-    price: 45,
-    tag: 'For 4–6',
-    image: '/images/shawarmafriescombo.jpg',
-    items: ['4 × Shawarma Wraps', '1 × Large Jollof Rice', '1 × Coleslaw'],
-    desc: 'A crowd-pleasing mix for a group of friends.',
-  },
-  {
-    id: 'group-pack',
-    name: 'Group Pack',
-    price: 70,
-    tag: 'For 8–12',
-    image: '/images/Egusi.webp',
-    items: ['Large Jollof Rice (serves 10)', 'Egusi Soup + swallow (serves 8)', '4 × Grilled Chicken'],
-    desc: 'A generous Nigerian feast for large groups and events.',
-  },
-];
 
 const TABS = [
   { id: 'all', label: 'All Items' },
@@ -105,7 +33,18 @@ const TABS = [
 const Menu = () => {
   const { addItem } = useCart();
   const [lastAdded, setLastAdded] = React.useState(null);
-  const [activeTab, setActiveTab] = React.useState('all');
+  // Search results deep link to a category, so /menu?category=soups opens on
+  // that tab rather than dropping the reader at the top of everything. An
+  // unknown or absent value falls back to "all", so a stale link still works.
+  const [searchParams] = useSearchParams();
+  const requestedTab = searchParams.get('category');
+  const [activeTab, setActiveTab] = React.useState(
+    TABS.some((t) => t.id === requestedTab) ? requestedTab : 'all'
+  );
+
+  React.useEffect(() => {
+    if (TABS.some((t) => t.id === requestedTab)) setActiveTab(requestedTab);
+  }, [requestedTab]);
 
   const handleAdd = React.useCallback(
     (categoryTitle, item) => {

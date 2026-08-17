@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Link as RouterLink, useLocation } from 'react-router-dom';
+import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
+import { createPortal } from 'react-dom';
+import { search } from '../data/searchIndex';
 import {
   AppBar,
   Toolbar,
@@ -296,6 +298,87 @@ const DesktopNavbar = ({ pathname, itemCount, cartBadgeSx, subtotal, cuisineMenu
   const [isCuisineTriggerHover, setIsCuisineTriggerHover] = useState(false);
   const [isCuisineDropdownHover, setIsCuisineDropdownHover] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [highlight, setHighlight] = useState(-1);
+  const searchBoxRef = useRef(null);
+  const suggestionsRef = useRef(null);
+
+  // Suggestions come from the same in-memory index the results page uses, so
+  // what the dropdown promises and what the page delivers cannot diverge. An
+  // empty or one-character box yields nothing, which is what makes clearing the
+  // input clear the suggestions with it.
+  const suggestions = useMemo(
+    () => (searchTerm.trim().length >= 2 ? search(searchTerm, { limit: 6 }).results : []),
+    [searchTerm]
+  );
+
+  const closeSuggestions = useCallback(() => {
+    setSearchOpen(false);
+    setHighlight(-1);
+  }, []);
+
+  const goToSearch = useCallback(
+    (q) => {
+      const term = q.trim();
+      if (!term) return;
+      closeSuggestions();
+      navigate(`/search?q=${encodeURIComponent(term)}`);
+    },
+    [navigate, closeSuggestions]
+  );
+
+  const handleSearchSubmit = (e) => {
+    if (e && e.preventDefault) e.preventDefault();
+    // Enter on a highlighted suggestion goes straight to that thing rather than
+    // to a results page the reader would only have to click through anyway.
+    if (highlight >= 0 && suggestions[highlight]) {
+      closeSuggestions();
+      navigate(suggestions[highlight].path);
+      return;
+    }
+    goToSearch(searchTerm);
+  };
+
+  const handleSearchKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSearchSubmit(e);
+      return;
+    }
+    if (e.key === 'Escape') {
+      closeSuggestions();
+      return;
+    }
+    if (!suggestions.length) return;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setSearchOpen(true);
+      setHighlight((i) => (i + 1) % suggestions.length);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setSearchOpen(true);
+      setHighlight((i) => (i <= 0 ? suggestions.length - 1 : i - 1));
+    }
+  };
+
+  // Clicking anywhere else dismisses the dropdown. Listening on the document
+  // rather than using onBlur, because onBlur fires before a click on a
+  // suggestion registers and would swallow the selection.
+  useEffect(() => {
+    if (!searchOpen) return undefined;
+    const onDocClick = (e) => {
+      // The panel is a sibling of the search box, not a child, so both have to
+      // count as "inside" or clicking a suggestion would dismiss the list before
+      // the click landed on it.
+      const inBox = searchBoxRef.current && searchBoxRef.current.contains(e.target);
+      const inPanel = suggestionsRef.current && suggestionsRef.current.contains(e.target);
+      if (!inBox && !inPanel) closeSuggestions();
+    };
+    document.addEventListener('mousedown', onDocClick);
+    return () => document.removeEventListener('mousedown', onDocClick);
+  }, [searchOpen, closeSuggestions]);
+
   const navItems = [
     { text: 'Home', path: '/' },
     { text: 'Order', path: '/menu' },
@@ -444,8 +527,14 @@ const DesktopNavbar = ({ pathname, itemCount, cartBadgeSx, subtotal, cuisineMenu
             }}
           />
         </Logo>
-        <Box sx={{ width: 390, ml: 3.5, mr: 2 }}>
+        {/* Search. This was a bare input with a placeholder and no state, no
+            handler and no destination, so typing into it did nothing at all. It
+            is a real form now: Enter or the button submits to /search. */}
+        <Box ref={searchBoxRef} sx={{ width: 390, ml: 3.5, mr: 2, position: 'relative' }}>
           <Box
+            component="form"
+            role="search"
+            onSubmit={handleSearchSubmit}
             sx={{
               display: 'flex',
               alignItems: 'center',
@@ -453,26 +542,209 @@ const DesktopNavbar = ({ pathname, itemCount, cartBadgeSx, subtotal, cuisineMenu
               borderRadius: 1,
               height: 40,
               backgroundColor: 'rgba(255, 255, 255, 0.08)',
+              '&:focus-within': { borderColor: '#F46A06' },
             }}
           >
             <Box
               component="input"
-              aria-label="Search for products"
+              type="search"
+              name="q"
+              aria-label="Search the menu and the site"
               placeholder="Search for..."
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                setSearchOpen(true);
+                setHighlight(-1);
+              }}
+              onFocus={() => setSearchOpen(true)}
+              // Enter, Escape and the arrow keys are handled explicitly rather
+              // than leaning on the browser's implicit form submission, which
+              // depends on the form having exactly the right shape. This is the
+              // primary way people will use the box, so it is not left to
+              // inference.
+              onKeyDown={handleSearchKeyDown}
+              autoComplete="off"
+              role="combobox"
+              aria-expanded={searchOpen && suggestions.length > 0}
+              aria-controls="site-search-suggestions"
+              aria-autocomplete="list"
               sx={{
                 border: 'none',
                 outline: 'none',
                 background: 'transparent',
                 px: 1.5,
                 flex: 1,
+                minWidth: 0,
                 fontSize: '14px',
                 color: '#fff',
+                '&::placeholder': { color: 'rgba(255,255,255,0.6)' },
               }}
             />
-            <Box sx={{ width: 46, display: 'grid', placeItems: 'center', borderLeft: '1px solid rgba(255, 255, 255, 0.2)' }}>
+            <Box
+              component="button"
+              type="submit"
+              aria-label="Search"
+              sx={{
+                width: 46,
+                height: '100%',
+                display: 'grid',
+                placeItems: 'center',
+                borderLeft: '1px solid rgba(255, 255, 255, 0.2)',
+                border: 'none',
+                borderLeftStyle: 'solid',
+                background: 'transparent',
+                cursor: 'pointer',
+                p: 0,
+                '&:hover': { backgroundColor: 'rgba(255,255,255,0.08)' },
+                '&:focus-visible': { outline: '2px solid #F46A06', outlineOffset: -2 },
+              }}
+            >
               <SearchIcon sx={{ fontSize: 19, color: '#fff' }} />
             </Box>
           </Box>
+
+          {/* Blur the page beneath the header while suggesting, so the list is
+              clearly the active thing. The tint is kept light because blur and a
+              heavy scrim double up: together they would just look muddy.
+
+              6px is deliberately modest. backdrop-filter is composited on every
+              frame, so the radius is the cost, and a small one reads as depth
+              while a large one reads as an effect. The -webkit- prefix is still
+              required for Safari.
+
+              Portalled to the body because the header sets backdrop-filter, and
+              an ancestor with backdrop-filter becomes the containing block for
+              position: fixed descendants. Rendered in place this was clipped to
+              the 109px header and measured 0px tall. */}
+          {searchOpen &&
+            suggestions.length > 0 &&
+            createPortal(
+              <Box
+                aria-hidden="true"
+                onClick={closeSuggestions}
+                sx={{
+                  position: 'fixed',
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  top: 'calc(var(--hs-header-h) + env(safe-area-inset-top, 0px))',
+                  bgcolor: 'rgba(0,0,0,0.22)',
+                  backdropFilter: 'blur(6px)',
+                  WebkitBackdropFilter: 'blur(6px)',
+                  zIndex: 1050,
+                }}
+              />,
+              document.body
+            )}
+          {searchOpen && suggestions.length > 0 && (
+            <Box
+              id="site-search-suggestions"
+              ref={suggestionsRef}
+              role="listbox"
+              sx={{
+                // Anchored to the search input, which is where a suggestion list
+                // belongs. Widening it to span the whole header covered the nav
+                // row but left a 1120px panel holding five short rows, with the
+                // prices stranded a screen away from the names. The nav row is
+                // dealt with by receding it instead, below.
+                position: 'absolute',
+                top: 'calc(100% + 6px)',
+                left: 0,
+                right: 0,
+                // Above the navigation row, which sits in a sibling branch at
+                // z-index 2100. At 1400 the nav links painted straight through
+                // the suggestions.
+                zIndex: 2200,
+                bgcolor: '#fff',
+                borderRadius: 1,
+                boxShadow: '0 12px 32px rgba(0,0,0,0.22)',
+                overflow: 'hidden',
+              }}
+            >
+              {suggestions.map((s, i) => (
+                <Box
+                  key={`${s.kind}-${s.title}`}
+                  role="option"
+                  aria-selected={i === highlight}
+                  onMouseEnter={() => setHighlight(i)}
+                  onClick={() => {
+                    closeSuggestions();
+                    navigate(s.path);
+                  }}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1.5,
+                    px: 1.5,
+                    py: 1.1,
+                    cursor: 'pointer',
+                    bgcolor: i === highlight ? 'rgba(244,106,6,0.10)' : 'transparent',
+                  }}
+                >
+                  {s.image ? (
+                    <Box
+                      component="img"
+                      src={s.image}
+                      alt=""
+                      aria-hidden="true"
+                      sx={{ width: 34, height: 34, borderRadius: 0.75, objectFit: 'cover', flexShrink: 0 }}
+                    />
+                  ) : (
+                    <Box
+                      aria-hidden="true"
+                      sx={{
+                        width: 34,
+                        height: 34,
+                        borderRadius: 0.75,
+                        flexShrink: 0,
+                        bgcolor: 'rgba(244,106,6,0.12)',
+                        color: '#F46A06',
+                        display: 'grid',
+                        placeItems: 'center',
+                        fontSize: '0.85rem',
+                        fontWeight: 700,
+                      }}
+                    >
+                      {s.title.charAt(0)}
+                    </Box>
+                  )}
+                  <Box sx={{ minWidth: 0, flex: 1 }}>
+                    <Typography
+                      sx={{ fontSize: '13.5px', fontWeight: 600, color: '#1a1a1a', lineHeight: 1.3 }}
+                      noWrap
+                    >
+                      {s.title}
+                    </Typography>
+                    <Typography sx={{ fontSize: '11.5px', color: '#666', lineHeight: 1.3 }} noWrap>
+                      {s.category}
+                    </Typography>
+                  </Box>
+                  {typeof s.price === 'number' && (
+                    <Typography sx={{ fontSize: '12.5px', fontWeight: 700, color: '#1a1a1a', whiteSpace: 'nowrap' }}>
+                      £{s.price.toFixed(2)}
+                    </Typography>
+                  )}
+                </Box>
+              ))}
+
+              <Box
+                onClick={() => goToSearch(searchTerm)}
+                sx={{
+                  px: 1.5,
+                  py: 1.1,
+                  cursor: 'pointer',
+                  borderTop: '1px solid rgba(0,0,0,0.08)',
+                  fontSize: '12.5px',
+                  fontWeight: 600,
+                  color: '#F46A06',
+                  '&:hover': { bgcolor: 'rgba(244,106,6,0.06)' },
+                }}
+              >
+                See all results for &ldquo;{searchTerm.trim()}&rdquo;
+              </Box>
+            </Box>
+          )}
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, ml: 2, flex: 1, minWidth: 0 }}>
           <AuthNavButton />
@@ -486,7 +758,11 @@ const DesktopNavbar = ({ pathname, itemCount, cartBadgeSx, subtotal, cuisineMenu
               borderRadius: '10px',
               textTransform: 'none',
               color: 'white',
-              px: 1.1,
+              // Was px: 1.1 with justifyContent: 'space-between' against a fixed
+              // 110px width, which pushed the icon and the price hard against
+              // opposite edges with only 9px of clearance each. The group now
+              // centres and the gap does the spacing, so the button breathes.
+              px: 1.75,
               // Cart stays orange, it is a primary action. The orange glow is
               // dropped so the colour reads as a solid surface rather than
               // bleeding into the header around it.
@@ -495,7 +771,7 @@ const DesktopNavbar = ({ pathname, itemCount, cartBadgeSx, subtotal, cuisineMenu
               '&:hover': { backgroundColor: '#D45A00', boxShadow: 'none' },
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'space-between',
+              justifyContent: 'center',
               gap: 1.25,
             }}
           >
@@ -531,7 +807,17 @@ const DesktopNavbar = ({ pathname, itemCount, cartBadgeSx, subtotal, cuisineMenu
               borderBottom: '1px solid rgba(255,255,255,0.18)',
               px: 2,
               zIndex: 2100,
-              filter: 'none',
+              // While suggestions are showing, the nav row recedes rather than
+              // being covered. Anchoring the panel to the input always leaves
+              // some nav item beside it, and widening the panel to cover the row
+              // made it far too wide for five short results. Fading the row
+              // instead means the panel stays the right size and nothing
+              // competes with it. Blur is kept small: this is a 43px strip, so
+              // the cost is negligible, unlike a full-page filter.
+              opacity: searchOpen && suggestions.length > 0 ? 0.25 : 1,
+              filter: searchOpen && suggestions.length > 0 ? 'blur(2px)' : 'none',
+              pointerEvents: searchOpen && suggestions.length > 0 ? 'none' : 'auto',
+              transition: 'opacity 0.2s ease, filter 0.2s ease',
             }}
           >
             <Box sx={{ display: 'flex', flex: 1 }}>
