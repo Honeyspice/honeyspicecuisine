@@ -37,3 +37,14 @@ yarn-error.log*
 
 # Cache
 .cache/ 
+# Yarn state
+.yarn/install-state.gz
+frontend/.yarn/install-state.gz
+
+# Deploy and tooling
+.vercel/
+.claire/
+.claude/worktrees/
+
+# Catch nested installs at any depth (backend/backend/node_modules was tracked)
+**/node_modules/
