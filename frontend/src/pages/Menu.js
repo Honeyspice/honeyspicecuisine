@@ -188,18 +188,63 @@ const Menu = () => {
               bgcolor: 'background.paper',
             })}
           >
-            <Stack direction="row" spacing={1} sx={{ overflowX: 'auto', pb: 0.5 }}>
-              {TABS.map((tab) => (
-                <Chip
-                  key={tab.id}
-                  label={tab.label}
-                  color={activeTab === tab.id ? 'primary' : 'default'}
-                  onClick={() => setActiveTab(tab.id)}
-                  clickable
-                  sx={{ flexShrink: 0 }}
-                />
-              ))}
-            </Stack>
+            <Box sx={{ position: 'relative' }}>
+              <Stack
+                direction="row"
+                spacing={1}
+                sx={{
+                  overflowX: 'auto',
+                  pb: 0.5,
+                  // The row overflows on narrow screens, hiding roughly 148px of
+                  // it including the Bundles tab. The native scrollbar is absent
+                  // on iOS, so it is hidden here and a fade signals the overflow
+                  // instead.
+                  scrollbarWidth: 'none',
+                  '&::-webkit-scrollbar': { display: 'none' },
+                }}
+              >
+                {TABS.map((tab) => {
+                  const active = activeTab === tab.id;
+                  return (
+                    <Chip
+                      key={tab.id}
+                      label={tab.label}
+                      onClick={() => setActiveTab(tab.id)}
+                      clickable
+                      sx={{
+                        flexShrink: 0,
+                        // 32px was under the 44px touch minimum the theme already
+                        // enforces on icon buttons.
+                        height: 40,
+                        fontSize: '0.875rem',
+                        fontWeight: active ? 700 : 500,
+                        // Active keeps brand orange for recognition. Inactive was
+                        // MUI's default rgba(0,0,0,0.08) grey, which read as
+                        // unstyled rather than deliberately quiet.
+                        bgcolor: active ? '#F46A06' : 'transparent',
+                        color: active ? '#FFFFFF' : '#1A1A1A',
+                        border: `1px solid ${active ? '#F46A06' : 'rgba(26, 26, 26, 0.22)'}`,
+                        '&:hover': {
+                          bgcolor: active ? '#D45A00' : 'rgba(26, 26, 26, 0.04)',
+                        },
+                      }}
+                    />
+                  );
+                })}
+              </Stack>
+              <Box
+                aria-hidden
+                sx={{
+                  position: 'absolute',
+                  top: 0,
+                  right: 0,
+                  bottom: 0,
+                  width: 40,
+                  pointerEvents: 'none',
+                  background: 'linear-gradient(to right, rgba(255,255,255,0), #FFFFFF)',
+                }}
+              />
+            </Box>
           </Paper>
 
           {/* Menu categories */}
