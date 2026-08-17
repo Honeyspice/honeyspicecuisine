@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 import { search } from '../data/searchIndex';
+import { MENU_CATEGORIES } from '../data/menu';
 import {
   AppBar,
   Toolbar,
@@ -393,13 +394,16 @@ const DesktopNavbar = ({ pathname, itemCount, cartBadgeSx, subtotal, cuisineMenu
     maximumFractionDigits: 2,
   }).format(Number(subtotal) || 0);
 
-  const cuisineCategories = [
-    { label: 'Rice Dishes', path: '/menu?category=rice' },
-    { label: 'Soups and Swallows', path: '/menu?category=soups-swallows' },
-    { label: 'Grills and Suya', path: '/menu?category=grills-suya' },
-    { label: 'Small Chops', path: '/menu?category=small-chops' },
-    { label: 'Drinks and Sides', path: '/menu?category=drinks-sides' },
-  ];
+  // Built from the menu itself. The hand-written version listed five categories
+  // and not one of its slugs existed: "rice" for rice-meals, "soups-swallows"
+  // for soups, plus "grills-suya", "small-chops" and "drinks-sides", which are
+  // not categories at all. Drinks are not even sold. Every link landed on the
+  // unfiltered menu. Deriving it means the navigation cannot advertise
+  // something the kitchen does not have.
+  const cuisineCategories = MENU_CATEGORIES.map((c) => ({
+    label: c.title,
+    path: `/menu?category=${c.id}`,
+  }));
 
   const openCuisineMenu = useCallback(() => {
     if (closeTimerRef.current) {
