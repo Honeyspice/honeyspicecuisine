@@ -7,9 +7,23 @@ import { useCart } from '../context/CartContext';
 
 const WHATSAPP_NUMBER = '447721629566';
 
-// Divider between actions. The previous 0.1 alpha was about 1.1:1 against the
-// near-black bar, so the three tap zones read as one undifferentiated slab.
-const DIVIDER = '1px solid rgba(255, 255, 255, 0.22)';
+// Divider between actions, inset rather than full height. Two problems with the
+// original: at 0.1 alpha it was about 1.1:1 against the near-black bar so it did
+// no work, and as a full-height borderRight it ran edge to edge and butted flush
+// against the labels, reading as a hard grid. Insetting it leaves air above and
+// below, so it separates without boxing each action in.
+const dividerSx = {
+  position: 'relative',
+  '&::after': {
+    content: '""',
+    position: 'absolute',
+    right: 0,
+    top: 14,
+    bottom: 'calc(14px + env(safe-area-inset-bottom, 0px))',
+    width: '1px',
+    bgcolor: 'rgba(255, 255, 255, 0.22)',
+  },
+};
 
 // Single active colour for all three actions. WhatsApp previously flashed green
 // while the other two flashed orange.
@@ -112,7 +126,7 @@ export default function MobileBottomBar() {
         <Box
           component={RouterLink}
           to="/menu"
-          sx={{ ...actionSx, flex: '1.25 1 0', borderRight: DIVIDER }}
+          sx={{ ...actionSx, ...dividerSx, flex: '1.25 1 0' }}
         >
           <Typography sx={labelSx}>Order</Typography>
         </Box>
@@ -122,7 +136,7 @@ export default function MobileBottomBar() {
         <Box
           component={RouterLink}
           to="/ai-assistant"
-          sx={{ ...actionSx, flex: '1 1 0', borderRight: DIVIDER }}
+          sx={{ ...actionSx, ...dividerSx, flex: '1 1 0' }}
         >
           <Typography sx={labelSx}>Suggest</Typography>
         </Box>
