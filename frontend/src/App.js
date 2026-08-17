@@ -108,13 +108,12 @@ function App() {
               component="main"
               sx={{
                 flexGrow: 1,
-                // Navbar + notch / status bar on phones
-                pt: {
-                  xs: 'calc(64px + env(safe-area-inset-top, 0px))',
-                  sm: 'calc(72px + env(safe-area-inset-top, 0px))',
-                  md: 'calc(176px + env(safe-area-inset-top, 0px))',
-                },
-                pb: { xs: 'calc(56px + env(safe-area-inset-bottom, 0px))', md: 0 },
+                // Clears the fixed navbar, plus the notch on phones. Reads the
+                // shared custom properties from index.css rather than repeating
+                // the pixel values, which is how the desktop padding came to be
+                // 67px larger than the header it was meant to clear.
+                pt: 'calc(var(--hs-header-h) + env(safe-area-inset-top, 0px))',
+                pb: { xs: 'calc(var(--hs-bottombar-h) + env(safe-area-inset-bottom, 0px))', md: 0 },
               }}
             >
               <PageWrapper>

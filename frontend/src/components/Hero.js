@@ -63,7 +63,16 @@ const Hero = () => {
       sx={{
         position: 'relative',
         width: '100%',
-        height: { xs: '100svh', md: '100vh' },
+        // Fill the space actually available, not the whole viewport. The hero
+        // sits below the fixed header and, on mobile, above the fixed bottom
+        // bar, so a flat 100svh pushed roughly 240px of it out of view and left
+        // dead space below the CTAs. Subtracting the chrome and a small peek
+        // means the composition centres in the band the user can see, and the
+        // next section shows just enough to invite the scroll.
+        height: {
+          xs: 'calc(100svh - var(--hs-header-h) - var(--hs-bottombar-h) - var(--hs-hero-peek))',
+          md: 'calc(100vh - var(--hs-header-h) - var(--hs-hero-peek))',
+        },
         overflow: 'hidden',
         display: 'flex',
         alignItems: 'center',
