@@ -15,9 +15,15 @@ import Newsletter from '../components/Newsletter';
 // The old fixed sizes wrapped at both ends. At 375px, 2.2rem needed 410px inside
 // 327px, stranding "HEART." and "PLATE." on lines of their own. At exactly 900px
 // the md breakpoint jumped to 5rem, which needs about 916px inside the 837px the
-// flex parent allows, so it wrapped there too. The upper bound keeps the same
-// 5rem display size on desktop, where there was always room for it.
-const TAGLINE_SIZE = 'clamp(1.3rem, 6.2vw, 5rem)';
+// flex parent allows, so it wrapped there too.
+//
+// The 3rem cap matches the homepage section headings, which measure 48px for
+// "How it works", "Popular Bundles" and "Why HoneySpice". The previous 5rem cap
+// rendered at 79px, which was not merely larger than its peers, it was larger
+// than the hero h1 at 72px, so a mid-page band out-shouted the top of the page.
+// Set in caps, 48px still reads larger than a sentence-case heading of the same
+// size, so the tagline keeps its emphasis without breaking the scale.
+const TAGLINE_SIZE = 'clamp(1.3rem, 6.2vw, 3rem)';
 
 const HOW_IT_WORKS = [
   {
@@ -503,8 +509,10 @@ const Home = () => {
         >
           <Box
             component="img"
-            src="/images/Egusi.webp"
-            alt="Nigerian feast spread"
+            // Was Egusi.webp, which is also a Gallery tile and a £15.99 menu
+            // item. Suya suits "Bold on the Plate".
+            src="/images/suya.webp"
+            alt="Beef suya skewers"
             sx={{
               position: 'absolute',
               inset: 0,
@@ -514,6 +522,23 @@ const Home = () => {
               objectPosition: 'center 40%',
               filter: 'brightness(0.62) saturate(1.15)',
               display: 'block',
+              zIndex: 0,
+            }}
+          />
+          {/* Scrim. The band had none: white text sat directly on a busy food
+              photograph, relying only on the image's own brightness filter, so
+              legibility changed with whatever happened to be behind each word.
+              The Hero already does this properly with its own gradient layer.
+              Weighted towards the middle, where the text actually is, so the
+              photograph stays visible at the top and bottom edges. */}
+          <Box
+            aria-hidden="true"
+            sx={{
+              position: 'absolute',
+              inset: 0,
+              zIndex: 1,
+              background:
+                'linear-gradient(to bottom, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.66) 38%, rgba(0,0,0,0.66) 62%, rgba(0,0,0,0.36) 100%)',
             }}
           />
           <Box sx={{ position: 'relative', zIndex: 2, textAlign: 'center', px: 3 }}>
@@ -560,8 +585,13 @@ const Home = () => {
             </Typography>
             <Typography
               sx={{
-                color: 'rgba(255,255,255,0.85)',
+                // Was rgba(255,255,255,0.85) with no shadow, which made this the
+                // least legible text on the page: small, translucent, and over a
+                // photograph. Full white plus a shadow, since body copy has none
+                // of the size advantage the heading has.
+                color: '#fff',
                 fontSize: { xs: '0.95rem', md: '1.1rem' },
+                textShadow: '0 1px 12px rgba(0,0,0,0.55)',
                 mb: 4,
                 maxWidth: 480,
                 mx: 'auto',
