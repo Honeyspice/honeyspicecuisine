@@ -2,6 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Chrome dimensions, declared once.
+   These were previously hardcoded separately in App.js (main padding) and in the
+   Navbar itself, which drifted: the header was reduced to 109px while App.js
+   still padded main by 176px, leaving a 67px band of dead space beneath it.
+   Anything that needs to clear the fixed header or bottom bar reads these. */
+:root {
+  --hs-header-h: 64px;
+  --hs-bottombar-h: 56px;
+  /* How much of the next section shows below the hero, to invite the scroll. */
+  --hs-hero-peek: 56px;
+}
+
+@media (min-width: 600px) {
+  :root {
+    --hs-header-h: 72px;
+  }
+}
+
+@media (min-width: 900px) {
+  :root {
+    --hs-header-h: 109px;
+    /* No bottom bar on desktop, it is mobile only. */
+    --hs-bottombar-h: 0px;
+    --hs-hero-peek: 72px;
+  }
+}
+
 * {
   margin: 0;
   padding: 0;
