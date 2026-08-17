@@ -109,11 +109,10 @@ export default function MobileBottomBar() {
         </Box>
       )}
 
-      {/* Nav bar. Cells are weighted rather than equal thirds: the icon only
-          needs its own width, so the two labelled actions get the remaining
-          space and Order, the primary action, gets the larger share. Equal
-          thirds previously wasted 84px on the icon while "Suggest a Meal"
-          wrapped to two lines at 320px. */}
+      {/* Nav bar. Cells are weighted by how much label they actually carry, not
+          split evenly. The icon needs only its own width, and "Order" is a short
+          word, so the long label gets the largest share. Equal thirds wasted
+          84px on the icon while "Suggest a Meal" wrapped to two lines at 320px. */}
       <Box
         sx={{
           height: 'calc(56px + env(safe-area-inset-bottom, 0px))',
@@ -126,19 +125,22 @@ export default function MobileBottomBar() {
         <Box
           component={RouterLink}
           to="/menu"
-          sx={{ ...actionSx, ...dividerSx, flex: '1.25 1 0' }}
+          sx={{ ...actionSx, ...dividerSx, flex: '1 1 0' }}
         >
           <Typography sx={labelSx}>Order</Typography>
         </Box>
 
-        {/* SUGGEST. Shortened from "Suggest a Meal", which needed 106px in a
-            107px cell and wrapped on a 320px screen. */}
+        {/* SUGGEST A MEAL. The divider sits well left of centre on purpose.
+            "Order" is only 48px of label, so an even split left it with about
+            94px of slack while this cell was tight enough that the full label
+            had to be shortened. Weighting 1 to 1.7 gives the long label the
+            room it needs and still leaves Order a comfortable target. */}
         <Box
           component={RouterLink}
           to="/ai-assistant"
-          sx={{ ...actionSx, ...dividerSx, flex: '1 1 0' }}
+          sx={{ ...actionSx, ...dividerSx, flex: '1.7 1 0' }}
         >
-          <Typography sx={labelSx}>Suggest</Typography>
+          <Typography sx={labelSx}>Suggest a Meal</Typography>
         </Box>
 
         {/* WHATSAPP. Now a real button: it was a div with an onClick, so it had
