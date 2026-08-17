@@ -45,6 +45,12 @@
          previously pointed at a 32x32 PNG, so the home-screen icon was being
          upscaled 5.6x. -->
     <link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/apple-touch-icon.png" />
+    <!-- Self-referencing canonical. Social and link crawlers generally do not
+         execute the SPA, so this static tag is the only canonical many of them
+         will see, and it points at the homepage. The Canonical component in
+         App.js rewrites it per route for crawlers that do render JavaScript,
+         Googlebot included. -->
+    <link rel="canonical" href="https://honeyspicecuisine.co.uk/" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

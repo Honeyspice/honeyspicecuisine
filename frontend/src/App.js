@@ -58,6 +58,31 @@ function PageWrapper({ children }) {
   );
 }
 
+const SITE_ORIGIN = 'https://honeyspicecuisine.co.uk';
+
+// Keeps rel=canonical pointing at the current route rather than leaving every
+// page claiming to be the homepage, which is what the single static tag in
+// index.html would otherwise do. Lives here rather than in Seo.js because
+// several routes never render Seo, and a wrong canonical is worse than a
+// missing one. Query strings and hashes are stripped so /menu?x=1 does not
+// present itself as a separate page.
+function Canonical() {
+  const { pathname } = useLocation();
+  React.useEffect(() => {
+    const href = `${SITE_ORIGIN}${pathname === '/' ? '/' : pathname.replace(/\/+$/, '')}`;
+    let tag = document.querySelector('link[rel="canonical"]');
+    if (!tag) {
+      tag = document.createElement('link');
+      tag.setAttribute('rel', 'canonical');
+      document.head.appendChild(tag);
+    }
+    tag.setAttribute('href', href);
+    const og = document.querySelector('meta[property="og:url"]');
+    if (og) og.setAttribute('content', href);
+  }, [pathname]);
+  return null;
+}
+
 function ScrollToTop() {
   const { pathname, search, hash } = useLocation();
   React.useEffect(() => {
@@ -101,6 +126,7 @@ function App() {
       <CartProvider>
         <Router>
           <ScrollToTop />
+          <Canonical />
           <RouteLoadingIndicator />
           <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
             <Navbar />

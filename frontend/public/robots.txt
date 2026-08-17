@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+
+# Transactional and account routes. These carry no search value and should not
+# compete with the pages that do. This is not access control: /dashboard,
+# /meal-plan and /profile-setup are behind authentication as well.
+Disallow: /cart
+Disallow: /checkout
+Disallow: /login
+Disallow: /register
+Disallow: /dashboard
+Disallow: /meal-plan
+Disallow: /profile-setup
+Disallow: /order
+
+Sitemap: https://honeyspicecuisine.co.uk/sitemap.xml
