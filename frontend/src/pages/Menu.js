@@ -52,7 +52,7 @@ const MENU_CATEGORIES = [
     id: 'sides',
     title: 'Sides',
     items: [
-      { name: 'Beef Suya', description: 'Spicy grilled beef skewers with suya spice and onions', price: 15.99, image: '/images/grilled_suya.jpg' },
+      { name: 'Beef Suya', description: 'Spicy grilled beef skewers with suya spice and onions', price: 15.99, image: '/images/suya.webp' },
       { name: 'Grilled Chicken', description: 'Flame-grilled chicken with house pepper glaze', price: 14.99, image: '/images/barbecue.jpg' },
       { name: 'Boli (Roasted Plantain)', description: 'Roasted plantain with spicy sauce', price: 9.99, image: '/images/boli.png' },
       { name: 'Loaded Fries', description: 'Crispy fries topped with suya-spiced chicken and sauce', price: 9.99, image: '/images/fries.jpg' },
@@ -88,7 +88,7 @@ const BUNDLES = [
     name: 'Friends Pack',
     price: 45,
     tag: 'For 4–6',
-    image: '/images/grilled_suya.jpg',
+    image: '/images/shawarmafriescombo.jpg',
     items: ['4 × Shawarma Wraps', '2 × Loaded Fries', '1 × Large Jollof Rice', '6 × Soft Drinks'],
     desc: 'A crowd-pleasing mix for a group of friends.',
   },
