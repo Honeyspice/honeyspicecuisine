@@ -71,7 +71,7 @@ router.post('/generate', auth, async (req, res) => {
       .join(', ');
 
     const skillNote = {
-      beginner: 'Keep recipes very simple — under 30 minutes, minimal ingredients.',
+      beginner: 'Keep recipes very simple: under 30 minutes, minimal ingredients.',
       intermediate: 'Recipes can have moderate complexity.',
       advanced: 'Feel free to include complex traditional techniques.',
     }[profile.cookingSkill] || '';
@@ -94,7 +94,7 @@ RULES:
 - Use ONLY authentic Nigerian dishes
 - Respect all dietary restrictions and allergies strictly
 - Tailor calories and portions to their goals and BMI
-- Vary dishes — do not repeat the same dish more than twice across the week
+- Vary dishes, do not repeat the same dish more than twice across the week
 - recipe should be 3 clear numbered steps
 
 Return ONLY a raw JSON object (no markdown, no code fences) with this exact structure:

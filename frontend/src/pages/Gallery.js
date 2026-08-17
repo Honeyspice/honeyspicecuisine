@@ -14,7 +14,7 @@ const foodImages = [
 const Gallery = () => {
   return (
     <Box sx={{ bgcolor: 'background.paper', minHeight: '100vh' }}>
-      <Seo title="Gallery | HoneySpice Cuisine" description="Browse our gallery of authentic Nigerian dishes — Jollof Rice, Egusi, Amala, Efo Riro and more from HoneySpice Cuisine in Stirling." />
+      <Seo title="Gallery | HoneySpice Cuisine" description="Browse our gallery of authentic Nigerian dishes: Jollof Rice, Egusi, Amala, Efo Riro and more from HoneySpice Cuisine in Stirling." />
       {/* Hero */}
       <Box
         sx={{

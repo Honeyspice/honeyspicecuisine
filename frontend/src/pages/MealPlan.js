@@ -192,7 +192,7 @@ const MealPlan = () => {
               {/* Shopping List */}
               {plan.shoppingList?.length > 0 && (
                 <Box sx={{ background: 'white', borderRadius: 3, p: 2, boxShadow: '0 2px 16px rgba(0,0,0,0.06)' }}>
-                  <Typography sx={{ fontWeight: 700, mb: 1.5, fontSize: '0.9rem' }}>🛒 Shopping List</Typography>
+                  <Typography sx={{ fontWeight: 700, mb: 1.5, fontSize: '0.9rem' }}>Shopping List</Typography>
                   {plan.shoppingList.map((item, i) => (
                     <Typography key={i} sx={{ fontSize: '0.8rem', color: '#555', py: 0.3, borderBottom: i < plan.shoppingList.length - 1 ? '1px solid #f0f0f0' : 'none' }}>
                       • {item}
@@ -231,7 +231,7 @@ const MealPlan = () => {
                   {plan.nutritionTips?.length > 0 && (
                     <Grid item xs={12} sm={6}>
                       <Box sx={{ background: 'white', borderRadius: 3, p: 2.5, boxShadow: '0 2px 16px rgba(0,0,0,0.06)' }}>
-                        <Typography sx={{ fontWeight: 700, mb: 1.5, fontSize: '0.9rem' }}>💡 Nutrition Tips</Typography>
+                        <Typography sx={{ fontWeight: 700, mb: 1.5, fontSize: '0.9rem' }}>Nutrition Tips</Typography>
                         {plan.nutritionTips.map((tip, i) => (
                           <Typography key={i} sx={{ fontSize: '0.82rem', color: '#555', mb: 0.75, lineHeight: 1.5 }}>• {tip}</Typography>
                         ))}
@@ -241,7 +241,7 @@ const MealPlan = () => {
                   {plan.cookingTips?.length > 0 && (
                     <Grid item xs={12} sm={6}>
                       <Box sx={{ background: 'white', borderRadius: 3, p: 2.5, boxShadow: '0 2px 16px rgba(0,0,0,0.06)' }}>
-                        <Typography sx={{ fontWeight: 700, mb: 1.5, fontSize: '0.9rem' }}>👨‍🍳 Cooking Tips</Typography>
+                        <Typography sx={{ fontWeight: 700, mb: 1.5, fontSize: '0.9rem' }}>Cooking Tips</Typography>
                         {plan.cookingTips.map((tip, i) => (
                           <Typography key={i} sx={{ fontSize: '0.82rem', color: '#555', mb: 0.75, lineHeight: 1.5 }}>• {tip}</Typography>
                         ))}
@@ -262,11 +262,11 @@ const MealPlan = () => {
                 disabled={generating}
                 style={{ marginTop: 20, width: '100%', padding: '14px', borderRadius: 12, border: 'none', background: generating ? '#ccc' : 'linear-gradient(135deg,#F46A06,#FF8D3D)', color: 'white', fontWeight: 700, cursor: generating ? 'not-allowed' : 'pointer', fontSize: '1rem', boxShadow: generating ? 'none' : '0 4px 16px rgba(244,106,6,0.25)' }}
               >
-                {generating ? '✨ Claude is generating your new plan…' : '✨ Regenerate Meal Plan'}
+                {generating ? 'Claude is generating your new plan…' : 'Regenerate Meal Plan'}
               </button>
               {generating && (
                 <Typography sx={{ textAlign: 'center', color: '#888', fontSize: '0.8rem', mt: 1 }}>
-                  This takes 15–30 seconds — Claude is personalising your nutrition
+                  This takes 15–30 seconds. Claude is personalising your nutrition
                 </Typography>
               )}
             </Grid>

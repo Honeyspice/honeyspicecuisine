@@ -24,7 +24,7 @@ export default function MobileBottomBar() {
   return (
     <Box sx={{ display: { xs: 'flex', md: 'none' }, flexDirection: 'column', position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 1400 }}>
 
-      {/* Sticky cart CTA — only when cart has items */}
+      {/* Sticky cart CTA, only when cart has items */}
       {itemCount > 0 && (
         <Box
           onClick={() => navigate('/cart')}

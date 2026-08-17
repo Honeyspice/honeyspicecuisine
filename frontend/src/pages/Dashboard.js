@@ -55,7 +55,7 @@ const Dashboard = () => {
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Box>
               <Typography variant="h5" sx={{ fontWeight: 800, color: '#1a1a1a' }}>
-                Welcome back, {user?.name?.split(' ')[0]} 👋
+                Welcome back, {user?.name?.split(' ')[0]}
               </Typography>
               <Typography sx={{ color: '#666', fontSize: '0.9rem', mt: 0.5 }}>
                 Your personalised Nigerian health nutrition hub
@@ -182,7 +182,7 @@ const Dashboard = () => {
                     disabled={generating || !hasProfile}
                     style={{ marginTop: 16, width: '100%', padding: '12px', borderRadius: 10, border: '1.5px solid #e0e0e0', background: 'white', fontWeight: 600, cursor: 'pointer', fontSize: '0.9rem', color: '#444' }}
                   >
-                    {generating ? '✨ Generating…' : '🔄 Regenerate Plan'}
+                    {generating ? 'Generating…' : 'Regenerate Plan'}
                   </button>
                 </>
               ) : (
@@ -190,7 +190,7 @@ const Dashboard = () => {
                   <Box sx={{ fontSize: '3rem', mb: 1 }}>🤖</Box>
                   <Typography sx={{ fontWeight: 700, fontSize: '1.1rem', mb: 1 }}>Smart Meal Planning</Typography>
                   <Typography sx={{ color: '#666', fontSize: '0.9rem', mb: 3, maxWidth: 400, mx: 'auto' }}>
-                    We analyse your health profile and build a complete 7-day Nigerian food timetable with recipes and shopping lists — personalised to you.
+                    We analyse your health profile and build a complete 7-day Nigerian food timetable with recipes and shopping lists, personalised to you.
                   </Typography>
                   <button
                     onClick={handleGenerate}
@@ -202,7 +202,7 @@ const Dashboard = () => {
                       fontSize: '1rem', boxShadow: !hasProfile ? 'none' : '0 4px 16px rgba(244,106,6,0.3)',
                     }}
                   >
-                    {generating ? '✨ Generating your plan…' : '✨ Generate My Meal Plan'}
+                    {generating ? 'Generating your plan…' : 'Generate My Meal Plan'}
                   </button>
                   {!hasProfile && (
                     <Typography sx={{ color: '#e67e22', fontSize: '0.8rem', mt: 1.5 }}>

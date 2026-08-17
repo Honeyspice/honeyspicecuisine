@@ -207,7 +207,7 @@ const Checkout = () => {
                     <TextField name="email" label="Email" type="email" fullWidth required />
                   </Grid>
 
-                  {/* Address — only shown for delivery */}
+                  {/* Address, only shown for delivery */}
                   {fulfillment === 'delivery' && (
                     <>
                       <Grid item xs={12}>
