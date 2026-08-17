@@ -38,10 +38,25 @@ const MENU_CATEGORIES = [
       { name: 'Ofada Sauce Ayamase Stew', description: 'Jumbo Ofada rice with assorted meat, egg, ponmo and panla fish', price: 15.99, image: '/images/Ofada.webp' },
       { name: 'Coconut Rice', description: 'Fragrant rice cooked in coconut milk with vegetables', price: 12.99, image: '/images/White_Rice.webp' },
       { name: 'Fried Rice', description: 'Nigerian-style fried rice with mixed vegetables and protein', price: 12.99, image: '/images/Friedrice.jpg' },
+    ],
+  },
+  {
+    // Soups sits directly above Swallows on purpose: they are ordered together,
+    // and every swallow description says "order with any soup".
+    id: 'soups',
+    title: 'Soups',
+    items: [
       { name: 'Egusi Soup', description: 'Melon seed soup with assorted meat and fish', price: 15.99, image: '/images/Egusi.webp' },
       { name: 'Efo Riro', description: 'Vegetable soup with assorted meat and fish', price: 15.99, image: '/images/efo_riro.webp' },
       { name: 'Ogbono Soup', description: 'Wild mango seed soup with assorted meat and fish', price: 15.99, image: '/images/ogbono.jpg' },
       { name: 'Banga Soup', description: 'Palm nut soup with assorted meat and fish', price: 15.99, image: '/images/banga.jpg' },
+      { name: 'Pepper Soup', description: 'Spicy meat or fish soup with traditional herbs', price: 15.99, image: '/images/peppersoup.jpg' },
+    ],
+  },
+  {
+    id: 'swallows',
+    title: 'Swallows',
+    items: [
       { name: 'Pounded Yam', description: 'Smooth pounded yam, order with any soup', price: 9.99, image: '/images/poundedyam.jpg' },
       { name: 'Amala', description: 'Yam flour swallow, order with any soup', price: 9.99, image: '/images/Amala.webp' },
       { name: 'Eba', description: 'Garri (cassava flour) swallow, order with any soup', price: 9.99, image: '/images/eba.jpg' },
@@ -58,7 +73,6 @@ const MENU_CATEGORIES = [
       { name: 'Loaded Fries', description: 'Crispy fries topped with suya-spiced chicken and sauce', price: 9.99, image: '/images/fries.jpg' },
       { name: 'Coleslaw', description: 'Fresh cabbage and carrot salad', price: 6.99, image: '/images/Coleslaw.jpg' },
       { name: 'Akara', description: 'Crispy bean cakes, a classic Nigerian snack', price: 6.99, image: '/images/Akara.jpg' },
-      { name: 'Pepper Soup', description: 'Spicy meat or fish soup with traditional herbs', price: 15.99, image: '/images/peppersoup.jpg' },
     ],
   },
   {
@@ -149,7 +163,7 @@ const Menu = () => {
     <>
       <Seo
         title="Menu | HoneySpice Cuisine Stirling"
-        description="Explore the full HoneySpice Kitchen menu: wraps, rice meals, sides, drinks and curated bundles. Authentic Nigerian food in Stirling, UK."
+        description="Explore the full HoneySpice Kitchen menu: wraps, rice meals, soups, swallows, sides, drinks and curated bundles. Authentic Nigerian food in Stirling, UK."
       />
       <Box sx={{ minHeight: '100vh', bgcolor: 'background.paper', py: { xs: 4, sm: 6, md: 8 }, px: { xs: 2, sm: 0 } }}>
         <Container maxWidth="lg">
