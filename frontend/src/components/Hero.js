@@ -69,9 +69,18 @@ const Hero = () => {
         // dead space below the CTAs. Subtracting the chrome and a small peek
         // means the composition centres in the band the user can see, and the
         // next section shows just enough to invite the scroll.
+        // The min() cap bounds the viewport-unit height. Without it the hero has
+        // no upper limit: Googlebot renders with a deliberately very tall
+        // viewport so lazy-loaded content gets fetched, which stretched the hero
+        // to 3824px, pushed the centred heading down to y=1841 and magnified the
+        // cover-fitted photo into an unreadable blur. It is not only the crawler
+        // screenshot, a maximised window on a 4K display got a 1979px hero.
+        // The caps are set above every real phone and laptop, so those render
+        // exactly as before: only displays taller than roughly 1180px, and the
+        // crawler, are clamped.
         height: {
-          xs: 'calc(100svh - var(--hs-header-h) - var(--hs-bottombar-h) - var(--hs-hero-peek))',
-          md: 'calc(100vh - var(--hs-header-h) - var(--hs-hero-peek))',
+          xs: 'min(calc(100svh - var(--hs-header-h) - var(--hs-bottombar-h) - var(--hs-hero-peek)), 820px)',
+          md: 'min(calc(100vh - var(--hs-header-h) - var(--hs-hero-peek)), 1000px)',
         },
         overflow: 'hidden',
         display: 'flex',
