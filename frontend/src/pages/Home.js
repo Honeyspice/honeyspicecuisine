@@ -414,7 +414,7 @@ const Home = () => {
         >
           <Box
             component="img"
-            src="/images/Egusi.png"
+            src="/images/Egusi.webp"
             alt="Nigerian feast spread"
             sx={{
               position: 'absolute',

@@ -3,12 +3,12 @@ import FadeIn from '../components/FadeIn';
 import Seo from '../components/Seo';
 
 const foodImages = [
-  { image: '/images/Amala.png', title: 'Amala with Ewedu' },
+  { image: '/images/Amala.webp', title: 'Amala with Ewedu' },
   { image: '/images/boli.png', title: 'Boli with Fish' },
   { image: '/images/efo_riro.png', title: 'Efo Riro with Pounded Yam' },
-  { image: '/images/Egusi.png', title: 'Egusi Soup with Fufu' },
+  { image: '/images/Egusi.webp', title: 'Egusi Soup with Fufu' },
   { image: '/images/jollof_rice.png', title: 'Jollof Rice with Chicken' },
-  { image: '/images/Ofada.png', title: 'Ofada Sauce Ayamase Stew' },
+  { image: '/images/Ofada.webp', title: 'Ofada Sauce Ayamase Stew' },
 ];
 
 const Gallery = () => {

@@ -131,17 +131,6 @@ const MenuButton = muiStyled('button')(() => ({
   },
 }));
 
-const UtilityLink = muiStyled(RouterLink)(() => ({
-  fontSize: '13px',
-  color: 'rgba(255, 255, 255, 0.82)',
-  textDecoration: 'none',
-  lineHeight: 1,
-  '&:hover': {
-    color: '#ffffff',
-    textDecoration: 'none',
-  },
-}));
-
 // Auth-aware Sign In / Dashboard button
 const AuthNavButton = () => {
   const { user, logout } = useAuth();
@@ -446,84 +435,32 @@ const DesktopNavbar = ({ pathname, itemCount, cartBadgeSx, subtotal, cuisineMenu
         />
       ) : null}
       <Box ref={desktopHeaderRef}>
-        <Box
-          sx={{
-            minHeight: 34,
-            py: 0.75,
-            width: '100vw',
-            position: 'relative',
-            left: '50%',
-            right: '50%',
-            ml: '-50vw',
-            mr: '-50vw',
-            borderBottom: 'none',
-            color: 'rgba(255, 255, 255, 0.82)',
-            fontSize: '12px',
-            backgroundColor: 'rgba(255, 255, 255, 0.03)',
-          }}
-        >
-        <Box
-          sx={{
-            maxWidth: '1200px',
-            mx: 'auto',
-            px: 2,
-            display: 'flex',
-            flexDirection: { xs: 'column', md: 'row' },
-            alignItems: { xs: 'flex-start', md: 'center' },
-            justifyContent: 'space-between',
-            gap: { xs: 0.75, md: 0 },
-          }}
-        >
-          <Typography
-            sx={{
-              fontSize: { xs: '13px', sm: '14px', md: '15px' },
-              fontWeight: 600,
-              color: 'rgba(255, 255, 255, 0.72)',
-              lineHeight: 1.35,
-              pr: { md: 2 },
-              flex: 1,
-            }}
-          >
-            Welcome To Honeyspice-Home To Your Authentic Nigerian Cuisine Made With Love And Delivered Fresh
-          </Typography>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 2,
-              ml: { md: 3 },
-              flexWrap: 'wrap',
-            }}
-          >
-            <UtilityLink to="/reservation">
-              Book Catering
-            </UtilityLink>
-            <UtilityLink to="/location">
-              Find Us
-            </UtilityLink>
-            <UtilityLink to="/contact">
-              Contact
-            </UtilityLink>
-          </Box>
-        </Box>
-        </Box>
+        {/* The utility bar was removed entirely. It held the welcome sentence,
+            which carried no action, plus Book Catering, Find Us and Contact,
+            all three of which the footer already lists. That made it 34px of
+            duplicated chrome on every screen. Removing it takes the fixed
+            header from 143px to 109px and leaves the main row (66px) and the
+            navigation (43px) at their comfortable heights. */}
         <Toolbar
         disableGutters
         sx={{
-          minHeight: 94,
-          py: 1,
+          // Slimmer main row. Combined with dropping the welcome sentence this
+          // takes the fixed header from 171px, 19% of a 900px viewport, down to
+          // roughly 110px, without removing search, nav or any destination.
+          minHeight: 68,
+          py: 0.75,
           px: 2,
           borderBottom: 'none',
           overflow: 'visible',
         }}
       >
-        <Logo component={RouterLink} to="/" sx={{ minWidth: 138 }}>
+        <Logo component={RouterLink} to="/" sx={{ minWidth: 112 }}>
           <Box
             component="img"
             src="/logo.png"
             alt="HoneySpice Logo"
             sx={{
-              height: 78,
+              height: 54,
               width: 'auto',
               display: 'block',
               objectFit: 'contain',
@@ -568,15 +505,18 @@ const DesktopNavbar = ({ pathname, itemCount, cartBadgeSx, subtotal, cuisineMenu
             to="/cart"
             disableElevation
             sx={{
-              minWidth: 118,
-              height: 52,
+              minWidth: 110,
+              height: 44,
               borderRadius: '10px',
               textTransform: 'none',
               color: 'white',
               px: 1.1,
+              // Cart stays orange, it is a primary action. The orange glow is
+              // dropped so the colour reads as a solid surface rather than
+              // bleeding into the header around it.
               backgroundColor: '#F46A06',
-              boxShadow: '0 4px 14px rgba(244, 106, 6, 0.32)',
-              '&:hover': { backgroundColor: '#D45A00', boxShadow: '0 6px 16px rgba(212, 90, 0, 0.34)' },
+              boxShadow: 'none',
+              '&:hover': { backgroundColor: '#D45A00', boxShadow: 'none' },
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
