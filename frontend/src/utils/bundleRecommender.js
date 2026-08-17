@@ -1,4 +1,14 @@
 // ─── Bundle definitions ───────────────────────────────────────────────────────
+//
+// Every bundle here previously included fries and drinks. Neither is on the
+// menu: drinks were removed, and we do not sell fries. The assistant was
+// therefore recommending spreads that could not be ordered. Contents are now
+// drawn only from things the kitchen actually sells.
+//
+// NOTE: these duplicate the BUNDLES in src/data/menu.js, and the two disagree on
+// group sizes. The Menu page advertises the Friends Pack as "For 4–6" and the
+// Group Pack as "For 8–12", while the thresholds below switch at 3–5 and 6+.
+// They should be reconciled against one definition.
 
 export const BUNDLES = {
   couple: {
@@ -7,16 +17,16 @@ export const BUNDLES = {
     price: 25,
     tag: 'For 2',
     image: '/images/ChickenShawarmaWrap.webp',
-    items: ['2 × Chicken Shawarma', '1 × Fries', '2 × Drinks'],
-    desc: 'A perfect spread for two: classic shawarma with fries and drinks.',
+    items: ['2 × Chicken Shawarma Wrap', '1 × Coleslaw'],
+    desc: 'A spread for two: two wraps and a shared side.',
   },
   friends: {
     id: 'friends',
     name: 'Friends Pack',
     price: 45,
     tag: 'For 3–5',
-    image: '/images/shawarmafriescombo.webp',
-    items: ['4 × Chicken Shawarma', '2 × Fries', '1 × Large Drink'],
+    image: '/images/ChickenShawarmaWrap.webp',
+    items: ['4 × Chicken Shawarma Wrap', '1 × Large Jollof Rice', '1 × Coleslaw'],
     desc: 'A crowd-pleasing mix for 3 to 5 people.',
   },
   group: {
@@ -25,8 +35,8 @@ export const BUNDLES = {
     price: 70,
     tag: 'For 6+',
     image: '/images/jollof_rice.webp',
-    items: ['6 × Shawarma or Rice Mix', '3 × Fries', '3 × Drinks'],
-    desc: 'A generous spread for 6 or more: mix of shawarma and rice options.',
+    items: ['6 × Shawarma Wraps or Jollof Rice', '2 × Grilled Chicken', '2 × Coleslaw'],
+    desc: 'A generous spread for 6 or more: wraps, rice and sides.',
   },
 };
 
@@ -35,7 +45,7 @@ export const INDIVIDUAL_MEAL = {
   name: 'Individual Meal',
   priceEach: 11,
   image: '/images/ChickenShawarmaWrap.webp',
-  items: ['1 × Chicken Shawarma or Jollof Rice', '1 × Side', '1 × Drink'],
+  items: ['1 × Chicken Shawarma Wrap or Jollof Rice', '1 × Side'],
   desc: 'A single satisfying Nigerian meal, ideal when a bundle is over budget.',
 };
 
