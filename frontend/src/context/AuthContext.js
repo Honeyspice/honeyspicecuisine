@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
 
   const fetchProfile = useCallback(async (t) => {
     try {
-      const res = await fetch(apiUrl('/api/mealplan/profile'), {
+      const res = await fetch(apiUrl('/api/auth/me'), {
         headers: { Authorization: `Bearer ${t}` },
       });
       if (!res.ok) throw new Error('Unauthorized');

@@ -23,7 +23,7 @@ const Register = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Registration failed');
       await login(data.token);
-      navigate('/profile-setup');
+      navigate('/menu');
     } catch (err) {
       setError(err.message);
     } finally {

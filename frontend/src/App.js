@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { keyframes } from '@mui/material/styles';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -18,9 +18,6 @@ import Location from './pages/Location';
 import RecipeBook from './pages/RecipeBook';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import HealthProfile from './pages/HealthProfile';
-import Dashboard from './pages/Dashboard';
-import MealPlan from './pages/MealPlan';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import CheckoutSuccess from './pages/CheckoutSuccess';
@@ -36,7 +33,6 @@ import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
 import CookieBanner from './components/CookieBanner';
 import FloatingChat from './components/FloatingChat';
-import ProtectedRoute from './components/ProtectedRoute';
 import NotFound from './pages/NotFound';
 import MobileBottomBar from './components/MobileBottomBar';
 
@@ -162,9 +158,13 @@ function App() {
                 <Route path="/recipe-manual" element={<RecipeBook />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
-                <Route path="/profile-setup" element={<ProtectedRoute><HealthProfile /></ProtectedRoute>} />
-                <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-                <Route path="/meal-plan" element={<ProtectedRoute><MealPlan /></ProtectedRoute>} />
+                {/* The health profile and meal-plan feature was removed: generating
+                    dietary plans against conditions like diabetes and hypertension is
+                    dietetic advice, and it stored special-category health data. Old
+                    links and bookmarks land on the menu rather than a 404. */}
+                <Route path="/profile-setup" element={<Navigate to="/menu" replace />} />
+                <Route path="/dashboard" element={<Navigate to="/menu" replace />} />
+                <Route path="/meal-plan" element={<Navigate to="/menu" replace />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
               </PageWrapper>

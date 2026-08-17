@@ -150,4 +150,30 @@ router.post('/reset-password/:token', async (req, res) => {
   }
 });
 
+// Inline JWT auth middleware, matching the pattern used elsewhere.
+const auth = (req, res, next) => {
+  const token = req.headers.authorization?.replace('Bearer ', '');
+  if (!token) return res.status(401).json({ message: 'Authentication required' });
+  try {
+    req.user = jwt.verify(token, process.env.JWT_SECRET);
+    next();
+  } catch {
+    return res.status(401).json({ message: 'Invalid or expired token' });
+  }
+};
+
+// Identity endpoint. The frontend previously asked /api/mealplan/profile who was
+// signed in, which coupled authentication to the meal-plan feature and returned
+// health data alongside the name and email. This returns identity only.
+router.get('/me', auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.userId).select('name email');
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    res.json(user);
+  } catch (err) {
+    console.error('Identity lookup error:', err);
+    res.status(500).json({ message: 'Failed to fetch user' });
+  }
+});
+
 module.exports = router; 
