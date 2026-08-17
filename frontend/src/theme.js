@@ -39,8 +39,9 @@ let theme = createTheme({
       contrastText: '#000000',
     },
     background: {
-      // Back to a light, high-contrast base so text stays very readable
-      default: '#F8F9FA',
+      // Warm cream base. Matches the cream already used in page sections, so the
+      // site no longer mixes a cool grey ground with warm section panels.
+      default: '#FAF6F0',
       paper: '#FFFFFF',
     },
     text: {
@@ -135,21 +136,16 @@ let theme = createTheme({
           WebkitTextSizeAdjust: '100%',
           textSizeAdjust: '100%',
         },
-        body: ({ theme }) => ({
-          backgroundColor: '#F8F9FA',
-          backgroundImage: `radial-gradient(1200px 600px at 10% 0%, ${alpha(
-            '#F46A06',
-            0.08
-          )} 0%, rgba(0,0,0,0) 60%),
-            radial-gradient(900px 500px at 90% 10%, ${alpha('#FCA900', 0.08)} 0%, rgba(0,0,0,0) 55%)`,
-          backgroundAttachment: 'fixed',
+        body: {
+          // Plain warm cream ground. The previous orange and honey radial washes
+          // put the brand colour behind every screen, which is what made orange
+          // read as constant noise rather than a signature. Warmth now comes
+          // from the cream itself. Dropping the image also removes the
+          // `backgroundAttachment: fixed` iOS Safari jank workaround.
+          backgroundColor: '#FAF6F0',
           minHeight: '100dvh',
           WebkitTapHighlightColor: 'transparent',
-          [theme.breakpoints.down('md')]: {
-            // `fixed` causes jank on iOS Safari
-            backgroundAttachment: 'scroll',
-          },
-        }),
+        },
       },
     },
     MuiButton: {
@@ -163,29 +159,38 @@ let theme = createTheme({
           boxShadow: 'none',
           minHeight: 44,
           '&:hover': {
-            boxShadow: '0 4px 20px rgba(244, 106, 6, 0.3)',
+            // Neutral lift. Every button previously glowed orange on hover,
+            // including secondary ones, which spread the brand colour across
+            // all interaction rather than reserving it for the primary action.
+            boxShadow: '0 4px 16px rgba(26, 26, 26, 0.12)',
           },
           [theme.breakpoints.up('sm')]: {
             minHeight: 40,
           },
         }),
+        // Contained stays orange. This is the signature CTA and the one place
+        // the brand colour should own a whole surface.
         contained: {
           backgroundColor: '#F46A06',
           '&:hover': {
             backgroundColor: '#FF8D3D',
           },
         },
+        // Secondary actions are charcoal at rest and earn orange on hover, so
+        // the brand colour becomes a reward for intent instead of background hum.
         outlined: {
-          borderColor: '#F46A06',
-          color: '#F46A06',
+          borderColor: '#1A1A1A',
+          color: '#1A1A1A',
           '&:hover': {
-            borderColor: '#FF8D3D',
+            borderColor: '#F46A06',
+            color: '#F46A06',
             backgroundColor: 'rgba(244, 106, 6, 0.04)',
           },
         },
         text: {
-          color: '#F46A06',
+          color: '#1A1A1A',
           '&:hover': {
+            color: '#F46A06',
             backgroundColor: 'rgba(244, 106, 6, 0.04)',
           },
         },
@@ -317,9 +322,11 @@ let theme = createTheme({
     MuiLink: {
       styleOverrides: {
         root: {
-          color: '#F46A06',
+          // Charcoal at rest, orange on hover. Body links were previously all
+          // orange, which put the brand colour into running text everywhere.
+          color: '#1A1A1A',
           '&:hover': {
-            color: '#FF8D3D',
+            color: '#F46A06',
           },
         },
       },

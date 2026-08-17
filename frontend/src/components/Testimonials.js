@@ -48,8 +48,15 @@ const Testimonials = () => {
   }, [handleNext]);
 
   return (
-    <Box sx={{ 
-      bgcolor: 'primary.main',
+    <Box sx={{
+      // Charcoal, not orange. As a full-bleed 672px band this was the largest
+      // orange surface on the site and it broke the "orange as signature
+      // accent" rule on its own. Charcoal gives one strong editorial break
+      // against the cream page, and orange returns in the small details that
+      // were already here: the carousel arrows and the avatar initials. The
+      // rating stars stay honey gold, which reads better than orange against
+      // charcoal.
+      bgcolor: 'grey.900',
       py: { xs: 4, sm: 6, md: 8 }
     }}>
       <Container maxWidth="lg">
