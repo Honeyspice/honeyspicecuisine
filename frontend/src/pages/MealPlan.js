@@ -116,7 +116,7 @@ const MealPlan = () => {
           height: { xs: '28vh', md: '34vh' },
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           overflow: 'hidden',
-          backgroundImage: 'url(/images/jollof_rice.png)',
+          backgroundImage: 'url(/images/jollof_rice.webp)',
           backgroundSize: 'cover', backgroundPosition: 'center',
           '&::before': { content: '""', position: 'absolute', inset: 0, background: 'linear-gradient(135deg,rgba(244,106,6,0.5) 0%,rgba(0,0,0,0.1) 100%)', zIndex: 1 },
           '&::after': { content: '""', position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 2 },

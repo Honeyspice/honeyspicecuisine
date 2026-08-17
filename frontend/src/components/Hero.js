@@ -11,7 +11,7 @@ const SLIDES = [
     secondaryCta: { label: 'Get Suggestions', to: '/ai-assistant' },
   },
   {
-    src: '/images/jollof_rice.png',
+    src: '/images/jollof_rice.webp',
     heading: 'BOOK YOUR\nEVENT.',
     sub: 'Private catering, weddings, corporate gatherings. Cooked and delivered by our kitchen.',
     cta: { label: 'Book Catering', to: '/reservation' },

@@ -24,7 +24,7 @@ export const BUNDLES = {
     name: 'Group Pack',
     price: 70,
     tag: 'For 6+',
-    image: '/images/jollof_rice.png',
+    image: '/images/jollof_rice.webp',
     items: ['6 × Shawarma or Rice Mix', '3 × Fries', '3 × Drinks'],
     desc: 'A generous spread for 6 or more: mix of shawarma and rice options.',
   },

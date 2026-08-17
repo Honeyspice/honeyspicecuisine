@@ -31,7 +31,7 @@ const BUNDLES = [
     name: 'Couple Pack',
     price: '£25',
     desc: 'Two portions of your favourite Nigerian classics. Perfect for a date night or quiet dinner for two.',
-    image: '/images/jollof_rice.png',
+    image: '/images/jollof_rice.webp',
     tag: 'For 2',
     color: '#F46A06',
   },

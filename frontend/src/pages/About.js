@@ -65,7 +65,7 @@ const About = () => {
           justifyContent: 'center',
           mb: 8,
           overflow: 'hidden',
-          backgroundImage: 'url(/images/jollof_rice.png)',
+          backgroundImage: 'url(/images/jollof_rice.webp)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           '&::before': {

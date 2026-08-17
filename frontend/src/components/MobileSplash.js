@@ -29,7 +29,7 @@ export default function MobileSplash() {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundImage: 'url(/images/jollof_rice.png)',
+        backgroundImage: 'url(/images/jollof_rice.webp)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         opacity: exiting ? 0 : 1,
