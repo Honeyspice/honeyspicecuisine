@@ -26,7 +26,7 @@ const MENU_CATEGORIES = [
     title: 'Wraps',
     items: [
       { name: 'Chicken Shawarma Wrap', description: 'Toasted wrap with chicken, slaw and creamy pepper sauce', price: 10.99, image: '/images/ChickenShawarmaWrap.jpg' },
-      { name: 'Beef Shawarma Wrap', description: 'Grilled beef strips with fresh veg and pepper sauce in a toasted wrap', price: 11.99, image: '/images/ChickenShawarmaWrap.jpg' },
+      { name: 'Beef Shawarma Wrap', description: 'Grilled beef strips with fresh veg and pepper sauce in a toasted wrap', price: 11.99 },
       { name: 'Shawarma + Fries Combo', description: 'Chicken shawarma wrap paired with crispy fries', price: 13.99, image: '/images/shawarmafriescombo.jpg' },
     ],
   },
@@ -39,7 +39,7 @@ const MENU_CATEGORIES = [
       { name: 'Coconut Rice', description: 'Fragrant rice cooked in coconut milk with vegetables', price: 12.99, image: '/images/White_Rice.webp' },
       { name: 'Fried Rice', description: 'Nigerian-style fried rice with mixed vegetables and protein', price: 12.99, image: '/images/Friedrice.jpg' },
       { name: 'Egusi Soup', description: 'Melon seed soup with assorted meat and fish', price: 15.99, image: '/images/Egusi.webp' },
-      { name: 'Efo Riro', description: 'Vegetable soup with assorted meat and fish', price: 15.99, image: '/images/efo_riro.png' },
+      { name: 'Efo Riro', description: 'Vegetable soup with assorted meat and fish', price: 15.99, image: '/images/efo_riro.webp' },
       { name: 'Ogbono Soup', description: 'Wild mango seed soup with assorted meat and fish', price: 15.99, image: '/images/ogbono.jpg' },
       { name: 'Banga Soup', description: 'Palm nut soup with assorted meat and fish', price: 15.99, image: '/images/banga.jpg' },
       { name: 'Pounded Yam', description: 'Smooth pounded yam, order with any soup', price: 9.99, image: '/images/poundedyam.jpg' },
@@ -53,7 +53,7 @@ const MENU_CATEGORIES = [
     title: 'Sides',
     items: [
       { name: 'Beef Suya', description: 'Spicy grilled beef skewers with suya spice and onions', price: 15.99, image: '/images/grilled_suya.jpg' },
-      { name: 'Grilled Chicken', description: 'Flame-grilled chicken with house pepper glaze', price: 14.99, image: '/images/barbecue.jpg' },
+      { name: 'Grilled Chicken', description: 'Flame-grilled chicken with house pepper glaze', price: 14.99 },
       { name: 'Boli (Roasted Plantain)', description: 'Roasted plantain with spicy sauce', price: 9.99, image: '/images/boli.png' },
       { name: 'Loaded Fries', description: 'Crispy fries topped with suya-spiced chicken and sauce', price: 9.99, image: '/images/fries.jpg' },
       { name: 'Coleslaw', description: 'Fresh cabbage and carrot salad', price: 6.99, image: '/images/Coleslaw.jpg' },

@@ -4,7 +4,7 @@ import { Link as RouterLink } from 'react-router-dom';
 
 const SLIDES = [
   {
-    src: '/images/efo_riro.png',
+    src: '/images/efo_riro.webp',
     heading: 'TASTE NIGERIAN\nFLAVOURS.',
     sub: 'Authentic soups, stews and swallows: bold, rich and cooked the traditional way. Delivery & collection from Stirling.',
     cta: { label: 'Order Now', to: '/menu' },

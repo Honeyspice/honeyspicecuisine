@@ -39,7 +39,7 @@ const BUNDLES = [
     name: 'Friends Pack',
     price: '£45',
     desc: 'A generous spread for 4–6 people. Mix of soups, swallows, grills and sides.',
-    image: '/images/efo_riro.png',
+    image: '/images/efo_riro.webp',
     tag: 'For 4–6',
     color: '#1a1a1a',
   },

@@ -5,7 +5,7 @@ import Seo from '../components/Seo';
 const foodImages = [
   { image: '/images/Amala.webp', title: 'Amala with Ewedu' },
   { image: '/images/boli.png', title: 'Boli with Fish' },
-  { image: '/images/efo_riro.png', title: 'Efo Riro with Pounded Yam' },
+  { image: '/images/efo_riro.webp', title: 'Efo Riro with Pounded Yam' },
   { image: '/images/Egusi.webp', title: 'Egusi Soup with Fufu' },
   { image: '/images/jollof_rice.png', title: 'Jollof Rice with Chicken' },
   { image: '/images/Ofada.webp', title: 'Ofada Sauce Ayamase Stew' },
@@ -95,7 +95,7 @@ const Gallery = () => {
                     component="img"
                     src={item.image}
                     alt={item.title}
-                    onError={(e) => { e.currentTarget.src = '/images/efo_riro.png'; }}
+                    onError={(e) => { e.currentTarget.src = '/images/efo_riro.webp'; }}
                     sx={{
                       width: '100%',
                       height: '100%',
