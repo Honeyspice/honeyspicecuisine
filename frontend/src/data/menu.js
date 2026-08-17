@@ -9,7 +9,6 @@ export const MENU_CATEGORIES = [
     items: [
       { name: 'Chicken Shawarma Wrap', description: 'Toasted wrap with chicken, slaw and creamy pepper sauce', price: 10.99, image: '/images/ChickenShawarmaWrap.webp' },
       { name: 'Beef Shawarma Wrap', description: 'Grilled beef strips with fresh veg and pepper sauce in a toasted wrap', price: 11.99, image: '/images/beef-shawarma.webp' },
-      { name: 'Shawarma + Fries Combo', description: 'Chicken shawarma wrap paired with crispy fries', price: 13.99, image: '/images/shawarmafriescombo.webp' },
     ],
   },
   {
@@ -30,7 +29,8 @@ export const MENU_CATEGORIES = [
       { name: 'Efo Riro', description: 'Vegetable soup with assorted meat and fish, served with any swallow of your choice', price: 15.99, image: '/images/efo_riro.webp' },
       { name: 'Ogbono Soup', description: 'Wild mango seed soup with assorted meat and fish, served with any swallow of your choice', price: 15.99, image: '/images/ogbono.webp' },
       { name: 'Banga Soup', description: 'Palm nut soup with assorted meat and fish, served with any swallow of your choice', price: 15.99, image: '/images/banga.webp' },
-      { name: 'Pepper Soup', description: 'Spicy meat or fish soup with traditional herbs, served with any swallow of your choice', price: 15.99, image: '/images/peppersoup.webp' },
+      // Pepper Soup is the one soup not served with swallow.
+      { name: 'Pepper Soup', description: 'Spicy meat or fish soup with traditional herbs', price: 15.99, image: '/images/peppersoup.webp' },
     ],
   },
   {
@@ -38,7 +38,11 @@ export const MENU_CATEGORIES = [
     title: 'Sides',
     items: [
       { name: 'Beef Suya', description: 'Spicy grilled beef skewers with suya spice and onions', price: 15.99, image: '/images/suya.webp' },
-      { name: 'Grilled Chicken', description: 'Flame-grilled chicken with house pepper glaze', price: 14.99 },
+      // The only source available is 200x300, below the 840px card budget, so it
+      // is used at native size rather than upscaled. It covers the 80x80 desktop
+      // thumbnail comfortably but is stretched about 1.4x on the 277px mobile
+      // card. Replace with a larger original when there is one.
+      { name: 'Grilled Chicken', description: 'Flame-grilled chicken with house pepper glaze', price: 14.99, image: '/images/grilled-chicken.webp' },
       { name: 'Boli (Roasted Plantain)', description: 'Roasted plantain with spicy sauce', price: 9.99, image: '/images/boli.webp' },
       { name: 'Coleslaw', description: 'Fresh cabbage and carrot salad', price: 6.99, image: '/images/Coleslaw.webp' },
       { name: 'Akara', description: 'Crispy bean cakes, a classic Nigerian snack', price: 6.99, image: '/images/Akara.webp' },
@@ -61,7 +65,9 @@ export const BUNDLES = [
     name: 'Friends Pack',
     price: 45,
     tag: 'For 4–6',
-    image: '/images/shawarmafriescombo.webp',
+    // Was the shawarma-and-fries photograph, which showed a side we no longer
+    // sell. The bundle is wraps, rice and a side, so a wrap photo is honest.
+    image: '/images/ChickenShawarmaWrap.webp',
     items: ['4 × Shawarma Wraps', '1 × Large Jollof Rice', '1 × Coleslaw'],
     desc: 'A crowd-pleasing mix for a group of friends.',
   },
@@ -86,11 +92,12 @@ export const SYNONYMS = {
   'Efo Riro': ['spinach stew', 'vegetable soup', 'swallow', 'pounded yam', 'eba', 'fufu', 'amala'],
   'Ogbono Soup': ['draw soup', 'swallow', 'pounded yam', 'eba', 'fufu', 'amala'],
   'Banga Soup': ['palm nut soup', 'ofe akwu', 'swallow', 'pounded yam', 'eba', 'fufu', 'amala'],
-  'Pepper Soup': ['peppersoup', 'nkwobi', 'swallow', 'spicy'],
+  // No 'swallow' here: it is the one soup not served with it, so a search for
+  // "swallow" should not offer it.
+  'Pepper Soup': ['peppersoup', 'nkwobi', 'spicy'],
   'Beef Suya': ['suya', 'kebab', 'skewers', 'grilled beef'],
   'Chicken Shawarma Wrap': ['shawarma', 'wrap', 'kebab'],
   'Beef Shawarma Wrap': ['shawarma', 'wrap', 'kebab'],
-  'Shawarma + Fries Combo': ['shawarma', 'chips', 'fries', 'combo'],
   'Boli (Roasted Plantain)': ['plantain', 'dodo', 'boli'],
   'Akara': ['bean cake', 'beans', 'vegetarian'],
   'Coleslaw': ['salad', 'vegetarian'],

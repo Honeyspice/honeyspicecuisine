@@ -37,8 +37,8 @@ thumbnail. It renders a 277px-wide banner, so 840px covers it to roughly 3x.
 | `Akara.webp` | card | Menu |
 | `Coleslaw.webp` | card | Menu |
 | `ChickenShawarmaWrap.webp` | card | Menu, bundleRecommender |
-| `shawarmafriescombo.webp` | card | Menu, bundleRecommender |
 | `recipe_book.webp` | card | RecipeBook page |
+| `grilled-chicken.webp` | card | Menu. **Under budget at 200x300**, see Missing below |
 
 ## Fixed-format assets
 
@@ -69,8 +69,10 @@ Grilled meat and rice grain are high-frequency textures that WebP handles worse
 than an already-tight JPEG at these quality levels. Re-encoding them would have
 cost bytes and a generation of quality for nothing.
 
-## Missing
+## Below budget
 
-`Grilled Chicken` on the menu has no image. The available source
-(`IMG_6853.PNG`, 200x300) is too small: filling a card would upscale it about
-2.8x. It needs roughly a 1200px landscape original.
+`grilled-chicken.webp` is 200x300, the only source available. It is used at
+native size rather than upscaled, which is fine for the 80x80 desktop thumbnail
+but stretches about 1.4x on the 277px-wide mobile card. A larger original,
+roughly 1200px, would fix it with no code change: replace the file and rerun the
+conversion.
