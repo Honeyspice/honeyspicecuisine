@@ -7,6 +7,47 @@ import { useCart } from '../context/CartContext';
 
 const WHATSAPP_NUMBER = '447721629566';
 
+// Divider between actions, inset rather than full height. Two problems with the
+// original: at 0.1 alpha it was about 1.1:1 against the near-black bar so it did
+// no work, and as a full-height borderRight it ran edge to edge and butted flush
+// against the labels, reading as a hard grid. Insetting it leaves air above and
+// below, so it separates without boxing each action in.
+const dividerSx = {
+  position: 'relative',
+  '&::after': {
+    content: '""',
+    position: 'absolute',
+    right: 0,
+    top: 14,
+    bottom: 'calc(14px + env(safe-area-inset-bottom, 0px))',
+    width: '1px',
+    bgcolor: 'rgba(255, 255, 255, 0.22)',
+  },
+};
+
+// Single active colour for all three actions. WhatsApp previously flashed green
+// while the other two flashed orange.
+const ACTIVE_BG = '#F46A06';
+
+const actionSx = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  textDecoration: 'none',
+  pb: 'env(safe-area-inset-bottom, 0px)',
+  transition: 'background 0.2s',
+  '&:active': { background: ACTIVE_BG },
+};
+
+const labelSx = {
+  color: '#fff',
+  fontWeight: 700,
+  fontSize: '0.72rem',
+  letterSpacing: '0.14em',
+  textTransform: 'uppercase',
+  whiteSpace: 'nowrap',
+};
+
 export default function MobileBottomBar() {
   const { itemCount, subtotal } = useCart();
   const navigate = useNavigate();
@@ -24,7 +65,7 @@ export default function MobileBottomBar() {
   return (
     <Box sx={{ display: { xs: 'flex', md: 'none' }, flexDirection: 'column', position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 1400 }}>
 
-      {/* Sticky cart CTA — only when cart has items */}
+      {/* Sticky cart CTA, only when the cart has items */}
       {itemCount > 0 && (
         <Box
           onClick={() => navigate('/cart')}
@@ -68,7 +109,11 @@ export default function MobileBottomBar() {
         </Box>
       )}
 
-      {/* Nav bar */}
+      {/* Nav bar. Cells are weighted rather than equal thirds: the icon only
+          needs its own width, so the two labelled actions get the remaining
+          space and Order, the primary action, gets the larger share. Equal
+          thirds previously wasted 84px on the icon while "Suggest a Meal"
+          wrapped to two lines at 320px. */}
       <Box
         sx={{
           height: 'calc(56px + env(safe-area-inset-bottom, 0px))',
@@ -81,56 +126,39 @@ export default function MobileBottomBar() {
         <Box
           component={RouterLink}
           to="/menu"
-          sx={{
-            flex: 1,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            textDecoration: 'none',
-            borderRight: '1px solid rgba(255,255,255,0.1)',
-            pb: 'env(safe-area-inset-bottom, 0px)',
-            transition: 'background 0.2s',
-            '&:active': { background: '#F46A06' },
-          }}
+          sx={{ ...actionSx, ...dividerSx, flex: '1.25 1 0' }}
         >
-          <Typography sx={{ color: '#fff', fontWeight: 700, fontSize: '0.72rem', letterSpacing: '0.14em', textTransform: 'uppercase' }}>
-            Order
-          </Typography>
+          <Typography sx={labelSx}>Order</Typography>
         </Box>
 
-        {/* SUGGEST A MEAL */}
+        {/* SUGGEST. Shortened from "Suggest a Meal", which needed 106px in a
+            107px cell and wrapped on a 320px screen. */}
         <Box
           component={RouterLink}
           to="/ai-assistant"
-          sx={{
-            flex: 1,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            textDecoration: 'none',
-            borderRight: '1px solid rgba(255,255,255,0.1)',
-            pb: 'env(safe-area-inset-bottom, 0px)',
-            transition: 'background 0.2s',
-            '&:active': { background: '#F46A06' },
-          }}
+          sx={{ ...actionSx, ...dividerSx, flex: '1 1 0' }}
         >
-          <Typography sx={{ color: '#fff', fontWeight: 700, fontSize: '0.72rem', letterSpacing: '0.14em', textTransform: 'uppercase' }}>
-            Suggest a Meal
-          </Typography>
+          <Typography sx={labelSx}>Suggest</Typography>
         </Box>
 
-        {/* WHATSAPP */}
+        {/* WHATSAPP. Now a real button: it was a div with an onClick, so it had
+            no accessible name and could not be reached by keyboard or switch
+            access. Fixed width, since an icon does not need a third of the bar. */}
         <Box
+          component="button"
+          type="button"
           onClick={openWhatsApp}
+          aria-label="Chat on WhatsApp"
           sx={{
-            flex: 1,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            ...actionSx,
+            flex: '0 0 64px',
             cursor: 'pointer',
-            pb: 'env(safe-area-inset-bottom, 0px)',
-            transition: 'background 0.2s',
-            '&:active': { background: '#25D366' },
+            background: 'none',
+            border: 'none',
+            borderRadius: 0,
+            p: 0,
+            font: 'inherit',
+            color: 'inherit',
           }}
         >
           <WhatsAppIcon sx={{ color: '#25D366', fontSize: 22 }} />

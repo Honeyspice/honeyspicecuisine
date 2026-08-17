@@ -38,7 +38,6 @@ import CookieBanner from './components/CookieBanner';
 import FloatingChat from './components/FloatingChat';
 import ProtectedRoute from './components/ProtectedRoute';
 import NotFound from './pages/NotFound';
-import SideTabs from './components/SideTabs';
 import MobileBottomBar from './components/MobileBottomBar';
 
 // ScrollToTop component
@@ -147,7 +146,10 @@ function App() {
             </Box>
             <Footer />
           </Box>
-<SideTabs />
+          {/* SideTabs removed: the vertical "Our Menu" and "Book Now" rails
+              duplicated destinations already in the header. Our Menu is the
+              "Order" nav item and Book Now is the "Book Catering" utility link,
+              so no access was lost. */}
           <MobileBottomBar />
           <CookieBanner />
           <FloatingChat />
