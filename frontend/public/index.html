@@ -56,6 +56,54 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <title>HoneySpice Cuisine | Nigerian Food &amp; Catering UK</title>
+    <!-- Structured data. This is how Google understands that the site belongs to
+         a real food business in Stirling rather than a generic page that happens
+         to mention Nigerian food, and it is what feeds the business panel in
+         local results.
+
+         Every field here is taken from the site itself. Opening hours are
+         deliberately absent: they are not stated anywhere in the source, and
+         publishing invented hours in structured data is worse than omitting
+         them, because Google may surface them to someone deciding whether to
+         travel. Add openingHoursSpecification once the real hours are known. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Restaurant",
+        "@id": "https://honeyspicecuisine.co.uk/#restaurant",
+        "name": "HoneySpice Cuisine",
+        "url": "https://honeyspicecuisine.co.uk/",
+        "logo": "https://honeyspicecuisine.co.uk/images/og-honeyspice.png",
+        "image": "https://honeyspicecuisine.co.uk/images/og-honeyspice.png",
+        "telephone": "+447721629566",
+        "email": "chef@honeyspicecuisine.co.uk",
+        "slogan": "Wholesome at Heart. Bold on the Plate.",
+        "servesCuisine": "Nigerian",
+        "priceRange": "££",
+        "founder": {
+          "@type": "Person",
+          "name": "Lois Smart",
+          "jobTitle": "Founder and Chef"
+        },
+        "foundingDate": "2019",
+        "foundingLocation": {
+          "@type": "Place",
+          "name": "Ibadan, Nigeria"
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "34 Woodside Road",
+          "addressLocality": "Stirling",
+          "postalCode": "FK8 1PS",
+          "addressCountry": "GB"
+        },
+        "hasMenu": "https://honeyspicecuisine.co.uk/menu",
+        "areaServed": [
+          { "@type": "City", "name": "Stirling" },
+          { "@type": "Country", "name": "United Kingdom" }
+        ]
+      }
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
