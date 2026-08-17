@@ -34,7 +34,7 @@ const MENU_CATEGORIES = [
     id: 'rice-meals',
     title: 'Rice Meals',
     items: [
-      { name: 'Jollof Rice', description: 'Traditional Nigerian jollof rice with your choice of protein', price: 12.99, image: '/images/jollof_rice.png' },
+      { name: 'Jollof Rice', description: 'Traditional Nigerian jollof rice with your choice of protein', price: 12.99, image: '/images/jollof_rice.webp' },
       { name: 'Ofada Sauce Ayamase Stew', description: 'Jumbo Ofada rice with assorted meat, egg, ponmo and panla fish', price: 15.99, image: '/images/Ofada.webp' },
       { name: 'Coconut Rice', description: 'Fragrant rice cooked in coconut milk with vegetables', price: 12.99, image: '/images/White_Rice.webp' },
       { name: 'Fried Rice', description: 'Nigerian-style fried rice with mixed vegetables and protein', price: 12.99, image: '/images/Friedrice.jpg' },
@@ -79,7 +79,7 @@ const BUNDLES = [
     name: 'Couple Pack',
     price: 25,
     tag: 'For 2',
-    image: '/images/jollof_rice.png',
+    image: '/images/jollof_rice.webp',
     items: ['2 × Jollof Rice & Chicken', '1 × Coleslaw', '2 × Soft Drinks'],
     desc: 'A perfect spread for two: mains plus a shared side.',
   },
