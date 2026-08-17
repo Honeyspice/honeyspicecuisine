@@ -154,7 +154,7 @@ const Home = () => {
           {/* Background image */}
           <Box
             component="img"
-            src="/images/grilled_suya.jpg"
+            src="/images/Ofada.webp"
             alt=""
             aria-hidden="true"
             sx={{

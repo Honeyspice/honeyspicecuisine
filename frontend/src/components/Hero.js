@@ -18,7 +18,7 @@ const SLIDES = [
     secondaryCta: { label: 'View Menu', to: '/menu' },
   },
   {
-    src: '/images/grilled_suya.jpg',
+    src: '/images/peppersoup.jpg',
     heading: 'SMART MEAL\nSUGGESTIONS.',
     sub: 'Tell us your budget, group size and occasion. We\'ll suggest the perfect Nigerian spread for you.',
     cta: { label: 'Get Suggestions', to: '/ai-assistant' },
