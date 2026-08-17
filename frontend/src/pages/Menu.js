@@ -26,7 +26,7 @@ const MENU_CATEGORIES = [
     title: 'Wraps',
     items: [
       { name: 'Chicken Shawarma Wrap', description: 'Toasted wrap with chicken, slaw and creamy pepper sauce', price: 10.99, image: '/images/ChickenShawarmaWrap.jpg' },
-      { name: 'Beef Shawarma Wrap', description: 'Grilled beef strips with fresh veg and pepper sauce in a toasted wrap', price: 11.99 },
+      { name: 'Beef Shawarma Wrap', description: 'Grilled beef strips with fresh veg and pepper sauce in a toasted wrap', price: 11.99, image: '/images/beef-shawarma.webp' },
       { name: 'Shawarma + Fries Combo', description: 'Chicken shawarma wrap paired with crispy fries', price: 13.99, image: '/images/shawarmafriescombo.jpg' },
     ],
   },
