@@ -131,30 +131,12 @@ const MenuButton = muiStyled('button')(() => ({
   },
 }));
 
-// Auth-aware Sign In / Dashboard button
+// Auth-aware Sign In / Sign Out button
 const AuthNavButton = () => {
   const { user, logout } = useAuth();
   if (user) {
     return (
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, ml: 'auto' }}>
-        <Button
-          component={RouterLink}
-          to="/dashboard"
-          disableElevation
-          sx={{
-            height: 44,
-            borderRadius: '10px',
-            textTransform: 'none',
-            color: '#fff',
-            px: 2,
-            fontSize: '13px',
-            fontWeight: 700,
-            background: 'linear-gradient(135deg,#F46A06,#FF8D3D)',
-            '&:hover': { background: '#D45A00' },
-          }}
-        >
-          My Plan
-        </Button>
         <Button
           onClick={logout}
           disableElevation
@@ -204,9 +186,6 @@ const MobileAuthItem = ({ handleDrawerToggle }) => {
   if (user) {
     return (
       <Box sx={{ width: '100%' }}>
-        <ListItemButton component={RouterLink} to="/dashboard" onClick={handleDrawerToggle} sx={{ minHeight: 52, py: 1.25, px: 2 }}>
-          <ListItemText primary="My Meal Plan" primaryTypographyProps={{ fontWeight: 700, color: '#F46A06' }} />
-        </ListItemButton>
         <ListItemButton onClick={() => { logout(); handleDrawerToggle(); }} sx={{ minHeight: 48, py: 1, px: 2 }}>
           <ListItemText primary="Sign Out" primaryTypographyProps={{ fontWeight: 600, color: '#888' }} />
         </ListItemButton>
@@ -236,9 +215,6 @@ const PAGE_TITLES = {
   '/why-us': 'Why HoneySpice',
   '/register': 'Create Account',
   '/login': 'Sign In',
-  '/dashboard': 'My Dashboard',
-  '/meal-plan': 'My Meal Plan',
-  '/profile-setup': 'Health Profile',
 };
 
 // Mobile Navbar Component

@@ -55,21 +55,6 @@ const userSchema = new mongoose.Schema({
     default: 0
   },
   lockUntil: Date,
-  healthProfile: {
-    age: Number,
-    gender: { type: String, enum: ['male', 'female', 'other'] },
-    weight: Number,
-    height: Number,
-    activityLevel: { type: String, enum: ['sedentary', 'light', 'moderate', 'active', 'very_active'] },
-    healthGoals: [{ type: String }],
-    dietaryRestrictions: [{ type: String }],
-    allergies: String,
-    cookingSkill: { type: String, enum: ['beginner', 'intermediate', 'advanced'] },
-    numberOfPeople: { type: Number, default: 1 },
-    budgetPerWeek: { type: String, enum: ['budget', 'moderate', 'generous'] },
-  },
-  currentMealPlan: { type: mongoose.Schema.Types.Mixed },
-  mealPlanGeneratedAt: Date,
   createdAt: {
     type: Date,
     default: Date.now,

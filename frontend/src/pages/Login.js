@@ -23,7 +23,7 @@ export default function Login() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Login failed');
       await login(data.token);
-      navigate('/dashboard');
+      navigate('/menu');
     } catch (err) {
       setError(err.message);
     } finally {
