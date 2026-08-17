@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Container, Typography } from '@mui/material';
+import { Box, Button, Container, Grid, Typography } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import Seo from '../components/Seo';
 import Hero from '../components/Hero';
@@ -57,8 +57,8 @@ const Home = () => {
   return (
     <>
       <Seo
-        title="HoneySpice Cuisine | Nigerian Food in Stirling"
-        description="Authentic Nigerian food in Stirling, UK. Order Jollof Rice, Efo Riro, Ofada and more for collection or delivery from HoneySpice Cuisine."
+        title="HoneySpice Cuisine | Nigerian Food & Catering UK"
+        description="Authentic Nigerian food in Stirling. Order for collection or delivery, or book HoneySpice to cater weddings, parties and events across the UK."
       />
       <Box>
         <Hero />
@@ -68,6 +68,78 @@ const Home = () => {
           <Typography sx={{ color: 'rgba(255,255,255,0.75)', fontSize: '0.82rem', fontWeight: 500 }}>
             Delivering to <strong style={{ color: '#fff' }}>Stirling & surrounding areas</strong> · Collection available · From <strong style={{ color: '#F46A06' }}>£10.99</strong>
           </Typography>
+        </Box>
+
+        {/* Two journeys. The UK catering claim previously appeared only in the
+            footer, so Google and customers read HoneySpice as a Stirling
+            takeaway. Local ordering and national catering are different jobs
+            with different audiences, so they get one panel each rather than
+            sharing a single CTA. */}
+        <Box sx={{ bgcolor: '#FFFFFF', py: { xs: 6, md: 9 } }}>
+          <Container maxWidth="lg">
+            <Grid container spacing={{ xs: 3, md: 4 }}>
+              {[
+                {
+                  q: 'Ordering food?',
+                  a: 'Order Nigerian food for collection or delivery in Stirling.',
+                  cta: 'View Menu',
+                  to: '/menu',
+                  primary: true,
+                },
+                {
+                  q: 'Planning an event?',
+                  a: 'We cater for weddings, parties and events across the UK.',
+                  cta: 'Catering',
+                  to: '/reservation',
+                  primary: false,
+                },
+              ].map((panel) => (
+                <Grid item xs={12} md={6} key={panel.q}>
+                  <Box
+                    sx={{
+                      height: '100%',
+                      p: { xs: 3, md: 4 },
+                      border: '1px solid rgba(26, 26, 26, 0.14)',
+                      borderRadius: 2,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'flex-start',
+                    }}
+                  >
+                    <Typography
+                      variant="h3"
+                      sx={{
+                        fontSize: { xs: '1.5rem', md: '1.75rem' },
+                        color: '#1A1A1A',
+                        mb: 1.5,
+                      }}
+                    >
+                      {panel.q}
+                    </Typography>
+                    <Typography
+                      sx={{
+                        color: 'text.secondary',
+                        fontSize: { xs: '1rem', md: '1.05rem' },
+                        lineHeight: 1.6,
+                        mb: 3,
+                        flexGrow: 1,
+                      }}
+                    >
+                      {panel.a}
+                    </Typography>
+                    <Button
+                      component={RouterLink}
+                      to={panel.to}
+                      variant={panel.primary ? 'contained' : 'outlined'}
+                      sx={{ minHeight: 44, px: 3.5, textTransform: 'none', fontWeight: 700 }}
+                    >
+                      {panel.cta}
+                    </Button>
+                  </Box>
+                </Grid>
+              ))}
+            </Grid>
+          </Container>
         </Box>
 
         {/* How It Works */}

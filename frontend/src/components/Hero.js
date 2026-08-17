@@ -5,28 +5,28 @@ import { Link as RouterLink } from 'react-router-dom';
 const SLIDES = [
   {
     src: '/images/efo_riro.webp',
-    heading: 'TASTE NIGERIAN\nFLAVOURS.',
-    sub: 'Authentic soups, stews and swallows: bold, rich and cooked the traditional way. Delivery & collection from Stirling.',
+    heading: 'Authentic Nigerian Food\nin Stirling',
+    sub: 'Order your favourites for collection or delivery, or book HoneySpice for catering across the UK.',
     cta: { label: 'Order Now', to: '/menu' },
     secondaryCta: { label: 'Get Suggestions', to: '/ai-assistant' },
   },
   {
     src: '/images/jollof_rice.webp',
-    heading: 'BOOK YOUR\nEVENT.',
+    heading: 'Book catering for your event',
     sub: 'Private catering, weddings, corporate gatherings. Cooked and delivered by our kitchen.',
     cta: { label: 'Book Catering', to: '/reservation' },
     secondaryCta: { label: 'View Menu', to: '/menu' },
   },
   {
     src: '/images/peppersoup.jpg',
-    heading: 'SMART MEAL\nSUGGESTIONS.',
+    heading: 'Get help choosing your meal',
     sub: 'Tell us your budget, group size and occasion. We\'ll suggest the perfect Nigerian spread for you.',
     cta: { label: 'Get Suggestions', to: '/ai-assistant' },
     secondaryCta: { label: 'View Menu', to: '/menu' },
   },
   {
     src: '/images/barbecue.jpg',
-    heading: 'PICNIC &\nGROUP MEALS.',
+    heading: 'Food for picnics and groups',
     sub: 'Planning a picnic or feeding a crowd? We\'ll bundle the right dishes for your group size and budget.',
     cta: { label: 'Plan My Picnic', to: '/plan-picnic' },
     secondaryCta: { label: 'View Menu', to: '/menu' },
