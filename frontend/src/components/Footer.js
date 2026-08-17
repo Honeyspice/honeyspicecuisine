@@ -76,6 +76,23 @@ const Footer = () => {
             />
             <Typography
               sx={{
+                color: 'rgba(255,255,255,0.82)',
+                fontSize: '0.9rem',
+                fontWeight: 600,
+                letterSpacing: '0.01em',
+                lineHeight: 1.6,
+                maxWidth: 280,
+                mb: 1.5,
+              }}
+            >
+              Wholesome at Heart. Bold on the Plate.
+            </Typography>
+            {/* The previous blurb ended "Built with intelligent recommendation
+                technology to personalise your experience", which described the
+                software rather than the food and is not what anyone comes here
+                to read. */}
+            <Typography
+              sx={{
                 color: 'rgba(255,255,255,0.5)',
                 fontSize: '0.85rem',
                 lineHeight: 1.8,
@@ -83,7 +100,7 @@ const Footer = () => {
                 mb: 3,
               }}
             >
-              Authentic Nigerian cuisine crafted with love, served in Stirling, Scotland and across the UK for events and catering. Built with intelligent recommendation technology to personalise your experience.
+              Nigerian food in Stirling for collection and local delivery, and catering for events across the UK.
             </Typography>
             <Box sx={{ display: 'flex', gap: 0.5 }}>
               <IconButton

@@ -8,6 +8,17 @@ import Testimonials from '../components/Testimonials';
 import FAQ from '../components/FAQ';
 import Newsletter from '../components/Newsletter';
 
+// Display size for the brand tagline. Scales with the viewport so each clause
+// stays on one line, and keeps at least 12% headroom at every width instead of
+// stepping between fixed sizes.
+//
+// The old fixed sizes wrapped at both ends. At 375px, 2.2rem needed 410px inside
+// 327px, stranding "HEART." and "PLATE." on lines of their own. At exactly 900px
+// the md breakpoint jumped to 5rem, which needs about 916px inside the 837px the
+// flex parent allows, so it wrapped there too. The upper bound keeps the same
+// 5rem display size on desktop, where there was always room for it.
+const TAGLINE_SIZE = 'clamp(1.3rem, 6.2vw, 5rem)';
+
 const HOW_IT_WORKS = [
   {
     step: '01',
@@ -414,8 +425,13 @@ const Home = () => {
                     </Box>
                   </Box>
 
-                  {/* Text */}
-                  <Box sx={{ p: 3, flexGrow: 1 }}>
+                  {/* Text. A column so the button can be pushed to the bottom
+                      with mt:auto. The card heights already match because the
+                      grid stretches them, but without this the button followed
+                      the description directly, so a bundle whose text wrapped one
+                      line longer pushed its button 29px below the other two and
+                      the slack collected underneath it instead. */}
+                  <Box sx={{ p: 3, flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
                       <Typography sx={{ fontWeight: 700, fontSize: '1.1rem', color: '#1a1a1a' }}>
                         {bundle.name}
@@ -433,6 +449,7 @@ const Home = () => {
                       variant="contained"
                       fullWidth
                       sx={{
+                        mt: 'auto',
                         bgcolor: '#F46A06',
                         color: '#fff',
                         fontWeight: 700,
@@ -504,16 +521,42 @@ const Home = () => {
               variant="h2"
               sx={{
                 color: '#fff',
-                fontWeight: 900,
-                fontSize: { xs: '2.2rem', sm: '3.5rem', md: '5rem' },
-                lineHeight: 1.05,
-                letterSpacing: '-0.01em',
+                // Weight is left to the theme's h2, which is 600. It was
+                // overridden to 900, a weight Cormorant Garamond does not ship:
+                // only 300 to 700 are loaded, so the browser synthesised it by
+                // thickening the 700 outline uniformly. That flattens the
+                // thick/thin contrast the typeface is built on, which is what
+                // made it read blunt at display size rather than premium.
+                // Scales with the viewport so each clause of the tagline stays on
+                // one line. At the old fixed 2.2rem, "Wholesome at Heart." needed
+                // 410px inside 327px on a 375px phone, so it wrapped and left
+                // "HEART." and "PLATE." stranded on lines of their own. The upper
+                // bound keeps the original 5rem display size on desktop.
+                //
+                // The same clamp is repeated per breakpoint on purpose. The theme
+                // calls responsiveFontSizes(), which sets h2 font sizes inside
+                // media queries; a single plain fontSize here has equal
+                // specificity and loses to them above 600px. Listing breakpoints
+                // makes sx emit its own media queries, which win.
+                fontSize: {
+                  xs: TAGLINE_SIZE,
+                  sm: TAGLINE_SIZE,
+                  md: TAGLINE_SIZE,
+                  lg: TAGLINE_SIZE,
+                },
+                lineHeight: 1.15,
+                // Capitals need more room between them than lowercase, so the
+                // theme's negative tracking works against this uppercase line.
+                // Kept small: tracking is paid for in line width.
+                letterSpacing: '0.005em',
                 textShadow: '0 2px 24px rgba(0,0,0,0.4)',
                 mb: 2.5,
                 textTransform: 'uppercase',
               }}
             >
-              COOKED WITH LOVE,<br />SERVED WITH PRIDE.
+              {/* The brand tagline. Written in sentence case because the style
+                  above already uppercases it, so the source stays readable. */}
+              Wholesome at Heart.<br />Bold on the Plate.
             </Typography>
             <Typography
               sx={{
