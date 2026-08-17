@@ -41,26 +41,14 @@ const MENU_CATEGORIES = [
     ],
   },
   {
-    // Soups sits directly above Swallows on purpose: they are ordered together,
-    // and every swallow description says "order with any soup".
     id: 'soups',
-    title: 'Soups',
+    title: 'Soups and Swallow',
     items: [
-      { name: 'Egusi Soup', description: 'Melon seed soup with assorted meat and fish', price: 15.99, image: '/images/Egusi.webp' },
-      { name: 'Efo Riro', description: 'Vegetable soup with assorted meat and fish', price: 15.99, image: '/images/efo_riro.webp' },
-      { name: 'Ogbono Soup', description: 'Wild mango seed soup with assorted meat and fish', price: 15.99, image: '/images/ogbono.jpg' },
-      { name: 'Banga Soup', description: 'Palm nut soup with assorted meat and fish', price: 15.99, image: '/images/banga.jpg' },
-      { name: 'Pepper Soup', description: 'Spicy meat or fish soup with traditional herbs', price: 15.99, image: '/images/peppersoup.jpg' },
-    ],
-  },
-  {
-    id: 'swallows',
-    title: 'Swallows',
-    items: [
-      { name: 'Pounded Yam', description: 'Smooth pounded yam, order with any soup', price: 9.99, image: '/images/poundedyam.jpg' },
-      { name: 'Amala', description: 'Yam flour swallow, order with any soup', price: 9.99, image: '/images/Amala.webp' },
-      { name: 'Eba', description: 'Garri (cassava flour) swallow, order with any soup', price: 9.99, image: '/images/eba.jpg' },
-      { name: 'Fufu', description: 'Cassava and plantain fufu, order with any soup', price: 9.99, image: '/images/fufu.jpg' },
+      { name: 'Egusi Soup', description: 'Melon seed soup with assorted meat and fish, served with any swallow of your choice', price: 15.99, image: '/images/Egusi.webp' },
+      { name: 'Efo Riro', description: 'Vegetable soup with assorted meat and fish, served with any swallow of your choice', price: 15.99, image: '/images/efo_riro.webp' },
+      { name: 'Ogbono Soup', description: 'Wild mango seed soup with assorted meat and fish, served with any swallow of your choice', price: 15.99, image: '/images/ogbono.jpg' },
+      { name: 'Banga Soup', description: 'Palm nut soup with assorted meat and fish, served with any swallow of your choice', price: 15.99, image: '/images/banga.jpg' },
+      { name: 'Pepper Soup', description: 'Spicy meat or fish soup with traditional herbs, served with any swallow of your choice', price: 15.99, image: '/images/peppersoup.jpg' },
     ],
   },
   {
@@ -70,19 +58,8 @@ const MENU_CATEGORIES = [
       { name: 'Beef Suya', description: 'Spicy grilled beef skewers with suya spice and onions', price: 15.99, image: '/images/suya.webp' },
       { name: 'Grilled Chicken', description: 'Flame-grilled chicken with house pepper glaze', price: 14.99 },
       { name: 'Boli (Roasted Plantain)', description: 'Roasted plantain with spicy sauce', price: 9.99, image: '/images/boli.png' },
-      { name: 'Loaded Fries', description: 'Crispy fries topped with suya-spiced chicken and sauce', price: 9.99, image: '/images/fries.jpg' },
       { name: 'Coleslaw', description: 'Fresh cabbage and carrot salad', price: 6.99, image: '/images/Coleslaw.jpg' },
       { name: 'Akara', description: 'Crispy bean cakes, a classic Nigerian snack', price: 6.99, image: '/images/Akara.jpg' },
-    ],
-  },
-  {
-    id: 'drinks',
-    title: 'Drinks',
-    items: [
-      { name: 'Zobo', description: 'Hibiscus drink with ginger and pineapple', price: 6.99, image: '/images/zobo.jpg' },
-      { name: 'Chapman', description: 'Nigerian cocktail with fruit juice and sprite', price: 9.99, image: '/images/chapman.jpg' },
-      { name: 'Kunu', description: 'Traditional millet drink with spices', price: 6.99, image: '/images/kunu.jpg' },
-      { name: 'Soft Drinks', description: 'Coca-Cola, Fanta, Sprite', price: 3.99, image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=200&q=80' },
     ],
   },
 ];
@@ -94,7 +71,7 @@ const BUNDLES = [
     price: 25,
     tag: 'For 2',
     image: '/images/jollof_rice.webp',
-    items: ['2 × Jollof Rice & Chicken', '1 × Coleslaw', '2 × Soft Drinks'],
+    items: ['2 × Jollof Rice & Chicken', '1 × Coleslaw'],
     desc: 'A perfect spread for two: mains plus a shared side.',
   },
   {
@@ -103,7 +80,7 @@ const BUNDLES = [
     price: 45,
     tag: 'For 4–6',
     image: '/images/shawarmafriescombo.jpg',
-    items: ['4 × Shawarma Wraps', '2 × Loaded Fries', '1 × Large Jollof Rice', '6 × Soft Drinks'],
+    items: ['4 × Shawarma Wraps', '1 × Large Jollof Rice', '1 × Coleslaw'],
     desc: 'A crowd-pleasing mix for a group of friends.',
   },
   {
@@ -112,7 +89,7 @@ const BUNDLES = [
     price: 70,
     tag: 'For 8–12',
     image: '/images/Egusi.webp',
-    items: ['Large Jollof Rice (serves 10)', 'Egusi Soup + Eba (serves 8)', '4 × Grilled Chicken', '10 × Soft Drinks'],
+    items: ['Large Jollof Rice (serves 10)', 'Egusi Soup + swallow (serves 8)', '4 × Grilled Chicken'],
     desc: 'A generous Nigerian feast for large groups and events.',
   },
 ];
@@ -163,7 +140,7 @@ const Menu = () => {
     <>
       <Seo
         title="Menu | HoneySpice Cuisine Stirling"
-        description="Explore the full HoneySpice Kitchen menu: wraps, rice meals, soups, swallows, sides, drinks and curated bundles. Authentic Nigerian food in Stirling, UK."
+        description="Explore the full HoneySpice Kitchen menu: wraps, rice meals, soups and swallow, sides and curated bundles. Authentic Nigerian food in Stirling, UK."
       />
       <Box sx={{ minHeight: '100vh', bgcolor: 'background.paper', py: { xs: 4, sm: 6, md: 8 }, px: { xs: 2, sm: 0 } }}>
         <Container maxWidth="lg">

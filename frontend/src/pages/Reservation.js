@@ -91,12 +91,6 @@ const Reservation = () => {
       'Moi Moi',
       'Akara',
       'Coleslaw'
-    ]},
-    { category: 'Drinks', items: [
-      'Zobo',
-      'Chapman',
-      'Kunu',
-      'Soft Drinks'
     ]}
   ];
 
