@@ -318,18 +318,23 @@ const Menu = () => {
                                       <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.875rem', sm: '0.9375rem' }, lineHeight: 1.45 }}>
                                         {item.description}
                                       </Typography>
-                                      <Box sx={{ mt: 1 }}>
-                                        <Chip
-                                          size="small"
-                                          label={`£${item.price.toFixed(2)}`}
-                                          sx={(theme) => ({
-                                            fontWeight: 800,
-                                            bgcolor: 'rgba(244, 106, 6, 0.10)',
-                                            color: theme.palette.primary.dark,
-                                            border: '1px solid rgba(244, 106, 6, 0.22)',
-                                          })}
-                                        />
-                                      </Box>
+                                      {/* Plain type, not a chip. There were 29 orange
+                                          outlined price pills on this page, which read
+                                          as discount badges and competed with the dish
+                                          names for attention. */}
+                                      <Typography
+                                        component="span"
+                                        sx={{
+                                          display: 'block',
+                                          mt: 1,
+                                          color: '#1A1A1A',
+                                          fontWeight: 700,
+                                          fontSize: { xs: '1rem', sm: '1.05rem' },
+                                          letterSpacing: '0.01em',
+                                        }}
+                                      >
+                                        {`£${item.price.toFixed(2)}`}
+                                      </Typography>
                                     </Box>
                                   }
                                 />
@@ -338,10 +343,16 @@ const Menu = () => {
                                   size="small"
                                   onClick={() => handleAdd(category.title, item)}
                                   disabled={isAdded}
-                                  color={isAdded ? 'success' : 'primary'}
+                                  color={isAdded ? 'success' : undefined}
                                   sx={{
                                     flexShrink: 0,
-                                    minWidth: { xs: '100%', sm: 108 },
+                                    // Was minWidth 100% on mobile, which made a
+                                    // full-width slab the heaviest element in every
+                                    // card. Now a normal control, still 44px tall so
+                                    // it stays an easy target, and left-aligned rather
+                                    // than stretched by the column layout.
+                                    alignSelf: { xs: 'flex-start', sm: 'auto' },
+                                    minWidth: { xs: 148, sm: 108 },
                                     height: { xs: 44, sm: 36 },
                                     mt: { xs: 1, sm: 0.25 },
                                     borderRadius: 999,
@@ -453,19 +464,20 @@ const Menu = () => {
                             <Typography sx={{ fontWeight: 800, fontSize: '1.15rem', color: 'text.primary', lineHeight: 1.2 }}>
                               {bundle.name}
                             </Typography>
-                            <Chip
-                              label={`£${bundle.price}`}
-                              size="small"
-                              sx={(theme) => ({
-                                fontWeight: 800,
-                                fontSize: '0.9rem',
-                                bgcolor: 'rgba(244, 106, 6, 0.10)',
-                                color: theme.palette.primary.dark,
-                                border: '1px solid rgba(244, 106, 6, 0.22)',
+                            {/* Plain type, matching the item cards. */}
+                            <Typography
+                              component="span"
+                              sx={{
+                                fontWeight: 700,
+                                fontSize: '1.05rem',
+                                color: '#1A1A1A',
                                 ml: 1,
                                 flexShrink: 0,
-                              })}
-                            />
+                                letterSpacing: '0.01em',
+                              }}
+                            >
+                              {`£${bundle.price}`}
+                            </Typography>
                           </Box>
 
                           <Typography color="text.secondary" sx={{ fontSize: '0.875rem', lineHeight: 1.6, mb: 2 }}>
