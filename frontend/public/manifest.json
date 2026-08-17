@@ -3,23 +3,25 @@
   "name": "HoneySpice Cuisine",
   "icons": [
     {
-      "src": "favicon.png",
-      "sizes": "32x32",
-      "type": "image/png"
+      "src": "favicon.ico",
+      "sizes": "16x16 32x32 48x48 64x64 128x128 256x256",
+      "type": "image/x-icon"
     },
     {
-      "src": "images/honeyspice-192.png",
+      "src": "images/icon-192.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "192x192",
+      "purpose": "any maskable"
     },
     {
-      "src": "images/honeyspice-512.png",
+      "src": "images/icon-512.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "any maskable"
     }
   ],
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#F46A06",
-  "background_color": "#ffffff"
-} 
+  "background_color": "#1A1A1A"
+}
