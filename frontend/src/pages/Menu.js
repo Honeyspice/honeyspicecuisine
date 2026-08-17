@@ -228,8 +228,20 @@ const Menu = () => {
                                     alt={item.name}
                                     loading="lazy"
                                     sx={{
+                                      // Mobile was a fixed 100px tall against a
+                                      // full-width card, so 277x100, a 2.77:1
+                                      // letterbox. Cover-cropping a square photo
+                                      // into that shows about a third of the
+                                      // dish, and a portrait one about a
+                                      // quarter. 3:2 is the usual food-card
+                                      // ratio and roughly doubles what is
+                                      // visible, and as a ratio rather than a
+                                      // fixed height it scales with the card on
+                                      // wider phones. Desktop keeps its 80px
+                                      // square thumbnail.
                                       width: { xs: '100%', sm: 80 },
-                                      height: { xs: 100, sm: 80 },
+                                      height: { xs: 'auto', sm: 80 },
+                                      aspectRatio: { xs: '3 / 2', sm: 'auto' },
                                       objectFit: 'cover',
                                       borderRadius: 2,
                                       flexShrink: 0,
