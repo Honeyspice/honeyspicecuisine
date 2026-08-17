@@ -8,7 +8,7 @@ export const BUNDLES = {
     tag: 'For 2',
     image: '/images/ChickenShawarmaWrap.jpg',
     items: ['2 × Chicken Shawarma', '1 × Fries', '2 × Drinks'],
-    desc: 'A perfect spread for two — classic shawarma with fries and drinks.',
+    desc: 'A perfect spread for two: classic shawarma with fries and drinks.',
   },
   friends: {
     id: 'friends',
@@ -26,7 +26,7 @@ export const BUNDLES = {
     tag: 'For 6+',
     image: '/images/jollof_rice.png',
     items: ['6 × Shawarma or Rice Mix', '3 × Fries', '3 × Drinks'],
-    desc: 'A generous spread for 6 or more — mix of shawarma and rice options.',
+    desc: 'A generous spread for 6 or more: mix of shawarma and rice options.',
   },
 };
 
@@ -36,7 +36,7 @@ export const INDIVIDUAL_MEAL = {
   priceEach: 11,
   image: '/images/ChickenShawarmaWrap.jpg',
   items: ['1 × Chicken Shawarma or Jollof Rice', '1 × Side', '1 × Drink'],
-  desc: 'A single satisfying Nigerian meal — ideal when a bundle is over budget.',
+  desc: 'A single satisfying Nigerian meal, ideal when a bundle is over budget.',
 };
 
 // ─── Core recommendation logic ────────────────────────────────────────────────
@@ -51,13 +51,13 @@ export function recommendBundle(people, budget) {
   const count = Math.max(1, Math.round(people));
   const funds = Math.max(0, Number(budget));
 
-  // Step 1 — pick bundle by headcount
+  // Step 1: pick bundle by headcount
   let bundle;
   if (count <= 2) bundle = BUNDLES.couple;
   else if (count <= 5) bundle = BUNDLES.friends;
   else bundle = BUNDLES.group;
 
-  // Step 2 — check budget
+  // Step 2: check budget
   if (funds >= bundle.price) {
     return {
       type: 'bundle',
@@ -68,7 +68,7 @@ export function recommendBundle(people, budget) {
     };
   }
 
-  // Budget too low for bundle — try individual meals
+  // Budget too low for bundle, try individual meals
   const individualTotal = INDIVIDUAL_MEAL.priceEach * count;
 
   if (funds >= individualTotal) {
@@ -79,19 +79,19 @@ export function recommendBundle(people, budget) {
       people: count,
       totalCost: individualTotal,
       budgetNote:
-        `Your budget is £${funds} — below the ${bundle.name} (£${bundle.price}). ` +
+        `Your budget is £${funds}, below the ${bundle.name} (£${bundle.price}). ` +
         `We suggest ${count} individual meal${count > 1 ? 's' : ''} at ~£${individualTotal} total.`,
     };
   }
 
-  // Budget very tight — return bundle anyway with a strong warning
+  // Budget very tight, return bundle anyway with a strong warning
   return {
     type: 'bundle',
     bundle,
     people: count,
     totalCost: bundle.price,
     budgetNote:
-      `Your budget is £${funds} — the closest bundle is the ${bundle.name} at £${bundle.price}. ` +
+      `Your budget is £${funds}. The closest bundle is the ${bundle.name} at £${bundle.price}. ` +
       `Contact us on WhatsApp and we'll see what we can do.`,
   };
 }

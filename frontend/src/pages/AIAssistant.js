@@ -43,11 +43,11 @@ export default function AIAssistant() {
     // Core logic: people + budget → bundle recommendation
     const rec = recommendBundle(people, budget);
 
-    // Dietary notes (informational only — kitchen can adapt)
+    // Dietary notes (informational only, kitchen can adapt)
     const dietaryNotes = [];
-    if (restrictions.nuts) dietaryNotes.push('Nut allergy noted — mention this when ordering.');
-    if (restrictions.dairy) dietaryNotes.push('Dairy-free request noted — mention this when ordering.');
-    if (restrictions.gluten) dietaryNotes.push('Gluten-free request noted — mention this when ordering.');
+    if (restrictions.nuts) dietaryNotes.push('Nut allergy noted. Mention this when ordering.');
+    if (restrictions.dairy) dietaryNotes.push('Dairy-free request noted. Mention this when ordering.');
+    if (restrictions.gluten) dietaryNotes.push('Gluten-free request noted. Mention this when ordering.');
 
     setResult({ ...rec, dietaryNotes });
 
@@ -93,7 +93,7 @@ export default function AIAssistant() {
           What do you feel like eating?
         </Typography>
         <Typography sx={{ color: '#666', fontSize: { xs: '0.95rem', md: '1.05rem' }, maxWidth: 480, mx: 'auto', lineHeight: 1.75 }}>
-          Get personalised meal suggestions in seconds — based on your preferences, budget, and plans.
+          Get personalised meal suggestions in seconds, based on your preferences, budget, and plans.
         </Typography>
       </Box>
 
@@ -198,7 +198,7 @@ export default function AIAssistant() {
                 })}
               </Box>
               <Typography sx={{ fontSize: '0.78rem', color: '#9CA3AF', mt: 1 }}>
-                Select any that apply — we'll pass it to the kitchen.
+                Select any that apply. We'll pass it to the kitchen.
               </Typography>
             </Box>
 
@@ -279,7 +279,7 @@ export default function AIAssistant() {
                         {result.budgetNote && (
                           <Box sx={{ bgcolor: '#FFF7ED', border: '1px solid #FED7AA', px: 2, py: 1.5 }}>
                             <Typography sx={{ fontSize: '0.85rem', lineHeight: 1.6, color: '#92400E' }}>
-                              💰 {result.budgetNote}
+                              {result.budgetNote}
                             </Typography>
                           </Box>
                         )}

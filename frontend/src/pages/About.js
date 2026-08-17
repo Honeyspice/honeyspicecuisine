@@ -54,7 +54,7 @@ const About = () => {
 
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.paper', position: 'relative' }}>
-      <Seo title="About Us | HoneySpice Cuisine" description="Learn the story behind HoneySpice Cuisine — authentic Nigerian food brought to Stirling, Scotland, with love and tradition." />
+      <Seo title="About Us | HoneySpice Cuisine" description="Learn the story behind HoneySpice Cuisine, authentic Nigerian food brought to Stirling, Scotland, with love and tradition." />
       {/* Header Section with Photo Background */}
       <Box
         sx={{
@@ -109,7 +109,7 @@ const About = () => {
 
       {/* Content Section */}
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, py: 4 }}>
-        {/* First card spans full width — most important section */}
+        {/* First card spans full width, most important section */}
         <Grid container spacing={4}>
           <Grid item xs={12} key={0}>
             <Card

@@ -66,7 +66,7 @@ const Home = () => {
         {/* Delivery area strip */}
         <Box sx={{ bgcolor: '#1a1a1a', py: 1.5, px: 2, textAlign: 'center' }}>
           <Typography sx={{ color: 'rgba(255,255,255,0.75)', fontSize: '0.82rem', fontWeight: 500 }}>
-            📍 Delivering to <strong style={{ color: '#fff' }}>Stirling & surrounding areas</strong> · Collection available · From <strong style={{ color: '#F46A06' }}>£10.99</strong>
+            Delivering to <strong style={{ color: '#fff' }}>Stirling & surrounding areas</strong> · Collection available · From <strong style={{ color: '#F46A06' }}>£10.99</strong>
           </Typography>
         </Box>
 
@@ -198,7 +198,7 @@ const Home = () => {
                 mx: 'auto',
               }}
             >
-              Get personalised meal suggestions based on your budget, group size, and occasion —
+              Get personalised meal suggestions based on your budget, group size, and occasion,
               from a solo dinner to a full event.
             </Typography>
             <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -280,7 +280,7 @@ const Home = () => {
                   lineHeight: 1.75,
                 }}
               >
-                Curated Nigerian spreads for every occasion — from intimate dinners to big group gatherings.
+                Curated Nigerian spreads for every occasion, from intimate dinners to big group gatherings.
               </Typography>
             </Box>
 
@@ -453,7 +453,7 @@ const Home = () => {
                 lineHeight: 1.75,
               }}
             >
-              Every dish crafted from authentic Nigerian recipes — packed with bold spices, fresh ingredients, and real flavour.
+              Every dish crafted from authentic Nigerian recipes, packed with bold spices, fresh ingredients, and real flavour.
             </Typography>
             <Box
               component={RouterLink}

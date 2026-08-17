@@ -42,10 +42,10 @@ const MENU_CATEGORIES = [
       { name: 'Efo Riro', description: 'Vegetable soup with assorted meat and fish', price: 15.99, image: '/images/efo_riro.png' },
       { name: 'Ogbono Soup', description: 'Wild mango seed soup with assorted meat and fish', price: 15.99, image: '/images/ogbono.jpg' },
       { name: 'Banga Soup', description: 'Palm nut soup with assorted meat and fish', price: 15.99, image: '/images/banga.jpg' },
-      { name: 'Pounded Yam', description: 'Smooth pounded yam — order with any soup', price: 9.99, image: '/images/poundedyam.jpg' },
-      { name: 'Amala', description: 'Yam flour swallow — order with any soup', price: 9.99, image: '/images/Amala.webp' },
-      { name: 'Eba', description: 'Garri (cassava flour) swallow — order with any soup', price: 9.99, image: '/images/eba.jpg' },
-      { name: 'Fufu', description: 'Cassava and plantain fufu — order with any soup', price: 9.99, image: '/images/fufu.jpg' },
+      { name: 'Pounded Yam', description: 'Smooth pounded yam, order with any soup', price: 9.99, image: '/images/poundedyam.jpg' },
+      { name: 'Amala', description: 'Yam flour swallow, order with any soup', price: 9.99, image: '/images/Amala.webp' },
+      { name: 'Eba', description: 'Garri (cassava flour) swallow, order with any soup', price: 9.99, image: '/images/eba.jpg' },
+      { name: 'Fufu', description: 'Cassava and plantain fufu, order with any soup', price: 9.99, image: '/images/fufu.jpg' },
     ],
   },
   {
@@ -57,7 +57,7 @@ const MENU_CATEGORIES = [
       { name: 'Boli (Roasted Plantain)', description: 'Roasted plantain with spicy sauce', price: 9.99, image: '/images/boli.png' },
       { name: 'Loaded Fries', description: 'Crispy fries topped with suya-spiced chicken and sauce', price: 9.99, image: '/images/fries.jpg' },
       { name: 'Coleslaw', description: 'Fresh cabbage and carrot salad', price: 6.99, image: '/images/Coleslaw.jpg' },
-      { name: 'Akara', description: 'Crispy bean cakes — a classic Nigerian snack', price: 6.99, image: '/images/Akara.jpg' },
+      { name: 'Akara', description: 'Crispy bean cakes, a classic Nigerian snack', price: 6.99, image: '/images/Akara.jpg' },
       { name: 'Pepper Soup', description: 'Spicy meat or fish soup with traditional herbs', price: 15.99, image: '/images/peppersoup.jpg' },
     ],
   },
@@ -81,7 +81,7 @@ const BUNDLES = [
     tag: 'For 2',
     image: '/images/jollof_rice.png',
     items: ['2 × Jollof Rice & Chicken', '1 × Coleslaw', '2 × Soft Drinks'],
-    desc: 'A perfect spread for two — mains plus a shared side.',
+    desc: 'A perfect spread for two: mains plus a shared side.',
   },
   {
     id: 'friends-pack',
@@ -149,7 +149,7 @@ const Menu = () => {
     <>
       <Seo
         title="Menu | HoneySpice Cuisine Stirling"
-        description="Explore the full HoneySpice Kitchen menu — wraps, rice meals, sides, drinks and curated bundles. Authentic Nigerian food in Stirling, UK."
+        description="Explore the full HoneySpice Kitchen menu: wraps, rice meals, sides, drinks and curated bundles. Authentic Nigerian food in Stirling, UK."
       />
       <Box sx={{ minHeight: '100vh', bgcolor: 'background.paper', py: { xs: 4, sm: 6, md: 8 }, px: { xs: 2, sm: 0 } }}>
         <Container maxWidth="lg">
@@ -173,7 +173,7 @@ const Menu = () => {
               Honeyspice Kitchen
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
-              Authentic Nigerian cuisine — cooked and served from our Stirling kitchen.
+              Authentic Nigerian cuisine, cooked and served from our Stirling kitchen.
             </Typography>
           </Paper>
 
@@ -349,7 +349,7 @@ const Menu = () => {
                     Bundles
                   </Typography>
                   <Typography color="text.secondary" sx={{ fontSize: { xs: '0.9rem', sm: '1rem' }, maxWidth: 500 }}>
-                    Curated Nigerian spreads for every group size — better value, less hassle.
+                    Curated Nigerian spreads for every group size: better value, less hassle.
   </Typography>
                 </Box>
               )}

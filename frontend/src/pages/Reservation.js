@@ -229,7 +229,7 @@ const Reservation = () => {
               fontSize: { xs: '0.95rem', md: '1.1rem' },
             }}
           >
-            Weddings, corporate events, celebrations — we bring the flavour to your occasion.
+            Weddings, corporate events, celebrations. We bring the flavour to your occasion.
           </Typography>
         </Container>
       </Box>

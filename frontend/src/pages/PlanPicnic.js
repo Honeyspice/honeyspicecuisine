@@ -35,7 +35,7 @@ export default function PlanPicnic() {
     <>
       <Seo
         title="Plan a Picnic | HoneySpice Cuisine"
-        description="Plan your perfect picnic in seconds. Tell us how many people you're feeding and your budget — we'll suggest the best Nigerian meal bundle for you."
+        description="Plan your perfect picnic in seconds. Tell us how many people you're feeding and your budget. We'll suggest the best Nigerian meal bundle for you."
       />
 
       {/* Hero */}
@@ -70,7 +70,7 @@ export default function PlanPicnic() {
             Plan a Picnic
           </Typography>
           <Typography sx={{ color: 'rgba(255,255,255,0.8)', fontSize: { xs: '0.95rem', md: '1.05rem' }, maxWidth: 440, mx: 'auto', lineHeight: 1.75 }}>
-            Tell us your group size and budget — we'll suggest the perfect Nigerian spread for the outdoors.
+            Tell us your group size and budget. We'll suggest the perfect Nigerian spread for the outdoors.
           </Typography>
         </Box>
       </Box>
@@ -198,7 +198,7 @@ export default function PlanPicnic() {
 
                   {result.budgetNote && (
                     <Box sx={{ bgcolor: '#FFF7ED', border: '1px solid #FED7AA', px: 2, py: 1.5, mb: 3 }}>
-                      <Typography sx={{ fontSize: '0.85rem', lineHeight: 1.6, color: '#92400E' }}>💰 {result.budgetNote}</Typography>
+                      <Typography sx={{ fontSize: '0.85rem', lineHeight: 1.6, color: '#92400E' }}>{result.budgetNote}</Typography>
                     </Box>
                   )}
 

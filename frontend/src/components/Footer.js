@@ -57,7 +57,7 @@ const Footer = () => {
       }}
     >
       <Container maxWidth="lg">
-        {/* Top row — logo + columns */}
+        {/* Top row: logo + columns */}
         <Box
           sx={{
             display: 'grid',
@@ -83,7 +83,7 @@ const Footer = () => {
                 mb: 3,
               }}
             >
-              Authentic Nigerian cuisine crafted with love — served in Stirling, Scotland and across the UK for events and catering. Built with intelligent recommendation technology to personalise your experience.
+              Authentic Nigerian cuisine crafted with love, served in Stirling, Scotland and across the UK for events and catering. Built with intelligent recommendation technology to personalise your experience.
             </Typography>
             <Box sx={{ display: 'flex', gap: 0.5 }}>
               <IconButton

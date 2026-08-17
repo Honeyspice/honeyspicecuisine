@@ -14,7 +14,7 @@ const faqs = [
   },
   {
     question: 'What types of dishes do you serve?',
-    answer: 'We specialise in authentic Nigerian cuisine — traditional soups (Egusi, Efo Riro, Ogbono), rice dishes (Jollof, Fried, Coconut), grilled proteins (Suya, Peppered Chicken, Grilled Fish), sides (Moi Moi, Plantain, Yam), and drinks.',
+    answer: 'We specialise in authentic Nigerian cuisine: traditional soups (Egusi, Efo Riro, Ogbono), rice dishes (Jollof, Fried, Coconut), grilled proteins (Suya, Peppered Chicken, Grilled Fish), sides (Moi Moi, Plantain, Yam), and drinks.',
   },
   {
     question: 'How can I place an order?',
@@ -22,7 +22,7 @@ const faqs = [
   },
   {
     question: 'Do you cater for weddings and events?',
-    answer: 'Yes — weddings, corporate events, birthday parties, cultural celebrations, and private gatherings. Our team works with you to build a custom menu while keeping the flavours authentically Nigerian.',
+    answer: 'Yes: weddings, corporate events, birthday parties, cultural celebrations, and private gatherings. Our team works with you to build a custom menu while keeping the flavours authentically Nigerian.',
   },
   {
     question: 'Do you offer vegetarian or vegan options?',
@@ -30,7 +30,7 @@ const faqs = [
   },
   {
     question: 'How far in advance should I book catering?',
-    answer: '2–3 weeks for large events (50+ guests), 1 week for medium events (20–50 guests), and 48 hours for small gatherings. We can sometimes accommodate last-minute bookings — get in touch to discuss.',
+    answer: '2–3 weeks for large events (50+ guests), 1 week for medium events (20–50 guests), and 48 hours for small gatherings. We can sometimes accommodate last-minute bookings. Get in touch to discuss.',
   },
   {
     question: 'What is the Meal Planning feature?',

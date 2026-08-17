@@ -6,21 +6,21 @@ const SLIDES = [
   {
     src: '/images/efo_riro.png',
     heading: 'TASTE NIGERIAN\nFLAVOURS.',
-    sub: 'Authentic soups, stews and swallows — bold, rich and cooked the traditional way. Delivery & collection from Stirling.',
+    sub: 'Authentic soups, stews and swallows: bold, rich and cooked the traditional way. Delivery & collection from Stirling.',
     cta: { label: 'Order Now', to: '/menu' },
     secondaryCta: { label: 'Get Suggestions', to: '/ai-assistant' },
   },
   {
     src: '/images/jollof_rice.png',
     heading: 'BOOK YOUR\nEVENT.',
-    sub: 'Private catering, weddings, corporate gatherings — cooked and delivered by our kitchen.',
+    sub: 'Private catering, weddings, corporate gatherings. Cooked and delivered by our kitchen.',
     cta: { label: 'Book Catering', to: '/reservation' },
     secondaryCta: { label: 'View Menu', to: '/menu' },
   },
   {
     src: '/images/grilled_suya.jpg',
     heading: 'SMART MEAL\nSUGGESTIONS.',
-    sub: 'Tell us your budget, group size and occasion — we\'ll suggest the perfect Nigerian spread for you.',
+    sub: 'Tell us your budget, group size and occasion. We\'ll suggest the perfect Nigerian spread for you.',
     cta: { label: 'Get Suggestions', to: '/ai-assistant' },
     secondaryCta: { label: 'View Menu', to: '/menu' },
   },
@@ -70,7 +70,7 @@ const Hero = () => {
         justifyContent: 'center',
       }}
     >
-      {/* Previous slide — fades out */}
+      {/* Previous slide, fades out */}
       {prev !== null && (
         <Box
           component="img"
@@ -92,7 +92,7 @@ const Hero = () => {
         />
       )}
 
-      {/* Current slide — fades in */}
+      {/* Current slide, fades in */}
       <Box
         component="img"
         src={SLIDES[current].src}
@@ -123,7 +123,7 @@ const Hero = () => {
         }}
       />
 
-      {/* Centred content — fades with slide */}
+      {/* Centred content, fades with slide */}
       <Box
         key={current}
         sx={{

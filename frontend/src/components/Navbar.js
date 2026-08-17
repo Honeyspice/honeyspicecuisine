@@ -153,7 +153,7 @@ const AuthNavButton = () => {
             '&:hover': { background: '#D45A00' },
           }}
         >
-          ✨ My Plan
+          My Plan
         </Button>
         <Button
           onClick={logout}
@@ -205,7 +205,7 @@ const MobileAuthItem = ({ handleDrawerToggle }) => {
     return (
       <Box sx={{ width: '100%' }}>
         <ListItemButton component={RouterLink} to="/dashboard" onClick={handleDrawerToggle} sx={{ minHeight: 52, py: 1.25, px: 2 }}>
-          <ListItemText primary="✨ My Meal Plan" primaryTypographyProps={{ fontWeight: 700, color: '#F46A06' }} />
+          <ListItemText primary="My Meal Plan" primaryTypographyProps={{ fontWeight: 700, color: '#F46A06' }} />
         </ListItemButton>
         <ListItemButton onClick={() => { logout(); handleDrawerToggle(); }} sx={{ minHeight: 48, py: 1, px: 2 }}>
           <ListItemText primary="Sign Out" primaryTypographyProps={{ fontWeight: 600, color: '#888' }} />
@@ -249,7 +249,7 @@ const MobileNavbar = ({ handleDrawerToggle, cartBadgeSx, itemCount, pathname }) 
   return (
     <>
       <Toolbar disableGutters sx={{ py: 1.1, position: 'relative' }}>
-        {/* Logo always visible — tapping goes home */}
+        {/* Logo always visible, tapping goes home */}
         <Logo component={RouterLink} to="/">
           <Box
             component="img"

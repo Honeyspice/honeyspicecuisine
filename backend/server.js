@@ -12,7 +12,7 @@ require('dotenv').config();
 
 const app = express();
 
-// Render / nginx / load balancers set X-Forwarded-* — required for express-rate-limit and real client IPs
+// Render / nginx / load balancers set X-Forwarded-*, required for express-rate-limit and real client IPs
 app.set('trust proxy', 1);
 
 // Security middleware
@@ -142,7 +142,7 @@ const connectDB = async () => {
 
 connectDB();
 
-// Root URL (Render / browser health check) — no HTML, just JSON
+// Root URL (Render / browser health check), no HTML, just JSON
 app.get('/', (req, res) => {
   res.json({
     message: 'Honeyspice API is running',
