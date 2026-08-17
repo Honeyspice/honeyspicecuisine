@@ -38,7 +38,9 @@ const Register = () => {
           <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#F46A06', letterSpacing: '-0.5px' }}>HoneySpice</div>
           <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#999', letterSpacing: '4px', marginBottom: 20 }}>CUISINE</div>
           <h1 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#1a1a1a', margin: 0 }}>Create your account</h1>
-          <p style={{ color: '#666', marginTop: 6, fontSize: '0.9rem' }}>Get your personalised meal plan</p>
+          {/* Was "Get your personalised meal plan", which promised the meal
+              planning feature that has been removed. */}
+          <p style={{ color: '#666', marginTop: 6, fontSize: '0.9rem' }}>Order faster and track your orders</p>
         </div>
 
         {error && (

@@ -3,38 +3,39 @@ import { useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 
+// Answers describe what the business actually does today. Three of these had
+// drifted from the site: the founding year was wrong, two answers advertised the
+// meal-planning feature that was removed, and the dish list named items that are
+// no longer on the menu. This block renders on the homepage, so a stale answer
+// here is the first thing a search engine and a customer read.
 const faqs = [
   {
     question: 'What makes HoneySpice Cuisine unique?',
-    answer: 'Founded in 2018, HoneySpice Cuisine brings authentic Nigerian flavours to the UK. We prepare traditional dishes with recipes passed down through generations, using fresh ingredients and maintaining the true essence of Nigerian culinary heritage.',
+    answer: 'HoneySpice Cuisine started in Ibadan, Nigeria, in 2019 and came to Scotland with our founder, Lois Smart, a certified chef. We cook Nigerian food in Stirling for collection and local delivery, and we cater for events across the UK.',
   },
   {
     question: 'What services does HoneySpice offer?',
-    answer: 'We offer catering for events and special occasions, food delivery across Stirling and surrounding areas, custom menu planning for corporate events, private chef services, and personalised weekly meal plans.',
+    answer: 'Collection and local delivery in Stirling, and catering for weddings, birthdays, parties and corporate events across the UK. For catering we build the menu with you around your guest numbers and your budget.',
   },
   {
     question: 'What types of dishes do you serve?',
-    answer: 'We specialise in authentic Nigerian cuisine: traditional soups (Egusi, Efo Riro, Ogbono), rice dishes (Jollof, Fried, Coconut), grilled proteins (Suya, Peppered Chicken, Grilled Fish), sides (Moi Moi, Plantain, Yam), and drinks.',
+    answer: 'Wraps, including chicken and beef shawarma. Rice meals: Jollof, Ofada with ayamase stew, coconut rice and fried rice. Soups served with any swallow of your choice: Egusi, Efo Riro, Ogbono, Banga and pepper soup. Sides such as beef suya, grilled chicken, boli, coleslaw and akara.',
   },
   {
     question: 'How can I place an order?',
-    answer: 'Order online through our website, via WhatsApp, or call us directly. We offer both delivery and collection. For large events or corporate catering, please contact us at least 48 hours in advance.',
+    answer: 'Order online through our website, message us on WhatsApp, or call us. We offer collection and local delivery. For large events or catering, please contact us at least 48 hours in advance.',
   },
   {
     question: 'Do you cater for weddings and events?',
-    answer: 'Yes: weddings, corporate events, birthday parties, cultural celebrations, and private gatherings. Our team works with you to build a custom menu while keeping the flavours authentically Nigerian.',
+    answer: 'Yes: weddings, corporate events, birthday parties, cultural celebrations and private gatherings. We plan the menu with you, and the food stays Nigerian.',
   },
   {
-    question: 'Do you offer vegetarian or vegan options?',
-    answer: 'Yes. We offer vegetable soups and stews, plant-based protein alternatives, vegan-friendly rice dishes, and fresh sides. Just specify your dietary needs when ordering.',
+    question: 'Do you offer vegetarian options?',
+    answer: 'Some of our sides are vegetarian, including akara, boli and coleslaw. Our soups and rice meals are cooked with meat and fish as standard. Tell us what you need when you order or enquire about catering and we will tell you what we can do.',
   },
   {
     question: 'How far in advance should I book catering?',
-    answer: '2–3 weeks for large events (50+ guests), 1 week for medium events (20–50 guests), and 48 hours for small gatherings. We can sometimes accommodate last-minute bookings. Get in touch to discuss.',
-  },
-  {
-    question: 'What is the Meal Planning feature?',
-    answer: 'Create a free account, fill in your health goals and dietary preferences, and we generate a personalised 7-day Nigerian food timetable tailored to you.',
+    answer: 'Two to three weeks for large events (50 guests or more), one week for medium events (20 to 50 guests), and 48 hours for small gatherings. We can sometimes take last-minute bookings. Get in touch to discuss.',
   },
 ];
 
