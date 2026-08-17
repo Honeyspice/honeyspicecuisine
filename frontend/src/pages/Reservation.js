@@ -45,6 +45,27 @@ const GradientButton = styled(Button)(({ theme }) => ({
   },
 }));
 
+// Sowo provider profile. Booking, payment protection, the booking record and the
+// verified review all live there; the food, chef, menus and story live here.
+const SOWO_PROFILE_URL = 'https://usesowo.com/provider/honeyspice-cuisine-85677b63';
+
+// Named to match the profile so a customer arriving there recognises what they
+// clicked. Prices deliberately live on Sowo only.
+const SOWO_SERVICES = [
+  {
+    name: 'Private / Mobile Chef',
+    blurb: 'A chef-led experience at home: private dinners, small gatherings and celebrations.',
+  },
+  {
+    name: 'Corporate & Event Catering',
+    blurb: 'Corporate functions, conferences, church and community events, birthdays and larger gatherings.',
+  },
+  {
+    name: 'Wedding Catering',
+    blurb: 'Planned separately from other events, around guest numbers and presentation.',
+  },
+];
+
 const Reservation = () => {
   const [reservationType, setReservationType] = useState('bulk');
   const [selectedFoods, setSelectedFoods] = useState([]);
@@ -94,7 +115,7 @@ const Reservation = () => {
     ]}
   ];
 
-  const eventTypes = [
+const eventTypes = [
     'Private Event',
     'Corporate Event',
     'Birthday Celebration',
@@ -228,8 +249,116 @@ const Reservation = () => {
         </Container>
       </Box>
 
+      {/* Booking on Sowo.
+          The division of labour is deliberate: HoneySpice owns the food, the
+          chef, the menus and the story; Sowo owns the booking, the payment
+          protection, the booking record and the verified review. This block is
+          the handover point, and it sits above the enquiry form because a
+          structured booking asks less trust of a customer than transferring
+          money after a WhatsApp conversation, which matters most on the
+          high-value jobs.
+
+          The payment line describes what happens rather than calling it escrow.
+          Stripe does not position Connect as an escrow service and the word
+          carries specific regulatory meaning, so it is not ours to borrow.
+
+          Sowo is the source of truth for pricing. Only the floor price is
+          repeated here, so there is one figure to keep in step rather than three
+          that can quietly drift out of date. Per-service prices stay one click
+          away on the profile. */}
+      <Box sx={{ px: { xs: 2, sm: 0 }, pt: { xs: 3, md: 5 } }}>
+        <Container maxWidth="lg">
+          <Card
+            sx={{
+              p: { xs: 2.5, sm: 3.5, md: 4.5 },
+              borderRadius: '12px',
+              bgcolor: 'rgba(244, 106, 6, 0.05)',
+              border: '1px solid rgba(244, 106, 6, 0.16)',
+              boxShadow: 'none',
+            }}
+          >
+            <Typography
+              variant="h3"
+              component="h2"
+              sx={{ fontSize: { xs: '1.5rem', md: '1.95rem' }, fontWeight: 600, mb: 1 }}
+            >
+              Book HoneySpice on Sowo
+            </Typography>
+            <Typography sx={{ color: 'text.secondary', fontSize: { xs: '0.95rem', md: '1.05rem' }, lineHeight: 1.7, maxWidth: 640 }}>
+              Pay through Stripe. Your payment is held until the agreed work is confirmed complete.
+            </Typography>
+
+            <Grid container spacing={{ xs: 2, md: 3 }} sx={{ mt: { xs: 2.5, md: 3.5 } }}>
+              {SOWO_SERVICES.map((service) => (
+                <Grid item xs={12} md={4} key={service.name}>
+                  <Box sx={{ height: '100%' }}>
+                    <Typography sx={{ fontWeight: 700, fontSize: '1rem', color: 'text.primary', mb: 0.75 }}>
+                      {service.name}
+                    </Typography>
+                    <Typography sx={{ color: 'text.secondary', fontSize: '0.88rem', lineHeight: 1.65 }}>
+                      {service.blurb}
+                    </Typography>
+                  </Box>
+                </Grid>
+              ))}
+            </Grid>
+
+            <Box
+              sx={{
+                mt: { xs: 3, md: 4 },
+                display: 'flex',
+                flexWrap: 'wrap',
+                alignItems: 'center',
+                gap: { xs: 2, sm: 3 },
+              }}
+            >
+              <Box
+                component="a"
+                href={SOWO_PROFILE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  minHeight: 48,
+                  px: 4,
+                  textDecoration: 'none',
+                  bgcolor: 'primary.main',
+                  color: '#fff',
+                  fontWeight: 700,
+                  fontSize: '0.86rem',
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                  border: '2px solid',
+                  borderColor: 'primary.main',
+                  transition: 'background-color 0.25s ease, border-color 0.25s ease',
+                  '&:hover': { bgcolor: '#D45A00', borderColor: '#D45A00' },
+                  '&:focus-visible': { outline: '2px solid #1a1a1a', outlineOffset: 3 },
+                }}
+              >
+                Book on Sowo
+              </Box>
+              <Typography sx={{ color: 'text.secondary', fontSize: '0.88rem' }}>
+                Three services, from £150. Prices and availability on the profile.
+              </Typography>
+            </Box>
+          </Card>
+        </Container>
+      </Box>
+
       <Box sx={{ px: { xs: 2, sm: 0 }, pb: { xs: 3, sm: 4, md: 6 } }}>
       <Container maxWidth="lg" sx={{ py: { xs: 2, sm: 3, md: 4 } }}>
+        <Typography
+          variant="h3"
+          component="h2"
+          sx={{ fontSize: { xs: '1.4rem', md: '1.75rem' }, fontWeight: 600, mb: 1 }}
+        >
+          Or send us the details
+        </Typography>
+        <Typography sx={{ color: 'text.secondary', fontSize: '0.95rem', lineHeight: 1.7, mb: { xs: 2.5, md: 3.5 }, maxWidth: 640 }}>
+          For something bespoke, or if you would rather talk it through first, tell us about
+          your event and we will pick it up on WhatsApp.
+        </Typography>
         <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
           <Grid item xs={12}>
             <StyledCard>
