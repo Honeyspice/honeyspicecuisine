@@ -7,7 +7,7 @@ const foodImages = [
   { image: '/images/boli.png', title: 'Boli with Fish' },
   { image: '/images/efo_riro.webp', title: 'Efo Riro with Pounded Yam' },
   { image: '/images/Egusi.webp', title: 'Egusi Soup with Fufu' },
-  { image: '/images/jollof_rice.png', title: 'Jollof Rice with Chicken' },
+  { image: '/images/jollof_rice.webp', title: 'Jollof Rice with Chicken' },
   { image: '/images/Ofada.webp', title: 'Ofada Sauce Ayamase Stew' },
 ];
 

@@ -11,14 +11,14 @@ const SLIDES = [
     secondaryCta: { label: 'Get Suggestions', to: '/ai-assistant' },
   },
   {
-    src: '/images/jollof_rice.png',
+    src: '/images/jollof_rice.webp',
     heading: 'BOOK YOUR\nEVENT.',
     sub: 'Private catering, weddings, corporate gatherings. Cooked and delivered by our kitchen.',
     cta: { label: 'Book Catering', to: '/reservation' },
     secondaryCta: { label: 'View Menu', to: '/menu' },
   },
   {
-    src: '/images/grilled_suya.jpg',
+    src: '/images/peppersoup.jpg',
     heading: 'SMART MEAL\nSUGGESTIONS.',
     sub: 'Tell us your budget, group size and occasion. We\'ll suggest the perfect Nigerian spread for you.',
     cta: { label: 'Get Suggestions', to: '/ai-assistant' },
