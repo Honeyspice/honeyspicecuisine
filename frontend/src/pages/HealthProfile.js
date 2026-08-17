@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Container, Typography, Grid } from '@mui/material';
 import { useAuth } from '../context/AuthContext';
+import { apiUrl } from '../utils/apiBase';
 
 const STEPS = ['Body & Activity', 'Health Goals', 'Diet & Kitchen'];
 
@@ -63,7 +64,7 @@ const pill = (active, onClick, children) => (
 );
 
 const HealthProfile = () => {
-  const { token, API_BASE, refreshUser } = useAuth();
+  const { token, refreshUser } = useAuth();
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
   const [profile, setProfile] = useState(defaultProfile);
@@ -72,7 +73,7 @@ const HealthProfile = () => {
 
   useEffect(() => {
     // Pre-fill if profile already exists
-    fetch(`${API_BASE}/api/mealplan/profile`, {
+    fetch(apiUrl('/api/mealplan/profile'), {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(r => r.json())
@@ -82,7 +83,7 @@ const HealthProfile = () => {
         }
       })
       .catch(() => {});
-  }, [token, API_BASE]);
+  }, [token]);
 
   const toggleGoal = (val) => {
     setProfile(p => ({
@@ -113,7 +114,7 @@ const HealthProfile = () => {
     setError('');
     setSaving(true);
     try {
-      const res = await fetch(`${API_BASE}/api/mealplan/profile`, {
+      const res = await fetch(apiUrl('/api/mealplan/profile'), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify(profile),
