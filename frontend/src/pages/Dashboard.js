@@ -3,11 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { Box, Container, Typography, Grid, Skeleton } from '@mui/material';
 import { useAuth } from '../context/AuthContext';
 import Seo from '../components/Seo';
+import { apiUrl } from '../utils/apiBase';
 
 const DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
 const Dashboard = () => {
-  const { user, token, API_BASE, logout } = useAuth();
+  const { user, token, logout } = useAuth();
   const navigate = useNavigate();
   const [generating, setGenerating] = useState(false);
   const [error, setError] = useState('');
@@ -19,7 +20,7 @@ const Dashboard = () => {
     setError('');
     setGenerating(true);
     try {
-      const res = await fetch(`${API_BASE}/api/mealplan/generate`, {
+      const res = await fetch(apiUrl('/api/mealplan/generate'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({}),

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Box, Container, Typography, Grid, Collapse, Skeleton } from '@mui/material';
 import { useAuth } from '../context/AuthContext';
 import Seo from '../components/Seo';
+import { apiUrl } from '../utils/apiBase';
 
 const DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 const MEALS = ['breakfast', 'lunch', 'dinner'];
@@ -62,7 +63,7 @@ const MealCard = ({ meal, mealData }) => {
 };
 
 const MealPlan = () => {
-  const { user, token, API_BASE } = useAuth();
+  const { user, token } = useAuth();
   const navigate = useNavigate();
   const [plan, setPlan] = useState(null);
   const [activeDay, setActiveDay] = useState('monday');
@@ -76,17 +77,17 @@ const MealPlan = () => {
       setLoading(false);
       return;
     }
-    fetch(`${API_BASE}/api/mealplan/current`, { headers: { Authorization: `Bearer ${token}` } })
+    fetch(apiUrl('/api/mealplan/current'), { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.json())
       .then(data => { setPlan(data.mealPlan); setLoading(false); })
       .catch(() => setLoading(false));
-  }, [user, token, API_BASE]);
+  }, [user, token]);
 
   const handleRegenerate = async () => {
     setError('');
     setGenerating(true);
     try {
-      const res = await fetch(`${API_BASE}/api/mealplan/generate`, {
+      const res = await fetch(apiUrl('/api/mealplan/generate'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({}),

@@ -1,8 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { apiUrl } from '../utils/apiBase';
 
 const AuthContext = createContext(null);
-
-const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -11,7 +10,7 @@ export const AuthProvider = ({ children }) => {
 
   const fetchProfile = useCallback(async (t) => {
     try {
-      const res = await fetch(`${API_BASE}/api/mealplan/profile`, {
+      const res = await fetch(apiUrl('/api/mealplan/profile'), {
         headers: { Authorization: `Bearer ${t}` },
       });
       if (!res.ok) throw new Error('Unauthorized');
@@ -49,7 +48,7 @@ export const AuthProvider = ({ children }) => {
   const refreshUser = () => token && fetchProfile(token);
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout, loading, refreshUser, API_BASE }}>
+    <AuthContext.Provider value={{ user, token, login, logout, loading, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );
