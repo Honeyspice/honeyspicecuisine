@@ -30,18 +30,37 @@ import Badge from '@mui/material/Badge';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 
+// Animates the standalone `scale` property, not `transform`.
+//
+// MUI anchors the badge with transform: translate(50%, -50%). Animating
+// `transform: scale()` replaced that translate for the 450ms the pulse ran, so
+// the number appeared at the un-offset position and then jumped up and to the
+// right when the animation ended. `scale` is an independent property, so the
+// anchoring transform survives, and this does not hardcode the 50%/-50% offsets
+// either, which would break if anchorOrigin ever changed.
 const cartPulse = keyframes`
-  0% { transform: scale(1); }
-  35% { transform: scale(1.15); }
-  70% { transform: scale(0.98); }
-  100% { transform: scale(1); }
+  0% { scale: 1; }
+  35% { scale: 1.15; }
+  70% { scale: 0.98; }
+  100% { scale: 1; }
 `;
 
 const StyledAppBar = muiStyled(AppBar)(({ scrolled }) => ({
-  backgroundColor: scrolled ? 'rgba(18, 18, 18, 0.97)' : 'rgba(18, 18, 18, 0.94)',
+  // Opaque, and no backdrop-filter.
+  //
+  // It was rgba(18,18,18,0.94) with blur(8px). At 94% alpha the blur was acting
+  // on the 6% of backdrop that showed through, so it was close to invisible,
+  // and it cost two real problems. A position: fixed element with a
+  // backdrop-filter and no compositing layer is the known iOS Safari case where
+  // the element fails to paint until a scroll forces a repaint, which is exactly
+  // the reported symptom. It also makes the header the containing block for any
+  // fixed descendant, which already broke the search dim overlay: rendered in
+  // place it was clipped to the header and measured 0px tall.
+  //
+  // Scroll feedback is unchanged, it was always carried by the shadow.
+  backgroundColor: scrolled ? 'rgb(16, 16, 16)' : 'rgb(18, 18, 18)',
   // Respect iPhone notch / status bar
   paddingTop: 'env(safe-area-inset-top, 0px)',
-  backdropFilter: 'blur(8px)',
   boxShadow: scrolled ? '0 8px 20px rgba(0, 0, 0, 0.25)' : 'none',
   border: 'none',
   borderBottom: 'none',
@@ -619,10 +638,12 @@ const DesktopNavbar = ({ pathname, itemCount, cartBadgeSx, subtotal, cuisineMenu
               while a large one reads as an effect. The -webkit- prefix is still
               required for Safari.
 
-              Portalled to the body because the header sets backdrop-filter, and
-              an ancestor with backdrop-filter becomes the containing block for
-              position: fixed descendants. Rendered in place this was clipped to
-              the 109px header and measured 0px tall. */}
+              Portalled to the body. This was originally required because the
+              header set a backdrop-filter, and such an ancestor becomes the
+              containing block for position: fixed descendants: rendered in
+              place the overlay was clipped to the 109px header and measured 0px
+              tall. The header no longer sets one, but the portal stays, because
+              it is correct regardless of what the header does later. */}
           {searchOpen &&
             suggestions.length > 0 &&
             createPortal(
