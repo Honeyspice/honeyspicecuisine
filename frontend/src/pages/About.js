@@ -96,7 +96,7 @@ const NEXT_STEPS = [
   {
     heading: 'Planning an Event?',
     body: 'We cater for weddings, birthdays, parties and other events across the UK.',
-    label: 'Catering',
+    label: 'Make a Reservation',
     to: '/reservation',
     filled: false,
   },

@@ -106,7 +106,7 @@ const Home = () => {
                 {
                   q: 'Planning an event?',
                   a: 'We cater for weddings, parties and events across the UK.',
-                  cta: 'Catering',
+                  cta: 'Make a Reservation',
                   to: '/reservation',
                   primary: false,
                 },
