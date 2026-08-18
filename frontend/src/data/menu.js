@@ -77,7 +77,9 @@ export const BUNDLES = [
     price: 70,
     tag: 'For 8–12',
     image: '/images/Egusi.webp',
-    items: ['Large Jollof Rice (serves 10)', 'Egusi Soup + swallow (serves 8)', '4 × Grilled Chicken'],
+    // Egusi leads because Egusi is the photograph. The other two bundles
+    // already open with the dish they show.
+    items: ['Egusi Soup + swallow (serves 8)', 'Large Jollof Rice (serves 10)', '4 × Grilled Chicken'],
     desc: 'A generous Nigerian feast for large groups and events.',
   },
 ];
