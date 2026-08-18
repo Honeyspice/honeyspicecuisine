@@ -557,18 +557,7 @@ const Home = () => {
                 // 410px inside 327px on a 375px phone, so it wrapped and left
                 // "HEART." and "PLATE." stranded on lines of their own. The upper
                 // bound keeps the original 5rem display size on desktop.
-                //
-                // The same clamp is repeated per breakpoint on purpose. The theme
-                // calls responsiveFontSizes(), which sets h2 font sizes inside
-                // media queries; a single plain fontSize here has equal
-                // specificity and loses to them above 600px. Listing breakpoints
-                // makes sx emit its own media queries, which win.
-                fontSize: {
-                  xs: TAGLINE_SIZE,
-                  sm: TAGLINE_SIZE,
-                  md: TAGLINE_SIZE,
-                  lg: TAGLINE_SIZE,
-                },
+                fontSize: TAGLINE_SIZE,
                 lineHeight: 1.15,
                 // Capitals need more room between them than lowercase, so the
                 // theme's negative tracking works against this uppercase line.

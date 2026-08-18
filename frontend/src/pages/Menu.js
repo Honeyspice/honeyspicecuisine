@@ -19,13 +19,6 @@ import { MENU_CATEGORIES, BUNDLES } from '../data/menu';
 // Menu data lives in src/data/menu.js so search reads the same definition.
 
 
-// Typography inside sx must be declared per breakpoint. The theme calls
-// responsiveFontSizes(), which sets Typography font sizes inside media queries
-// on the same generated class, so a plain fontSize has equal specificity and
-// loses above 600px. Every plain size on the bundle card was being flattened to
-// 16.97px, which is why the name, price and description all read the same.
-const fixed = (rem) => ({ xs: rem, sm: rem, md: rem, lg: rem });
-
 const TABS = [
   { id: 'all', label: 'All Items' },
   ...MENU_CATEGORIES.map((c) => ({ id: c.id, label: c.title })),
@@ -354,7 +347,7 @@ const Menu = () => {
                         {/* Bundle details */}
                         <Box sx={{ p: { xs: 2.5, sm: 3 }, flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
                           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
-                            <Typography sx={{ fontWeight: 800, fontSize: fixed('1.15rem'), color: 'text.primary', lineHeight: 1.2 }}>
+                            <Typography sx={{ fontWeight: 800, fontSize: '1.15rem', color: 'text.primary', lineHeight: 1.2 }}>
                               {bundle.name}
                             </Typography>
                             {/* Plain type, matching the item cards. */}
@@ -362,7 +355,7 @@ const Menu = () => {
                               component="span"
                               sx={{
                                 fontWeight: 800,
-                                fontSize: fixed('1.15rem'),
+                                fontSize: '1.15rem',
                                 color: '#1A1A1A',
                                 ml: 1,
                                 flexShrink: 0,
@@ -373,7 +366,7 @@ const Menu = () => {
                             </Typography>
                           </Box>
 
-                          <Typography color="text.secondary" sx={{ fontSize: fixed('0.875rem'), lineHeight: 1.6, mb: 2 }}>
+                          <Typography color="text.secondary" sx={{ fontSize: '0.875rem', lineHeight: 1.6, mb: 2 }}>
                             {bundle.desc}
                           </Typography>
 
@@ -383,7 +376,7 @@ const Menu = () => {
                               <Box
                                 component="li"
                                 key={item}
-                                sx={{ fontSize: fixed('0.85rem'), color: 'text.secondary', lineHeight: 1.85 }}
+                                sx={{ fontSize: '0.85rem', color: 'text.secondary', lineHeight: 1.85 }}
                               >
                                 {item}
                               </Box>

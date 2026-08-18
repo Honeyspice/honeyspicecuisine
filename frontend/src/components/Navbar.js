@@ -824,21 +824,17 @@ const DesktopNavbar = ({ pathname, itemCount, cartBadgeSx, subtotal, cuisineMenu
             >
               <ShoppingCartOutlinedIcon sx={{ fontSize: 22, color: 'white' }} />
             </Badge>
-            {/* One line, not two stacked. Sizes are set per breakpoint because
-                the theme calls responsiveFontSizes(), which sets Typography sizes
-                inside media queries; a plain 12px here has equal specificity and
-                lost to them above 600px, so these labels rendered at 17px inside
-                a 44px pill. Same trap as the homepage tagline.
+            {/* One line, not two stacked.
             
                 The total shows only when there is one. "£0.00" said nothing
                 except that the basket was empty, which the absent badge already
                 says more quietly. */}
             <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 0.75 }}>
-              <Typography sx={{ fontSize: { xs: '12px', sm: '12px', md: '12px', lg: '12px' }, fontWeight: 700, color: 'white', m: 0 }}>
+              <Typography sx={{ fontSize: '12px', fontWeight: 700, color: 'white', m: 0 }}>
                 Cart
               </Typography>
               {hasItems && (
-                <Typography sx={{ fontSize: { xs: '12px', sm: '12px', md: '12px', lg: '12px' }, fontWeight: 600, color: 'rgba(255, 255, 255, 0.96)', m: 0 }}>
+                <Typography sx={{ fontSize: '12px', fontWeight: 600, color: 'rgba(255, 255, 255, 0.96)', m: 0 }}>
                   {formattedSubtotal}
                 </Typography>
               )}

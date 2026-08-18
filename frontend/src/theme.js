@@ -1,4 +1,34 @@
-import { createTheme, responsiveFontSizes, alpha } from '@mui/material/styles';
+import { createTheme, alpha } from '@mui/material/styles';
+
+// Fluid type, replacing responsiveFontSizes().
+//
+// responsiveFontSizes() emitted each variant's size inside min-width media
+// queries. MUI merges the variant styles and any sx into a single generated
+// class, and inside one rule set a matching media-query declaration beats a
+// plain one written earlier. So every plain `fontSize` in sx was silently
+// overridden above 600px. That bit four separate places: the homepage tagline
+// rendered at 79px instead of 48, the cart labels at 17px instead of 12, and
+// the bundle cards and the Sowo block had their whole scale flattened to a
+// uniform 16.97px.
+//
+// clamp() is one plain declaration with no media query, so a fontSize in sx
+// overrides it the way anyone would expect, and the type is fluid between
+// breakpoints rather than stepping at them.
+//
+// Ranges match what responsiveFontSizes produced, so nothing resizes: its
+// formula is min = (max - 1) / factor + 1, with factor 1.4, and variants at or
+// below 1rem were never scaled.
+const MIN_VW = 375;
+const MAX_VW = 1280;
+
+const fluid = (minRem, maxRem) => {
+  if (minRem === maxRem) return `${maxRem}rem`;
+  const slope = ((maxRem - minRem) / ((MAX_VW - MIN_VW) / 16)) * 100;
+  const intercept = minRem - (slope / 100) * (MIN_VW / 16);
+  return `clamp(${minRem}rem, ${intercept.toFixed(4)}rem + ${slope.toFixed(4)}vw, ${maxRem}rem)`;
+};
+
+
 
 let theme = createTheme({
   palette: {
@@ -60,45 +90,45 @@ let theme = createTheme({
     h1: {
       fontFamily: '"Cormorant Garamond", "Georgia", serif',
       fontWeight: 600,
-      fontSize: '3rem',
+      fontSize: fluid(2.4286, 3),
       lineHeight: 1.1,
       letterSpacing: '-0.01em',
     },
     h2: {
       fontFamily: '"Cormorant Garamond", "Georgia", serif',
       fontWeight: 600,
-      fontSize: '2rem',
+      fontSize: fluid(1.7143, 2),
       lineHeight: 1.2,
       letterSpacing: '-0.01em',
     },
     h3: {
       fontFamily: '"Cormorant Garamond", "Georgia", serif',
       fontWeight: 600,
-      fontSize: '1.875rem',
+      fontSize: fluid(1.625, 1.875),
       lineHeight: 1.25,
       letterSpacing: '0',
     },
     h4: {
       fontFamily: '"Cormorant Garamond", "Georgia", serif',
       fontWeight: 600,
-      fontSize: '1.5rem',
+      fontSize: fluid(1.3571, 1.5),
       lineHeight: 1.3,
     },
     h5: {
       fontFamily: '"Cormorant Garamond", "Georgia", serif',
       fontWeight: 600,
-      fontSize: '1.25rem',
+      fontSize: fluid(1.1786, 1.25),
       lineHeight: 1.35,
     },
     h6: {
       fontFamily: '"Cormorant Garamond", "Georgia", serif',
       fontWeight: 600,
-      fontSize: '1.125rem',
+      fontSize: fluid(1.0893, 1.125),
       lineHeight: 1.4,
     },
     body1: {
       fontFamily: '"Jost", "Helvetica", "Arial", sans-serif',
-      fontSize: '1.02rem',
+      fontSize: fluid(1.0143, 1.02),
       lineHeight: 1.65,
       fontWeight: 400,
     },
@@ -355,6 +385,5 @@ let theme = createTheme({
   },
 });
 
-theme = responsiveFontSizes(theme, { factor: 1.4 });
 
 export default theme; 

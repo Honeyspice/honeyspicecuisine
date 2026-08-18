@@ -46,15 +46,6 @@ const GradientButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-// Sowo provider profile. Booking, payment protection, the booking record and the
-// verified review all live there; the food, chef, menus and story live here.
-// Sizes inside sx must be declared per breakpoint. The theme calls
-// responsiveFontSizes(), which sets Typography sizes inside media queries on the
-// same generated class, so a plain fontSize has equal specificity and loses
-// above 600px. Plain values here were being flattened to 16.97px, which
-// collapsed the service names into their own descriptions.
-const fixed = (rem) => ({ xs: rem, sm: rem, md: rem, lg: rem });
-
 const SOWO_PROFILE_URL = 'https://usesowo.com/provider/honeyspice-cuisine-85677b63';
 
 // Named to match the profile so a customer arriving there recognises what they
@@ -327,10 +318,10 @@ const eventTypes = [
                       pt: 1.75,
                     }}
                   >
-                    <Typography sx={{ fontWeight: 700, fontSize: fixed('1.02rem'), color: 'text.primary', mb: 0.75 }}>
+                    <Typography sx={{ fontWeight: 700, fontSize: '1.02rem', color: 'text.primary', mb: 0.75 }}>
                       {service.name}
                     </Typography>
-                    <Typography sx={{ color: 'text.secondary', fontSize: fixed('0.88rem'), lineHeight: 1.65 }}>
+                    <Typography sx={{ color: 'text.secondary', fontSize: '0.88rem', lineHeight: 1.65 }}>
                       {service.blurb}
                     </Typography>
                   </Box>
@@ -373,7 +364,7 @@ const eventTypes = [
               >
                 Book on Sowo
               </Box>
-              <Typography sx={{ color: 'text.secondary', fontSize: fixed('0.88rem') }}>
+              <Typography sx={{ color: 'text.secondary', fontSize: '0.88rem' }}>
                 Three services, from £150. Prices and availability on the profile.
               </Typography>
             </Box>
