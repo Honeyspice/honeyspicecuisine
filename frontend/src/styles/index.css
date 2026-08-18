@@ -94,3 +94,26 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 } 
+/* ─── Keyboard focus ──────────────────────────────────────────────────────────
+   One visible focus ring for everything focusable, rather than a style added by
+   hand per component. Before this, only the handful of controls written most
+   recently had any focus-visible treatment at all, so tabbing through the site
+   gave no indication of where you were.
+
+   :where() keeps the specificity at zero, so any component that wants its own
+   ring still wins without needing !important.
+
+   :focus-visible rather than :focus, so the ring appears for keyboard and
+   assistive-tech users without drawing a box around every mouse click. */
+:where(a, button, input, select, textarea, summary, [tabindex], [role='button'], [role='option'], [role='link']):focus-visible {
+  outline: 2px solid #f46a06;
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* Dark surfaces: the orange ring is legible on the charcoal header, but the
+   offset gap shows the page behind it, so the ring gets a matching backdrop. */
+:where(header, footer) :where(a, button, [tabindex], [role='button']):focus-visible {
+  outline-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.55);
+}
