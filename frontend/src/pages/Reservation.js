@@ -22,6 +22,7 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import CloseIcon from '@mui/icons-material/Close';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 // Styled components
 const StyledCard = styled(Card)(({ theme }) => ({
@@ -47,6 +48,13 @@ const GradientButton = styled(Button)(({ theme }) => ({
 
 // Sowo provider profile. Booking, payment protection, the booking record and the
 // verified review all live there; the food, chef, menus and story live here.
+// Sizes inside sx must be declared per breakpoint. The theme calls
+// responsiveFontSizes(), which sets Typography sizes inside media queries on the
+// same generated class, so a plain fontSize has equal specificity and loses
+// above 600px. Plain values here were being flattened to 16.97px, which
+// collapsed the service names into their own descriptions.
+const fixed = (rem) => ({ xs: rem, sm: rem, md: rem, lg: rem });
+
 const SOWO_PROFILE_URL = 'https://usesowo.com/provider/honeyspice-cuisine-85677b63';
 
 // Named to match the profile so a customer arriving there recognises what they
@@ -271,10 +279,19 @@ const eventTypes = [
           <Card
             sx={{
               p: { xs: 2.5, sm: 3.5, md: 4.5 },
-              borderRadius: '12px',
-              bgcolor: 'rgba(244, 106, 6, 0.05)',
+              // A 3px brand rule along the top edge, and a real shadow. It was a
+              // flat tint with a hairline border, which read as a callout box
+              // rather than the panel carrying the booking route.
+              borderRadius: '16px',
+              bgcolor: 'rgba(244, 106, 6, 0.06)',
+              // The shorthand must come first. Declared after borderTopColor it
+              // resets it, which left the top rule at the hairline's 0.16 alpha
+              // instead of solid brand orange.
               border: '1px solid rgba(244, 106, 6, 0.16)',
-              boxShadow: 'none',
+              borderTopWidth: 3,
+              borderTopStyle: 'solid',
+              borderTopColor: 'primary.main',
+              boxShadow: '0 10px 40px rgba(244, 106, 6, 0.10)',
             }}
           >
             <Typography
@@ -284,18 +301,36 @@ const eventTypes = [
             >
               Book HoneySpice on Sowo
             </Typography>
-            <Typography sx={{ color: 'text.secondary', fontSize: { xs: '0.95rem', md: '1.05rem' }, lineHeight: 1.7, maxWidth: 640 }}>
-              Pay through Stripe. Your payment is held until the agreed work is confirmed complete.
-            </Typography>
+            {/* The protection is the whole reason to click through, and it was
+                carried by one grey sentence. The lock is an SVG icon rather than
+                decoration: it marks the line as a security statement at a
+                glance. */}
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.25, maxWidth: 660 }}>
+              <LockOutlinedIcon
+                aria-hidden="true"
+                sx={{ fontSize: 20, color: 'primary.main', mt: '3px', flexShrink: 0 }}
+              />
+              <Typography sx={{ color: 'text.secondary', fontSize: { xs: '0.95rem', md: '1.05rem' }, lineHeight: 1.7 }}>
+                Pay through Stripe. Your payment is held until the agreed work is confirmed complete.
+              </Typography>
+            </Box>
 
             <Grid container spacing={{ xs: 2, md: 3 }} sx={{ mt: { xs: 2.5, md: 3.5 } }}>
               {SOWO_SERVICES.map((service) => (
                 <Grid item xs={12} md={4} key={service.name}>
-                  <Box sx={{ height: '100%' }}>
-                    <Typography sx={{ fontWeight: 700, fontSize: '1rem', color: 'text.primary', mb: 0.75 }}>
+                  <Box
+                    sx={{
+                      height: '100%',
+                      // Three unruled text columns read as paragraphs. A rule
+                      // above each name separates them into offers.
+                      borderTop: '2px solid rgba(244, 106, 6, 0.35)',
+                      pt: 1.75,
+                    }}
+                  >
+                    <Typography sx={{ fontWeight: 700, fontSize: fixed('1.02rem'), color: 'text.primary', mb: 0.75 }}>
                       {service.name}
                     </Typography>
-                    <Typography sx={{ color: 'text.secondary', fontSize: '0.88rem', lineHeight: 1.65 }}>
+                    <Typography sx={{ color: 'text.secondary', fontSize: fixed('0.88rem'), lineHeight: 1.65 }}>
                       {service.blurb}
                     </Typography>
                   </Box>
@@ -338,7 +373,7 @@ const eventTypes = [
               >
                 Book on Sowo
               </Box>
-              <Typography sx={{ color: 'text.secondary', fontSize: '0.88rem' }}>
+              <Typography sx={{ color: 'text.secondary', fontSize: fixed('0.88rem') }}>
                 Three services, from £150. Prices and availability on the profile.
               </Typography>
             </Box>
