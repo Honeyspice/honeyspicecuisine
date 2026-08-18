@@ -58,7 +58,7 @@ export default function CheckoutSuccess() {
   }, [state.loading, state.ok, sessionId, clear]);
 
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: '#FAF6F0', pt: { xs: 12, sm: 13, md: 14 }, pb: { xs: 5, md: 7 } }}>
+    <Box sx={{ minHeight: '100vh', bgcolor: '#FAF6F0', pt: { xs: 4, sm: 5, md: 6 }, pb: { xs: 5, md: 7 } }}>
       <Container maxWidth="sm">
         {state.loading ? (
           <Card sx={{ p: { xs: 3, md: 4 }, textAlign: 'center' }}>

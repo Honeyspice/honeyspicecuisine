@@ -4,7 +4,7 @@ import { Link as RouterLink } from 'react-router-dom';
 
 export default function CheckoutCancel() {
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: 'background.paper', pt: { xs: 12, sm: 13, md: 14 }, pb: { xs: 5, md: 7 } }}>
+    <Box sx={{ minHeight: '100vh', bgcolor: 'background.paper', pt: { xs: 4, sm: 5, md: 6 }, pb: { xs: 5, md: 7 } }}>
       <Container maxWidth="md">
         <Card sx={{ p: { xs: 3, md: 4 } }}>
           <Stack spacing={2}>

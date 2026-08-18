@@ -99,7 +99,7 @@ const Checkout = () => {
 
   if (items.length === 0) {
     return (
-      <Box sx={{ minHeight: '100vh', bgcolor: 'background.paper', pt: { xs: 13, sm: 14, md: 15 }, pb: { xs: 5, md: 7 } }}>
+      <Box sx={{ minHeight: '100vh', bgcolor: 'background.paper', pt: { xs: 4, sm: 5, md: 6 }, pb: { xs: 5, md: 7 } }}>
         <Container maxWidth="md">
           <Card sx={{ p: { xs: 3, md: 4 } }}>
             <Typography variant="h6" gutterBottom>Your basket is empty.</Typography>
@@ -112,7 +112,7 @@ const Checkout = () => {
   }
 
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: 'background.paper', pt: { xs: 13, sm: 14, md: 15 }, pb: { xs: 5, md: 7 } }}>
+    <Box sx={{ minHeight: '100vh', bgcolor: 'background.paper', pt: { xs: 4, sm: 5, md: 6 }, pb: { xs: 5, md: 7 } }}>
       <Container maxWidth="lg">
         <Box sx={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', mb: 3 }}>
           <Typography variant="h2" component="h1">Checkout</Typography>

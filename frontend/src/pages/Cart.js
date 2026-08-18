@@ -35,12 +35,24 @@ const Cart = () => {
       sx={{
         minHeight: '100vh',
         bgcolor: 'background.paper',
-        pt: { xs: 12, sm: 13, md: 14 },
+        pt: { xs: 4, sm: 5, md: 6 },
         pb: { xs: 5, md: 7 },
       }}
     >
       <Container maxWidth="lg">
-        <Box sx={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', mb: 3 }}>
+        {/* Stacks on mobile. Forcing the heading and both actions into one
+            375px row wrapped all three onto two lines each, so "Your basket",
+            "Clear basket" and "Continue shopping" were each broken in half. */}
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: { xs: 'column', sm: 'row' },
+            alignItems: { xs: 'flex-start', sm: 'baseline' },
+            justifyContent: 'space-between',
+            gap: { xs: 1.5, sm: 2 },
+            mb: 3,
+          }}
+        >
           <Typography variant="h2" component="h1" sx={{ color: 'text.primary' }}>
             Your basket
           </Typography>
@@ -75,7 +87,19 @@ const Cart = () => {
                 <Stack spacing={2}>
                   {items.map((item, idx) => (
                     <Box key={item.id}>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                      {/* Stacks on mobile. The four children need about 404px
+                          of intrinsic width and a 375px phone gives 375, so the
+                          name was squeezed onto three lines and the Qty label
+                          clipped to "Q..". Name on its own row, controls
+                          beneath. */}
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          flexDirection: { xs: 'column', sm: 'row' },
+                          alignItems: { xs: 'stretch', sm: 'center' },
+                          gap: { xs: 1.5, sm: 2 },
+                        }}
+                      >
                         <Box sx={{ flexGrow: 1 }}>
                           <Typography variant="h6" sx={{ mb: 0.25 }}>
                             {item.name}
@@ -85,23 +109,32 @@ const Cart = () => {
                           </Typography>
                         </Box>
 
-                        <TextField
-                          size="small"
-                          label="Qty"
-                          type="number"
-                          inputProps={{ min: 1 }}
-                          value={item.quantity}
-                          onChange={(e) => setQuantity(item.id, e.target.value)}
-                          sx={{ width: 110 }}
-                        />
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 2,
+                            justifyContent: { xs: 'space-between', sm: 'flex-start' },
+                          }}
+                        >
+                          <TextField
+                            size="small"
+                            label="Qty"
+                            type="number"
+                            inputProps={{ min: 1 }}
+                            value={item.quantity}
+                            onChange={(e) => setQuantity(item.id, e.target.value)}
+                            sx={{ width: 96, flexShrink: 0 }}
+                          />
 
-                        <Typography sx={{ minWidth: 96, textAlign: 'right', fontWeight: 600 }}>
-                          {formatGBP(item.price * item.quantity)}
-                        </Typography>
+                          <Typography sx={{ minWidth: 96, textAlign: 'right', fontWeight: 600 }}>
+                            {formatGBP(item.price * item.quantity)}
+                          </Typography>
 
-                        <IconButton aria-label={`Remove ${item.name}`} onClick={() => removeItem(item.id)}>
-                          <DeleteOutlineIcon />
-                        </IconButton>
+                          <IconButton aria-label={`Remove ${item.name}`} onClick={() => removeItem(item.id)}>
+                            <DeleteOutlineIcon />
+                          </IconButton>
+                        </Box>
                       </Box>
 
                       {idx < items.length - 1 && <Divider sx={{ mt: 2 }} />}
