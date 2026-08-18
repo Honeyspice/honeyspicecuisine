@@ -9,18 +9,22 @@ import {
   ListItem,
   ListItemText,
   Divider,
-  Button,
   Chip,
   Stack,
 } from '@mui/material';
 import Seo from '../components/Seo';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { useSearchParams } from 'react-router-dom';
-import { useCart } from '../context/CartContext';
+import AddToCartControl from '../components/AddToCartControl';
 import { MENU_CATEGORIES, BUNDLES } from '../data/menu';
 // Menu data lives in src/data/menu.js so search reads the same definition.
 
+
+// Typography inside sx must be declared per breakpoint. The theme calls
+// responsiveFontSizes(), which sets Typography font sizes inside media queries
+// on the same generated class, so a plain fontSize has equal specificity and
+// loses above 600px. Every plain size on the bundle card was being flattened to
+// 16.97px, which is why the name, price and description all read the same.
+const fixed = (rem) => ({ xs: rem, sm: rem, md: rem, lg: rem });
 
 const TABS = [
   { id: 'all', label: 'All Items' },
@@ -31,8 +35,6 @@ const TABS = [
 // ─── Component ────────────────────────────────────────────────────────────────
 
 const Menu = () => {
-  const { addItem } = useCart();
-  const [lastAdded, setLastAdded] = React.useState(null);
   // Search results deep link to a category, so /menu?category=soups opens on
   // that tab rather than dropping the reader at the top of everything. An
   // unknown or absent value falls back to "all", so a stale link still works.
@@ -45,26 +47,6 @@ const Menu = () => {
   React.useEffect(() => {
     if (TABS.some((t) => t.id === requestedTab)) setActiveTab(requestedTab);
   }, [requestedTab]);
-
-  const handleAdd = React.useCallback(
-    (categoryTitle, item) => {
-      const id = `honeyspice:${categoryTitle}:${item.name}`;
-      addItem({ id, name: item.name, price: item.price });
-      setLastAdded(id);
-      window.setTimeout(() => setLastAdded((cur) => (cur === id ? null : cur)), 1000);
-    },
-    [addItem]
-  );
-
-  const handleBundleAdd = React.useCallback(
-    (bundle) => {
-      const id = `honeyspice:bundles:${bundle.name}`;
-      addItem({ id, name: bundle.name, price: bundle.price });
-      setLastAdded(id);
-      window.setTimeout(() => setLastAdded((cur) => (cur === id ? null : cur)), 1000);
-    },
-    [addItem]
-  );
 
   const visibleCategories =
     activeTab === 'all'
@@ -208,7 +190,6 @@ const Menu = () => {
                     <List disablePadding>
                       {category.items.map((item, index) => {
                         const itemId = `honeyspice:${category.title}:${item.name}`;
-                        const isAdded = lastAdded === itemId;
                         return (
                           <React.Fragment key={item.name}>
                             <ListItem sx={{ px: 0, py: 1.25 }}>
@@ -280,40 +261,11 @@ const Menu = () => {
                                     </Box>
                                   }
                                 />
-                                <Button
-                                  variant={isAdded ? 'contained' : 'outlined'}
-                                  size="small"
-                                  onClick={() => handleAdd(category.title, item)}
-                                  disabled={isAdded}
-                                  color={isAdded ? 'success' : undefined}
-                                  sx={{
-                                    flexShrink: 0,
-                                    // Was minWidth 100% on mobile, which made a
-                                    // full-width slab the heaviest element in every
-                                    // card. Now a normal control, still 44px tall so
-                                    // it stays an easy target, and left-aligned rather
-                                    // than stretched by the column layout.
-                                    alignSelf: { xs: 'flex-start', sm: 'auto' },
-                                    minWidth: { xs: 148, sm: 108 },
-                                    height: { xs: 44, sm: 36 },
-                                    mt: { xs: 1, sm: 0.25 },
-                                    borderRadius: 999,
-                                    fontWeight: 800,
-                                    textTransform: 'none',
-                                    transform: isAdded ? 'scale(1.03)' : 'scale(1)',
-                                    transition: 'transform 180ms ease, background-color 180ms ease, color 180ms ease',
-                                    bgcolor: isAdded ? 'success.main' : undefined,
-                                    boxShadow: isAdded ? '0 10px 30px rgba(9, 162, 16, 0.32)' : 'none',
-                                    '&:hover': {
-                                      bgcolor: isAdded ? 'success.dark' : 'rgba(244, 106, 6, 0.06)',
-                                      boxShadow: isAdded ? '0 12px 36px rgba(9, 162, 16, 0.36)' : 'none',
-                                      transform: isAdded ? 'scale(1.03)' : 'scale(1.02)',
-                                    },
-                                  }}
-                                  startIcon={isAdded ? <CheckCircleIcon fontSize="small" /> : <AddShoppingCartIcon fontSize="small" />}
-                                >
-                                  {isAdded ? 'Added' : 'Add'}
-                                </Button>
+                                <AddToCartControl
+                                  id={itemId}
+                                  name={item.name}
+                                  price={item.price}
+                                />
                               </Box>
                             </ListItem>
                             {index < category.items.length - 1 && <Divider sx={{ my: { xs: 1, sm: 1.25 } }} />}
@@ -355,7 +307,6 @@ const Menu = () => {
               <Grid container spacing={{ xs: 2.5, md: 3 }}>
                 {BUNDLES.map((bundle) => {
                   const bundleId = `honeyspice:bundles:${bundle.name}`;
-                  const isAdded = lastAdded === bundleId;
                   return (
                     <Grid item xs={12} sm={6} md={4} key={bundle.id}>
                       <Paper
@@ -403,15 +354,15 @@ const Menu = () => {
                         {/* Bundle details */}
                         <Box sx={{ p: { xs: 2.5, sm: 3 }, flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
                           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
-                            <Typography sx={{ fontWeight: 800, fontSize: '1.15rem', color: 'text.primary', lineHeight: 1.2 }}>
+                            <Typography sx={{ fontWeight: 800, fontSize: fixed('1.15rem'), color: 'text.primary', lineHeight: 1.2 }}>
                               {bundle.name}
                             </Typography>
                             {/* Plain type, matching the item cards. */}
                             <Typography
                               component="span"
                               sx={{
-                                fontWeight: 700,
-                                fontSize: '1.05rem',
+                                fontWeight: 800,
+                                fontSize: fixed('1.15rem'),
                                 color: '#1A1A1A',
                                 ml: 1,
                                 flexShrink: 0,
@@ -422,7 +373,7 @@ const Menu = () => {
                             </Typography>
                           </Box>
 
-                          <Typography color="text.secondary" sx={{ fontSize: '0.875rem', lineHeight: 1.6, mb: 2 }}>
+                          <Typography color="text.secondary" sx={{ fontSize: fixed('0.875rem'), lineHeight: 1.6, mb: 2 }}>
                             {bundle.desc}
                           </Typography>
 
@@ -432,7 +383,7 @@ const Menu = () => {
                               <Box
                                 component="li"
                                 key={item}
-                                sx={{ fontSize: '0.85rem', color: 'text.secondary', lineHeight: 1.85 }}
+                                sx={{ fontSize: fixed('0.85rem'), color: 'text.secondary', lineHeight: 1.85 }}
                               >
                                 {item}
                               </Box>
@@ -440,30 +391,12 @@ const Menu = () => {
                           </Box>
 
                           {/* Add to cart */}
-                          <Button
-                            variant={isAdded ? 'contained' : 'outlined'}
-                            fullWidth
-                            onClick={() => handleBundleAdd(bundle)}
-                            disabled={isAdded}
-                            color={isAdded ? 'success' : 'primary'}
-                            sx={{
-                              borderRadius: 999,
-                              fontWeight: 800,
-                              textTransform: 'none',
-                              height: 40,
-                              transform: isAdded ? 'scale(1.03)' : 'scale(1)',
-                              transition: 'transform 180ms ease, background-color 180ms ease',
-                              bgcolor: isAdded ? 'success.main' : undefined,
-                              boxShadow: isAdded ? '0 10px 30px rgba(9, 162, 16, 0.32)' : 'none',
-                              '&:hover': {
-                                bgcolor: isAdded ? 'success.dark' : 'rgba(244, 106, 6, 0.06)',
-                                transform: 'scale(1.02)',
-                              },
-                            }}
-                            startIcon={isAdded ? <CheckCircleIcon fontSize="small" /> : <AddShoppingCartIcon fontSize="small" />}
-                          >
-                            {isAdded ? 'Added to Cart' : 'Add to Cart'}
-                          </Button>
+                          <AddToCartControl
+                            id={bundleId}
+                            name={bundle.name}
+                            price={bundle.price}
+                            fullWidthOnMobile
+                          />
                         </Box>
                       </Paper>
                     </Grid>
