@@ -387,6 +387,8 @@ const DesktopNavbar = ({ pathname, itemCount, cartBadgeSx, subtotal, cuisineMenu
     { text: 'Plan Picnic', path: '/plan-picnic' },
   ];
 
+  const hasItems = itemCount > 0;
+
   const formattedSubtotal = new Intl.NumberFormat('en-GB', {
     style: 'currency',
     currency: 'GBP',
@@ -767,12 +769,20 @@ const DesktopNavbar = ({ pathname, itemCount, cartBadgeSx, subtotal, cuisineMenu
               // opposite edges with only 9px of clearance each. The group now
               // centres and the gap does the spacing, so the button breathes.
               px: 1.75,
-              // Cart stays orange, it is a primary action. The orange glow is
-              // dropped so the colour reads as a solid surface rather than
-              // bleeding into the header around it.
-              backgroundColor: '#F46A06',
+              // Colour signals state rather than shouting constantly. Filled
+              // orange when the basket has something in it, quiet outline when it
+              // does not, matching Sign In beside it. Permanently filled, it was
+              // the loudest element in the header on every page, including the
+              // ones where the basket is empty and the cart is not the action
+              // anyone wants.
+              backgroundColor: hasItems ? '#F46A06' : 'transparent',
+              border: '1px solid',
+              borderColor: hasItems ? '#F46A06' : 'rgba(255, 255, 255, 0.3)',
               boxShadow: 'none',
-              '&:hover': { backgroundColor: '#D45A00', boxShadow: 'none' },
+              '&:hover': {
+                backgroundColor: hasItems ? '#D45A00' : 'rgba(255, 255, 255, 0.08)',
+                boxShadow: 'none',
+              },
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -793,11 +803,24 @@ const DesktopNavbar = ({ pathname, itemCount, cartBadgeSx, subtotal, cuisineMenu
             >
               <ShoppingCartOutlinedIcon sx={{ fontSize: 22, color: 'white' }} />
             </Badge>
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', lineHeight: 1.05 }}>
-              <Typography sx={{ fontSize: '12px', fontWeight: 700, color: 'white', m: 0 }}>Cart</Typography>
-              <Typography sx={{ fontSize: '12px', fontWeight: 600, color: 'rgba(255, 255, 255, 0.96)', m: 0 }}>
-                {formattedSubtotal}
+            {/* One line, not two stacked. Sizes are set per breakpoint because
+                the theme calls responsiveFontSizes(), which sets Typography sizes
+                inside media queries; a plain 12px here has equal specificity and
+                lost to them above 600px, so these labels rendered at 17px inside
+                a 44px pill. Same trap as the homepage tagline.
+            
+                The total shows only when there is one. "£0.00" said nothing
+                except that the basket was empty, which the absent badge already
+                says more quietly. */}
+            <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 0.75 }}>
+              <Typography sx={{ fontSize: { xs: '12px', sm: '12px', md: '12px', lg: '12px' }, fontWeight: 700, color: 'white', m: 0 }}>
+                Cart
               </Typography>
+              {hasItems && (
+                <Typography sx={{ fontSize: { xs: '12px', sm: '12px', md: '12px', lg: '12px' }, fontWeight: 600, color: 'rgba(255, 255, 255, 0.96)', m: 0 }}>
+                  {formattedSubtotal}
+                </Typography>
+              )}
             </Box>
           </Button>
         </Box>

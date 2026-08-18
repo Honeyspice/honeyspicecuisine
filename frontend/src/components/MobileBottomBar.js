@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link as RouterLink, useNavigate, useLocation } from 'react-router-dom';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useCart } from '../context/CartContext';
@@ -57,6 +57,13 @@ export default function MobileBottomBar() {
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, '_blank');
   };
 
+  const { pathname } = useLocation();
+
+  // The sticky cart bar is a shortcut to somewhere else. On the cart and
+  // checkout pages it points at the page you are already on, and it sits over
+  // the summary and the delivery note while doing it.
+  const cartBarIsRedundant = pathname === '/cart' || pathname.startsWith('/checkout');
+
   const formattedSubtotal = new Intl.NumberFormat('en-GB', {
     style: 'currency',
     currency: 'GBP',
@@ -66,7 +73,7 @@ export default function MobileBottomBar() {
     <Box sx={{ display: { xs: 'flex', md: 'none' }, flexDirection: 'column', position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 1400 }}>
 
       {/* Sticky cart CTA, only when the cart has items */}
-      {itemCount > 0 && (
+      {itemCount > 0 && !cartBarIsRedundant && (
         <Box
           onClick={() => navigate('/cart')}
           sx={{
