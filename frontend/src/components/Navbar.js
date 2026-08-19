@@ -45,7 +45,12 @@ const cartPulse = keyframes`
   100% { scale: 1; }
 `;
 
-const StyledAppBar = muiStyled(AppBar)(({ scrolled }) => ({
+const StyledAppBar = muiStyled(AppBar, {
+  // `scrolled` is ours, not an AppBar prop, so emotion would otherwise pass it
+  // straight through to the real <header> element. React then warns about a
+  // non-boolean attribute on every scroll-state flip.
+  shouldForwardProp: (prop) => prop !== 'scrolled',
+})(({ scrolled }) => ({
   // Opaque, and no backdrop-filter.
   //
   // It was rgba(18,18,18,0.94) with blur(8px). At 94% alpha the blur was acting
