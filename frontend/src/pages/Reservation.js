@@ -49,7 +49,7 @@ const GradientButton = styled(Button)(({ theme }) => ({
 const SOWO_PROFILE_URL = 'https://usesowo.com/provider/honeyspice-cuisine-85677b63';
 
 // Named to match the profile so a customer arriving there recognises what they
-// clicked. Prices deliberately live on Sowo only.
+// clicked. Every service is quoted per event, so no price is stated here.
 const SOWO_SERVICES = [
   {
     name: 'Private / Mobile Chef',
@@ -365,7 +365,7 @@ const eventTypes = [
                 Book on Sowo
               </Box>
               <Typography sx={{ color: 'text.secondary', fontSize: '0.88rem' }}>
-                Three services, from £150. Prices and availability on the profile.
+                Three services, available on quote. Details and availability on the profile.
               </Typography>
             </Box>
           </Card>
