@@ -222,8 +222,14 @@ const Menu = () => {
                                     }}
                                   />
                                 )}
+                                {/* secondaryTypographyProps: secondary renders a
+                                    <p> by default, and the block below puts a
+                                    <div> and a second <p> inside it. That is
+                                    invalid nesting, and React warned about it on
+                                    every render. */}
                                 <ListItemText
                                   sx={{ m: 0, flexGrow: 1, minWidth: 0 }}
+                                  secondaryTypographyProps={{ component: 'div' }}
                                   primary={
                                     <Typography variant="subtitle1" sx={{ fontWeight: 700, fontSize: { xs: '0.95rem', sm: '1.1rem' } }}>
                                       {item.name}
