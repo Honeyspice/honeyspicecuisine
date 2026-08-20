@@ -96,22 +96,29 @@ const AddToCartControl = ({ id, name, price, fullWidthOnMobile = false }) => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
-        gap: 0.5,
       }}
     >
-      {/* Kept in the layout and faded rather than unmounted. Removing it would
-          shrink the control two seconds after a tap and shunt the rest of the
-          row upwards, which reads as a glitch. */}
+      {/* Fades, then collapses. Holding the 18px band open permanently left an
+          empty strip above every added item, which on a phone is dead space in
+          the tightest part of the card, so the confirmation never really went
+          away. Collapsing it returns the row to the exact height it had when it
+          showed an Add button. The height transition is delayed until the fade
+          has finished so the text is gone before anything moves, which reads as
+          a settle rather than a jump. */}
       <Box
         aria-hidden={!justAdded}
         sx={{
-          display: 'inline-flex',
+          display: 'flex',
           alignItems: 'center',
           gap: 0.5,
-          height: 18,
           color: 'success.main',
+          overflow: 'hidden',
+          height: justAdded ? 18 : 0,
+          mb: justAdded ? 0.5 : 0,
           opacity: justAdded ? 1 : 0,
-          transition: 'opacity 400ms ease',
+          transition: justAdded
+            ? 'opacity 200ms ease, height 200ms ease, margin-bottom 200ms ease'
+            : 'opacity 250ms ease, height 250ms ease 250ms, margin-bottom 250ms ease 250ms',
           pointerEvents: 'none',
         }}
       >
