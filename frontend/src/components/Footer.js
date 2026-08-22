@@ -153,7 +153,7 @@ const Footer = () => {
           <Box>
             <ColHeading>Services</ColHeading>
             <FooterLink to="/reservation">Event Catering</FooterLink>
-            <FooterLink to="/order">Order Online</FooterLink>
+            <FooterLink to="/menu">Order Online</FooterLink>
             <FooterLink to="/location">Find Us</FooterLink>
           </Box>
 

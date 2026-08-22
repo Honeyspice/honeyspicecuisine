@@ -22,7 +22,6 @@ import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import CheckoutSuccess from './pages/CheckoutSuccess';
 import CheckoutCancel from './pages/CheckoutCancel';
-import Order from './pages/Order';
 import AIAssistant from './pages/AIAssistant';
 import PlanPicnic from './pages/PlanPicnic';
 import Search from './pages/Search';
@@ -150,7 +149,9 @@ function App() {
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/checkout/success" element={<CheckoutSuccess />} />
                 <Route path="/checkout/cancel" element={<CheckoutCancel />} />
-                <Route path="/order" element={<Order />} />
+                {/* /order rendered the whole Menu page, so it was a genuine
+                    duplicate of /menu competing with it in search. */}
+                <Route path="/order" element={<Navigate to="/menu" replace />} />
                 <Route path="/ai-assistant" element={<AIAssistant />} />
                 <Route path="/plan-picnic" element={<PlanPicnic />} />
                 <Route path="/reservation" element={<Reservation />} />

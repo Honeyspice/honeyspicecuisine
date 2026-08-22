@@ -228,7 +228,6 @@ const MobileAuthItem = ({ handleDrawerToggle }) => {
 
 const PAGE_TITLES = {
   '/menu': 'Our Menu',
-  '/order': 'Order',
   '/cart': 'Your Basket',
   '/checkout': 'Checkout',
   '/checkout-success': 'Order Confirmed',
