@@ -36,6 +36,7 @@ export default function PlanPicnic() {
       <Seo
         title="Plan a Picnic | HoneySpice Cuisine"
         description="Plan your perfect picnic in seconds. Tell us how many people you're feeding and your budget. We'll suggest the best Nigerian meal bundle for you."
+        noindex
       />
 
       {/* Hero */}

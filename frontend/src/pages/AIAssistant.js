@@ -69,6 +69,7 @@ export default function AIAssistant() {
       <Seo
         title="Smart Food Assistant | HoneySpice Cuisine"
         description="Tell us your budget, group size, and occasion. Get personalised Nigerian meal suggestions from Honeyspice Kitchen."
+        noindex
       />
 
       {/* Page header */}

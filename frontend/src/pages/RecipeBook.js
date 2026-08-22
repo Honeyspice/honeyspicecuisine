@@ -1,8 +1,19 @@
 import React from 'react';
 import { Box, Container, Typography, Stack, Button } from '@mui/material';
+import Seo from '../components/Seo';
 
 const RecipeBook = () => {
   return (
+    <>
+      {/* The recipe book is not written yet, so this page is a blurred preview
+          and a paragraph. It is a real destination for anyone who follows the
+          footer link, but there is nothing here for Google to rank, and left
+          indexable it reads as a duplicate of the homepage. */}
+      <Seo
+        title="Recipe Book | HoneySpice Cuisine"
+        description="Our home-style Nigerian recipe book is on the way."
+        noindex
+      />
     <Box
       sx={{
         minHeight: '100vh',
@@ -68,6 +79,7 @@ const RecipeBook = () => {
         </Box>
       </Container>
     </Box>
+    </>
   );
 };
 

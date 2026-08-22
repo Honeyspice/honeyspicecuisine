@@ -2,9 +2,19 @@ import React from 'react';
 import { Box, Container, Typography, Grid, Button, List, ListItem, ListItemIcon, ListItemText, Paper } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import foodImg from '../assets/background/background.png';
+import Seo from '../components/Seo';
 
 const WhyUs = () => {
   return (
+    <>
+      {/* Excluded from the sitemap as thin, and it set no title of its own,
+          so it was serving the homepage's head while claiming to be its own
+          canonical URL. */}
+      <Seo
+        title="Why HoneySpice | HoneySpice Cuisine"
+        description="Why customers choose HoneySpice Cuisine for Nigerian food in Stirling."
+        noindex
+      />
     <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', py: { xs: 6, md: 10 } }}>
       <Container maxWidth="lg">
         {/* First Section */}
@@ -89,6 +99,7 @@ const WhyUs = () => {
         </Grid>
       </Container>
     </Box>
+    </>
   );
 };
 
