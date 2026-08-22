@@ -5,6 +5,11 @@
   "framework": "create-react-app",
   "routes": [
     {
+      "src": "/order/?",
+      "status": 301,
+      "headers": { "Location": "/menu" }
+    },
+    {
       "src": "/static/(.*)",
       "dest": "/static/$1"
     },
@@ -28,8 +33,13 @@
       "handle": "filesystem"
     },
     {
+      "src": "/.*\\.(?:png|jpe?g|gif|svg|webp|avif|ico|bmp|css|js|mjs|map|json|txt|xml|woff2?|ttf|otf|eot|pdf|mp4|webm|zip)$",
+      "status": 404,
+      "dest": "/index.html"
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.html"
     }
   ]
-} 
+}
